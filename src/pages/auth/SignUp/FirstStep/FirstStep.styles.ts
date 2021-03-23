@@ -9,7 +9,9 @@ export const Container = styled.div`
   align-items: center;
 `;
 
-export const Form = styled(FormContainer)``;
+export const Form = styled(FormContainer)`
+  align-items: flex-start;
+`;
 
 export const ForgotPassword = styled.a`
   ${({ theme }) => css`
@@ -20,12 +22,22 @@ export const ForgotPassword = styled.a`
   `}
 `;
 
-export const CreateAccount = styled.a`
+export const Label = styled.label`
+  ${({ theme }) => css`
+    color: ${theme.colors.light.lighter};
+    font-family: ${theme.font.family};
+    font-weight: 500;
+    line-height: ${theme.font.lineHeight.md};
+    font-size: ${theme.font.sizes.lg};
+  `}
+`;
+
+export const HasAccount = styled.div`
   ${({ theme }) => css`
     > a {
       display: flex;
       align-items: center;
-      color: ${theme.colors.neutral.light};
+      color: ${theme.colors.light.lighter};
       font-weight: 500;
       cursor: pointer;
       text-decoration: none;

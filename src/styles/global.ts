@@ -16,7 +16,6 @@ export const GlobalStyles = createGlobalStyle`
     font-weight: 400;
     src: local(''),
         url('../assets/fonts/ubuntu-v15-latin-regular.woff2') format('woff2'),
-        url('../assets/fonts/ubuntu-v15-latin-regular.woff') format('woff');
   }
 
   @font-face {
@@ -24,7 +23,7 @@ export const GlobalStyles = createGlobalStyle`
     font-style: normal;
     font-weight: 700;
     src: local(''),
-      url('../assets/fonts/ubuntu-v15-latin-600.woff2') format('woff2'),
+      url('../assets/fonts/ubuntu-v15-latin-700.woff2') format('woff2'),
   }
 
   * {
