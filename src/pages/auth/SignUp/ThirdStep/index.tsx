@@ -6,6 +6,8 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import routes from 'constants/routes';
 import { useCallback, useState } from 'react';
+import { useCreateUser } from 'useCases/SignUp';
+import { useSignUp } from 'contexts/SignUp';
 import * as S from './ThirdStep.styles';
 
 export const ThirdStep = () => {
@@ -21,6 +23,8 @@ export const ThirdStep = () => {
 
   const [musics, setMusics] = useState<MusicProps[]>([]);
   const [musicError, setMusicError] = useState('');
+  const handleCreateUser = useCreateUser();
+  const { user } = useSignUp();
 
   const handleAddMusic = useCallback((music: MusicProps) => {
     if (musics.some(m => m.music_name === music.music_name)) {
@@ -38,9 +42,10 @@ export const ThirdStep = () => {
       prevState.filter(music => music.music_name !== music_name));
   };
 
-  const onSubmit = (data: MusicProps) => {
-    // eslint-disable-next-line no-console
-    console.log(data);
+  const onSubmit = (musics: MusicProps) => {
+    if (handleCreateUser) {
+      handleCreateUser({ ...user, ...[musics] });
+    }
   };
 
   return (

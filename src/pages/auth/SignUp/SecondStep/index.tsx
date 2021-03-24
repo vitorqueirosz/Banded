@@ -8,20 +8,33 @@ import { User, useSignUp } from 'contexts/SignUp';
 import Checkbox from 'components/form/Checkbox';
 import { useState } from 'react';
 
+import { useCreateUser } from 'useCases/SignUp';
 import * as S from './SecondStep.styles';
 
 export const SecondStep = () => {
   const { register, handleSubmit } = useForm();
   const [isChecked, setIsChecked] = useState(false);
+  const handleCreateUser = useCreateUser();
 
-  const { setUser } = useSignUp();
+  const { user, setUser } = useSignUp();
 
-  const onSubmit = ({ band, instrument }: User) => {
+  const onSubmit = (data: User) => {
+    if (handleCreateUser) {
+      handleCreateUser({
+        ...user,
+        ...data,
+      });
+    }
+  };
+
+  const handleAddUserMusic = ({ band, instrument }: User) => {
     setUser({
       band,
       instrument,
     });
+    setIsChecked(prevState => !prevState);
   };
+
   if (isChecked) {
     return <Navigate to="/sign-up/third-step" />;
   }
@@ -44,7 +57,7 @@ export const SecondStep = () => {
         />
         <Checkbox
           checked={isChecked}
-          handleCheck={() => setIsChecked(prevState => !prevState)}
+          handleCheck={handleSubmit(handleAddUserMusic)}
           name="hasMusic"
           label="Tem músicas próprias?"
         />
