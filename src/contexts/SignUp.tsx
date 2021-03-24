@@ -13,9 +13,11 @@ export type User = {
   email?: string;
   password?: string;
   city?: string;
-  band?: string;
-  instrument?: string;
-  musics?: MusicProps[];
+  userMusician?: {
+    bandsName?: string;
+    instrument?: string;
+    musics?: MusicProps[];
+  }
 };
 
 type SignUpContextData = {
@@ -29,8 +31,10 @@ const initialValues: SignUpContextData = {
     email: '',
     password: '',
     city: '',
-    band: '',
-    instrument: '',
+    userMusician: {
+      bandsName: '',
+      instrument: '',
+    },
   },
   setUser: () => undefined,
 };

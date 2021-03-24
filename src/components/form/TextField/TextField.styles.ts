@@ -59,3 +59,10 @@ export const Label = styled.label`
     transition: all 0.2s ease-in-out;
   `}
 `;
+
+export const Error = styled.span`
+  ${({ theme }) => css`
+    color: ${theme.colors.error};
+    font-size: ${theme.font.sizes.xsm};
+  `}
+`;

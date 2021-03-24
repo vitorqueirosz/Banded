@@ -13,11 +13,16 @@ import * as S from './SecondStep.styles';
 
 const schemaValidate = Yup.object().shape({
   instrument: Yup.string().required('Nome obrigatorio'),
-  band: Yup.string().required('Senha obrigatorio'),
+  bandsName: Yup.string().required('Senha obrigatorio'),
 });
 
+type MusicianPayload = {
+  bandsName: string
+  instrument: string
+}
+
 export const SecondStep = () => {
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(schemaValidate),
   });
   const [isChecked, setIsChecked] = useState(false);
@@ -31,11 +36,8 @@ export const SecondStep = () => {
     });
   };
 
-  const handleAddUserMusic = ({ band, instrument }: User) => {
-    setUser({
-      band,
-      instrument,
-    });
+  const handleAddUserMusic = (userMusician: MusicianPayload) => {
+    setUser(prevState => ({ ...prevState, userMusician }));
     setIsChecked(prevState => !prevState);
   };
 
@@ -52,12 +54,14 @@ export const SecondStep = () => {
           name="instrument"
           label="Instrumento"
           placeholder="Instrumento"
+          error={errors.instrument?.message}
         />
         <TextField
           register={register}
-          name="band"
+          name="bandsName"
           label="Banda"
           placeholder="Banda"
+          error={errors.bandsName?.message}
         />
         <Checkbox
           checked={isChecked}

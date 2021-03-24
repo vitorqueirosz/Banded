@@ -13,11 +13,11 @@ const schemaValidation = Yup.object().shape({
   name: Yup.string().required('Nome obrigatorio'),
   email: Yup.string().required('Email obrigatorio').email('Digite um e-mail valido'),
   password: Yup.string().required('Senha obrigatorio'),
-  city: Yup.string().required('Nome obrigatorio'),
+  city: Yup.string().required('Cidade obrigatoria'),
 });
 
 export const FirstStep = () => {
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, errors } = useForm<User>({
     resolver: yupResolver(schemaValidation),
   });
   const { setUser } = useSignUp();
@@ -44,6 +44,7 @@ export const FirstStep = () => {
           name="name"
           label="Nome"
           placeholder="Nome"
+          error={errors.name?.message}
         />
         <TextField
           register={register}
@@ -51,6 +52,7 @@ export const FirstStep = () => {
           label="E-mail"
           placeholder="Email"
           type="email"
+          error={errors.email?.message}
         />
         <TextField
           register={register}
@@ -58,12 +60,14 @@ export const FirstStep = () => {
           label="Senha"
           placeholder="Senha"
           type="password"
+          error={errors.password?.message}
         />
         <TextField
           register={register}
           name="city"
           label="Cidade"
           placeholder="Cidade"
+          error={errors.city?.message}
         />
 
         <Button type="submit">PROXIMO</Button>
