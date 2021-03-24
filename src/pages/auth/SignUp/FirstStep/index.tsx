@@ -1,15 +1,25 @@
 import { TextField } from 'components/form/TextField';
 import { Button } from 'components/structure/Button';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { FiArrowLeft } from 'react-icons/fi';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import routes from 'constants/routes';
 import { User, useSignUp } from 'contexts/SignUp';
+import * as Yup from 'yup';
 import * as S from './FirstStep.styles';
 
-export const FirstStep = () => {
-  const { register, handleSubmit } = useForm();
+const schemaValidation = Yup.object().shape({
+  name: Yup.string().required('Nome obrigatorio'),
+  email: Yup.string().email('Digite um e-mail valido').required('Email obrigatorio'),
+  password: Yup.string().required('Senha obrigatorio'),
+  city: Yup.string().required('Nome obrigatorio'),
+});
 
+export const FirstStep = () => {
+  const { register, handleSubmit } = useForm({
+    resolver: yupResolver(schemaValidation),
+  });
   const { setUser } = useSignUp();
   const navigate = useNavigate();
 

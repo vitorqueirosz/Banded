@@ -8,10 +8,21 @@ import routes from 'constants/routes';
 import { useCallback, useState } from 'react';
 import { useCreateUser } from 'useCases/SignUp';
 import { useSignUp } from 'contexts/SignUp';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
+
 import * as S from './ThirdStep.styles';
+
+const schemaValidate = Yup.object().shape({
+  name: Yup.string().required('Nome obrigatorio'),
+  email: Yup.string().email('Digite um e-mail valido').required('Email obrigatorio'),
+  password: Yup.string().required('Senha obrigatorio'),
+  city: Yup.string().required('Nome obrigatorio'),
+});
 
 export const ThirdStep = () => {
   const { register, handleSubmit, watch, reset } = useForm({
+    resolver: yupResolver(schemaValidate),
     defaultValues: {
       music_name: '',
       duration_ms: '',
