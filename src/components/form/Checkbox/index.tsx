@@ -8,7 +8,7 @@ export type CheckboxProps = {
   name: string;
 } & InputHTMLAttributes<HTMLInputElement>;
 
-const Checkbox = ({
+export const Checkbox = ({
   checked,
   handleCheck,
   name,
@@ -26,5 +26,3 @@ const Checkbox = ({
     />
   </S.Container>
 );
-
-export default Checkbox;

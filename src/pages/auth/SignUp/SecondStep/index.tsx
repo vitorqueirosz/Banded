@@ -1,4 +1,4 @@
-import { TextField } from 'components/form/TextField';
+import { TextField, Checkbox } from 'components/form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button } from 'components/structure/Button';
 import { FiArrowLeft } from 'react-icons/fi';
@@ -6,18 +6,14 @@ import { useForm } from 'react-hook-form';
 import { Link, Navigate } from 'react-router-dom';
 import routes from 'constants/routes';
 import { User, useSignUp } from 'contexts/SignUp';
-import Checkbox from 'components/form/Checkbox';
 import { useState } from 'react';
 import * as Yup from 'yup';
-
 import { useCreateUser } from 'useCases/SignUp';
 import * as S from './SecondStep.styles';
 
 const schemaValidate = Yup.object().shape({
-  name: Yup.string().required('Nome obrigatorio'),
-  email: Yup.string().email('Digite um e-mail valido').required('Email obrigatorio'),
-  password: Yup.string().required('Senha obrigatorio'),
-  city: Yup.string().required('Nome obrigatorio'),
+  instrument: Yup.string().required('Nome obrigatorio'),
+  band: Yup.string().required('Senha obrigatorio'),
 });
 
 export const SecondStep = () => {
@@ -29,12 +25,10 @@ export const SecondStep = () => {
   const { user, setUser } = useSignUp();
 
   const onSubmit = (payload: User) => {
-    if (handleCreateUser) {
-      handleCreateUser({
-        ...user,
-        ...payload,
-      });
-    }
+    handleCreateUser!({
+      ...user,
+      ...payload,
+    });
   };
 
   const handleAddUserMusic = ({ band, instrument }: User) => {

@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { FormContainer } from 'components/form/Form';
+import { FormContainer } from 'components/structure';
 import { appearFromRight } from '../animations';
 
 export const Container = styled.div`

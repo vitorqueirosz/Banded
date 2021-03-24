@@ -1,4 +1,4 @@
-import { TextField } from 'components/form/TextField';
+import { TextField } from 'components/form';
 import { Button } from 'components/structure/Button';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FiArrowLeft } from 'react-icons/fi';
@@ -11,7 +11,7 @@ import * as S from './FirstStep.styles';
 
 const schemaValidation = Yup.object().shape({
   name: Yup.string().required('Nome obrigatorio'),
-  email: Yup.string().email('Digite um e-mail valido').required('Email obrigatorio'),
+  email: Yup.string().required('Email obrigatorio').email('Digite um e-mail valido'),
   password: Yup.string().required('Senha obrigatorio'),
   city: Yup.string().required('Nome obrigatorio'),
 });
@@ -47,7 +47,7 @@ export const FirstStep = () => {
         />
         <TextField
           register={register}
-          name="mail"
+          name="email"
           label="E-mail"
           placeholder="Email"
           type="email"

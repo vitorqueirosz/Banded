@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { FormContainer } from 'components/form/Form';
+import { FormContainer } from 'components/structure';
 import { appearFromRight } from '../animations';
 
 export const Container = styled.div`
@@ -13,6 +13,7 @@ export const Container = styled.div`
 export const Form = styled(FormContainer)`
   align-items: flex-start;
   animation: ${appearFromRight} 0.6s ease-in-out;
+  transition: height 0.6s ease-in-out;
 `;
 
 export const ForgotPassword = styled.a`

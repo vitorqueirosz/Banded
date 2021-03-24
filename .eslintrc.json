@@ -37,6 +37,7 @@
       "no-use-before-define": "off",
       "react/no-unused-prop-types": "off",
       "react/require-default-props": "off",
+      "@typescript-eslint/no-non-null-assertion": "off",
       "react/jsx-props-no-spreading": "off",
       "object-curly-newline": "off",
       "camelcase": "off",

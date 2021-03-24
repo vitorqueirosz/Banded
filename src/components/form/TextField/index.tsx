@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes } from 'react';
+import { InputHTMLAttributes } from 'react';
 import { UseFormMethods } from 'react-hook-form';
 
 import * as S from './TextField.styles';

@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { FormContainer } from 'components/form/Form';
+import { FormContainer, Scroll } from 'components/structure';
 import { appearFromBottom } from '../animations';
 
 export const Container = styled.div`
@@ -13,7 +13,6 @@ export const Container = styled.div`
 export const Form = styled(FormContainer)`
   align-items: flex-start;
   animation: ${appearFromBottom} 0.6s ease-in-out;
-  transition: height 0.2s ease-in-out;
 `;
 
 export const Header = styled.div`
@@ -25,17 +24,24 @@ export const Header = styled.div`
 
 export const MusicList = styled.div`
   ${({ theme }) => css`
-    margin: ${theme.spacings.xsm} 0;
+    padding: ${theme.spacings.xsm} 0;
+    margin-bottom: ${theme.spacings.xsm};
     display: flex;
     flex-direction: column;
     justify-content: center;
     animation: ${appearFromBottom} 0.6s ease-in-out;
-    transition: all 0.2s ease-in-out;
+    max-width: 320px;
+    width: 100%;
+    overflow-x: auto;
+
+    ${Scroll}
   `}
 `;
 export const MusicWrap = styled.div`
   display: flex;
   align-items: center;
+  max-width: 320px;
+  width: 100%;
 `;
 
 export const Error = styled.span`

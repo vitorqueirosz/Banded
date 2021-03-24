@@ -5,6 +5,7 @@ export const Wrapper = styled.article`
     display: flex;
     align-items: center;
     flex-direction: column;
+    min-width: 60px;
     width: 60px;
     position: relative;
     margin-right: ${theme.spacings.xsm};

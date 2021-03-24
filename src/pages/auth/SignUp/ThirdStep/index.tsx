@@ -1,4 +1,4 @@
-import { TextField } from 'components/form/TextField';
+import { TextField } from 'components/form';
 import { Add, Button } from 'components/structure';
 import { ShortMusic, MusicProps } from 'components/contexts/music';
 import { FiArrowLeft } from 'react-icons/fi';
@@ -14,10 +14,11 @@ import * as Yup from 'yup';
 import * as S from './ThirdStep.styles';
 
 const schemaValidate = Yup.object().shape({
-  name: Yup.string().required('Nome obrigatorio'),
-  email: Yup.string().email('Digite um e-mail valido').required('Email obrigatorio'),
-  password: Yup.string().required('Senha obrigatorio'),
-  city: Yup.string().required('Nome obrigatorio'),
+  music_name: Yup.string().required('Nome obrigatorio'),
+  duration_ms: Yup.string().required('Email obrigatorio'),
+  album_name: Yup.string().required('Senha obrigatorio'),
+  album_image: Yup.string().required('Nome obrigatorio'),
+  artist_name: Yup.string().required('Nome obrigatorio'),
 });
 
 export const ThirdStep = () => {
@@ -111,6 +112,7 @@ export const ThirdStep = () => {
           label="Imagem do Álbum"
           placeholder="Imagem do Álbum"
         />
+
         <Button type="submit">FINALIZAR</Button>
       </S.Form>
 
