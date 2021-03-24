@@ -31,6 +31,7 @@ export const Input = styled.input`
     border: 1px solid transparent;
     transition: all 0.2s ease-in-out;
     color: ${theme.colors.light.lighter};
+    font-size: ${theme.font.sizes.md};
 
     &:placeholder-shown {
       & + ${Label} {
@@ -51,7 +52,7 @@ export const Label = styled.label`
   ${({ theme }) => css`
     color: ${theme.colors.light.gray};
     line-height: ${theme.font.lineHeight.md};
-    font-size: ${theme.font.sizes.sm};
+    font-size: ${theme.font.sizes.xsm};
     position: absolute;
     top: -10%;
     margin-left: ${theme.spacings.xsm};

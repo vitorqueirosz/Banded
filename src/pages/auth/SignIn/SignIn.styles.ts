@@ -26,7 +26,6 @@ export const CreateAccount = styled.a`
       display: flex;
       align-items: center;
       color: ${theme.colors.neutral.light};
-      font-weight: 500;
       cursor: pointer;
       text-decoration: none;
 

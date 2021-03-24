@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import { FormContainer } from 'components/form/Form';
-import { appearFromRight } from '../animations';
+import { appearFromBottom } from '../animations';
 
 export const Container = styled.div`
   width: 100%;
@@ -12,7 +12,37 @@ export const Container = styled.div`
 
 export const Form = styled(FormContainer)`
   align-items: flex-start;
-  animation: ${appearFromRight} 0.6s ease-in-out;
+  animation: ${appearFromBottom} 0.6s ease-in-out;
+  transition: height 0.2s ease-in-out;
+`;
+
+export const Header = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const MusicList = styled.div`
+  ${({ theme }) => css`
+    margin: ${theme.spacings.xsm} 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    animation: ${appearFromBottom} 0.6s ease-in-out;
+    transition: all 0.2s ease-in-out;
+  `}
+`;
+export const MusicWrap = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const Error = styled.span`
+  ${({ theme }) => css`
+    color: ${theme.colors.error};
+    margin-top: ${theme.spacings['2xs']};
+  `}
 `;
 
 export const ForgotPassword = styled.a`

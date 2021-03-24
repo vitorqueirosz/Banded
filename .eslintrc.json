@@ -25,7 +25,9 @@
         "prettier"
     ],
     "rules": {
-      "prettier/prettier": "error",
+      "prettier/prettier": "off",
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn",
       "react/prop-types": "off",
       "react/react-in-jsx-scope": "off",
       "react/jsx-filename-extension": [1, { "extensions": [".tsx"]}],
@@ -37,6 +39,10 @@
       "react/require-default-props": "off",
       "react/jsx-props-no-spreading": "off",
       "object-curly-newline": "off",
+      "camelcase": "off",
+      "no-shadow": "off",
+      "implicit-arrow-linebreak": "off",
+      "arrow-parens": "off",
       "import/extensions": [
         "error",
         "ignorePackages",

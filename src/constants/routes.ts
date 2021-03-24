@@ -1,4 +1,11 @@
 export default {
-  'sign-in': '/',
-  'sign-up': 'sign-up',
+  signIn: {
+    base: '/',
+  },
+  signUp: {
+    base: '/',
+    firstStep: 'sign-up',
+    secondStep: 'second-step',
+    thirdStep: 'third-step',
+  },
 };

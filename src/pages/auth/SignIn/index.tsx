@@ -23,7 +23,7 @@ const SignIn = () => {
       </S.Form>
 
       <S.CreateAccount>
-        <Link to={routes['sign-up']}>
+        <Link to={routes.signUp.firstStep}>
           <FiLogIn color="#fff" size={22} />
           Criar conta
         </Link>

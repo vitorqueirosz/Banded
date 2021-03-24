@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import media from 'styled-media-query';
 import backgroundImage from 'assets/images/background.png';
 
@@ -23,8 +23,11 @@ export const BackgroundImage = styled.div`
 export const Logo = styled.img``;
 
 export const OutletWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  ${({ theme }) => css`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: ${theme.spacings['2xlg']} 0;
+  `}
 `;

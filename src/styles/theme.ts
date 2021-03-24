@@ -44,6 +44,7 @@ export default {
       light: '#FFF',
       black: '#000',
     },
+    error: '#FF5E5E',
     bgModal: 'rgba(0, 0, 0, 0.5)',
   },
   spacings: {
@@ -53,7 +54,7 @@ export default {
     md: '3.2rem',
     lg: '4.0rem',
     xlg: '4.8rem',
-    '2xlg': '5.6rem',
+    '2xlg': '6.4rem',
   },
   layers: {
     base: 10,

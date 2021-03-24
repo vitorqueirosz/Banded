@@ -11,7 +11,7 @@ type InputProps = {
 export const TextField = ({ label, name, register, ...rest }: InputProps) => (
   <S.Wrapper>
     <S.InputWrapper>
-      <S.Input id={name} type="text" ref={register} {...rest} />
+      <S.Input name={name} id={name} type="text" ref={register} {...rest} />
       {!!label && <S.Label htmlFor={name}>{label}</S.Label>}
     </S.InputWrapper>
   </S.Wrapper>
