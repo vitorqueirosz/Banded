@@ -28,5 +28,7 @@ export const Button = styled.button<Pick<ButtonProps, 'color'>>`
     }
 
     ${!!color && buttonModifiers[color](theme)}
+
+
   `}
 `;

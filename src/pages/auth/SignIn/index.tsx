@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import routes from 'constants/routes';
 import * as S from './SignIn.styles';
 
-const SignIn = () => {
+export const SignIn = () => {
   const { register } = useForm();
 
   return (
@@ -31,5 +31,3 @@ const SignIn = () => {
     </S.Container>
   );
 };
-
-export default SignIn;

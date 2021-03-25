@@ -35,6 +35,7 @@ export const ThirdStep = () => {
   const musicName = watch('music_name');
 
   const [musics, setMusics] = useState<MusicProps[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [musicError, setMusicError] = useState('');
   const handleCreateUser = useCreateUser();
   const { user } = useSignUp();
@@ -56,6 +57,7 @@ export const ThirdStep = () => {
   };
 
   const onSubmit = (userMusic: MusicProps) => {
+    setIsLoading(true);
     const { userMusician } = user;
 
     handleCreateUser!({ ...user,
@@ -67,6 +69,7 @@ export const ThirdStep = () => {
   };
 
   const onSubmitByMusicsList = () => {
+    setIsLoading(true);
     const { userMusician } = user;
 
     handleCreateUser!({ ...user,
@@ -136,7 +139,7 @@ export const ThirdStep = () => {
           error={errors.album_image?.message}
         />
 
-        <Button type="submit">FINALIZAR</Button>
+        <Button isLoading={isLoading} type="submit">FINALIZAR</Button>
       </S.Form>
 
       <S.HasAccount>

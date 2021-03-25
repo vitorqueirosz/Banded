@@ -1,4 +1,7 @@
 export default {
+  app: {
+    base: '/',
+  },
   signIn: {
     base: '/',
   },
@@ -7,5 +10,8 @@ export default {
     firstStep: 'sign-up',
     secondStep: 'second-step',
     thirdStep: 'third-step',
+  },
+  home: {
+    base: 'home',
   },
 };
