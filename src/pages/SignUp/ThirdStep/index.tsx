@@ -4,7 +4,7 @@ import { ShortMusic, MusicProps } from 'components/contexts/music';
 import { FiArrowLeft } from 'react-icons/fi';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import routes from 'constants/routes';
+import { ROUTES } from 'constants/routes';
 import { useCallback, useState } from 'react';
 import { useCreateUser } from 'useCases/SignUp';
 import { useSignUp } from 'contexts/SignUp';
@@ -143,7 +143,7 @@ export const ThirdStep = () => {
       </S.Form>
 
       <S.HasAccount>
-        <Link to={routes.signUp.secondStep}>
+        <Link to={ROUTES.signUp.secondStep}>
           <FiArrowLeft color="#DEDEEA" size={22} />
           Voltar
         </Link>

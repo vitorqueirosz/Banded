@@ -4,7 +4,7 @@ import { Button } from 'components/structure/Button';
 import { FiArrowLeft } from 'react-icons/fi';
 import { useForm } from 'react-hook-form';
 import { Link, Navigate } from 'react-router-dom';
-import routes from 'constants/routes';
+import { ROUTES } from 'constants/routes';
 import { User, useSignUp } from 'contexts/SignUp';
 import { useState } from 'react';
 import * as Yup from 'yup';
@@ -74,7 +74,7 @@ export const SecondStep = () => {
       </S.Form>
 
       <S.HasAccount>
-        <Link to={routes.signUp.firstStep}>
+        <Link to={ROUTES.signUp.firstStep}>
           <FiArrowLeft color="#DEDEEA" size={22} />
           Voltar
         </Link>

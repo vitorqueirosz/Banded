@@ -28,7 +28,7 @@ export const Wrapper = styled.div<WrapperProps>`
       height: 64px;
       border-radius: ${theme.border.radius};
       transform: translateX(100%);
-      transition: all 0.3s ease-in-out, opacity 0.3s ease-in-out;
+      transition: all 0.4s ease-in-out, opacity 0.4s 0.05s ease-in-out;
       will-change: transform, opacity;
       opacity: 0;
       visibility: hidden;

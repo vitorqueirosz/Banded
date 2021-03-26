@@ -1,5 +1,5 @@
 import { ENDPOINTS } from 'constants/endpoints';
-import routes from 'constants/routes';
+import { ROUTES } from 'constants/routes';
 import { User } from 'contexts/SignUp';
 import { useNavigate } from 'react-router-dom';
 import { api } from 'services/api';
@@ -14,7 +14,7 @@ export const useCreateUser = () => {
 
       if (token) {
         setAccessToken(token);
-        navigate(routes.auth.initial);
+        navigate(ROUTES.auth.initial);
       }
     };
   } catch (error) {

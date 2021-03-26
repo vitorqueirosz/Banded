@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { FiArrowLeft } from 'react-icons/fi';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import routes from 'constants/routes';
+import { ROUTES } from 'constants/routes';
 import { User, useSignUp } from 'contexts/SignUp';
 import * as Yup from 'yup';
 import * as S from './FirstStep.styles';
@@ -31,7 +31,7 @@ export const FirstStep = () => {
       city,
     });
 
-    navigate(routes.signUp.secondStep);
+    navigate(ROUTES.signUp.secondStep);
   };
 
   return (
@@ -74,7 +74,7 @@ export const FirstStep = () => {
       </S.Form>
 
       <S.HasAccount>
-        <Link to={routes.auth.initial}>
+        <Link to={ROUTES.auth.initial}>
           <FiArrowLeft color="#DEDEEA" size={22} />
           Já tenho conta
         </Link>

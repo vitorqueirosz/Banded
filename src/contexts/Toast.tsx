@@ -16,12 +16,12 @@ type ToastContextData = {
 
 const initialValues: ToastContextData = {
   toast: {
-    title: 'Success',
-    description: 'Sucesso ao salvar',
+    title: '',
+    description: '',
     type: 'success',
   },
   setToast: () => undefined,
-  showToast: true,
+  showToast: false,
   setShowToast: () => undefined,
 };
 
@@ -41,16 +41,16 @@ export const ToastProvider = ({ children }: { children: React.ReactNode}) => {
     return () => clearTimeout();
   }, [toast.title]);
 
-  // useEffect(() => {
-  //   if (showToast) {
-  //     setTimeout(() => {
-  //       setShowToast(false);
-  //       setToast({} as ToastProps);
-  //     }, 2500);
-  //   }
+  useEffect(() => {
+    if (showToast) {
+      setTimeout(() => {
+        setShowToast(false);
+        setToast({} as ToastProps);
+      }, 3000);
+    }
 
-  //   return () => clearTimeout();
-  // }, [showToast]);
+    return () => clearTimeout();
+  }, [showToast]);
 
   const value = useMemo(
     () => ({
