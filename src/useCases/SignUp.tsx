@@ -14,7 +14,7 @@ export const useCreateUser = () => {
 
       if (token) {
         setAccessToken(token);
-        navigate(routes.home.base);
+        navigate(routes.auth.initial);
       }
     };
   } catch (error) {

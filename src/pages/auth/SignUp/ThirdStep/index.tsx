@@ -143,7 +143,7 @@ export const ThirdStep = () => {
       </S.Form>
 
       <S.HasAccount>
-        <Link to={routes.signIn.base}>
+        <Link to={routes.signUp.secondStep}>
           <FiArrowLeft color="#DEDEEA" size={22} />
           Voltar
         </Link>

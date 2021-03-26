@@ -9,6 +9,7 @@ export const Wrapper = styled.div`
   width: 100%;
   grid-template-columns: minmax(300px, 800px) 1fr;
   grid-template-areas: 'backgroundImage outletWrapp';
+  position: relative;
 
   ${media.lessThan('huge')`
     grid-template-columns: minmax(340px, 800px) 1fr;

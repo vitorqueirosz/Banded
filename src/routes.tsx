@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import { PublicRoutes, PrivateRoutes } from 'components/contexts/routes';
 import { SignIn, FirstStep, SecondStep, ThirdStep } from 'pages/auth';
+import { Home } from 'pages/Home';
 import routes from 'constants/routes';
 import { isUserAuthenticated } from 'utils/session';
 
@@ -16,19 +17,18 @@ const PrivateRoute = ({ path, element, children }: PrivateRouteProps) => {
     return <Route path={path} element={element}>{children}</Route>;
   }
 
-  return <Navigate to={routes.signIn.base} />;
+  return <Navigate to={routes.auth.initial} />;
 };
 
 export const AppRoutes = () => (
   <BrowserRouter>
-
     <Routes>
       <PrivateRoute path={routes.app.base} element={<PrivateRoutes />}>
-        <PrivateRoute path={routes.home.base} element={<PrivateRoutes />} />
+        <PrivateRoute path={routes.app.home} element={<Home />} />
       </PrivateRoute>
 
-      <Route path={routes.signIn.base} element={<PublicRoutes />}>
-        <Route path={routes.signIn.base} element={<SignIn />} />
+      <Route path={routes.auth.initial} element={<PublicRoutes />}>
+        <Route path={routes.auth.base} element={<SignIn />} />
       </Route>
 
       <Route path={routes.signUp.firstStep} element={<PublicRoutes />}>

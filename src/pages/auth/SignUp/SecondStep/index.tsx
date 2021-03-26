@@ -74,7 +74,7 @@ export const SecondStep = () => {
       </S.Form>
 
       <S.HasAccount>
-        <Link to={routes.signIn.base}>
+        <Link to={routes.signUp.firstStep}>
           <FiArrowLeft color="#DEDEEA" size={22} />
           Voltar
         </Link>
