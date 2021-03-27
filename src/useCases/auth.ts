@@ -1,10 +1,10 @@
 import { ENDPOINTS } from 'constants/endpoints';
-import { ROUTES } from 'constants/routes';
 import { useToast } from 'contexts';
+import { useCache } from 'hooks/useCache';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from 'services/api';
-import { setAccessToken } from 'utils/session';
+import { setUserSession } from 'utils/session';
 
 type AuthParams = {
   email: string;
@@ -15,15 +15,17 @@ export const useAuth = () => {
   const navigate = useNavigate();
   const { setToast } = useToast();
   const [isFetching, setIsFetching] = useState(false);
+  const mutate = useCache(ENDPOINTS.users);
 
   const handleAuthenticate = async (params: AuthParams) => {
     setIsFetching(true);
     try {
-      const { data: { token } } = await api.post(ENDPOINTS.auth, params);
+      const { data: { user, token } } = await api.post(ENDPOINTS.auth, params);
 
       if (token) {
-        setAccessToken(token);
-        navigate(ROUTES.app.home);
+        setUserSession(token, user);
+        navigate('/home');
+        mutate(user);
       }
     } catch (error) {
       setIsFetching(false);

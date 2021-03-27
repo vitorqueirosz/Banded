@@ -1,4 +1,8 @@
 export default {
+  elements: {
+    nav: '8.0rem',
+    relations: '36rem',
+  },
   grid: {
     container: '130rem',
     gutter: '3.2rem',
@@ -34,6 +38,7 @@ export default {
       light: '#292929',
       darker: '#1C1C1C',
       info: '#212121',
+      element: '#0c1015',
     },
     light: {
       lighter: '#DEDEEA',
