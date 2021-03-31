@@ -1,8 +1,8 @@
-import { createContext, useContext, useMemo, useState } from 'react';
+import { createContext, SetStateAction, useContext, useMemo, useState } from 'react';
 
 type SettingsContextData = {
   hasRelations: boolean;
-  setHasRelations: (value: boolean) => void;
+  setHasRelations: (value: SetStateAction<boolean>) => void;
 }
 
 const initialValues: SettingsContextData = {

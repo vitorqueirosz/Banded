@@ -14,6 +14,7 @@ export const Wrapper = styled.article<WrapperProps>`
     max-width: 45rem;
     height: 12rem;
     max-height: 100%;
+    cursor: pointer;
 
 
     ${Avatar.Wrapper} {

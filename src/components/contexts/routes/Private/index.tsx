@@ -13,7 +13,7 @@ export type UserFetchProps = {
 
 export const PrivateRoutes = () => {
   const { data } = useFetch<UserFetchProps>(USERS.BASE);
-  const { hasRelations } = useSettings();
+  const { hasRelations, setHasRelations } = useSettings();
 
   return (
     <S.Wrapper hasRelations={hasRelations}>
@@ -23,7 +23,10 @@ export const PrivateRoutes = () => {
         <Outlet />
       </S.OutletWrapper>
 
-      <Relations />
+      <Relations
+        hasRelations={hasRelations}
+        handleRelations={() => setHasRelations(prevState => !prevState)}
+      />
     </S.Wrapper>
   );
 };

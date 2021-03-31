@@ -52,6 +52,7 @@ export const Option = styled.div<OptionProps>`
     background: ${theme.colors.dark.element};
     cursor: pointer;
     color: ${theme.colors.light.gray};
+    transition: background 0.3s ease-in-out;
 
     ${activeTab && optionModifiers[activeTab](theme)}
   `}

@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-
 import { PublicRoutes, PrivateRoutes } from 'components/contexts/routes';
 import { FirstStep, SecondStep, ThirdStep } from 'pages/SignUp';
 import { SignIn } from 'pages/auth';

@@ -17,9 +17,10 @@ export const Wrapper = styled.div<WrapperProps>`
     grid-template-areas: 'nav' 'main';
     grid-template-rows: 80px 1fr;
     grid-template-columns: 1fr;
-    transition: all 0.3s ease-in-out;
+    width: 100%;
+    transition: width 0.3s ease-in-out;
 
-    ${hasRelations && wrapperModifiers.hasRelations(theme)}
+    ${!hasRelations && wrapperModifiers.hasRelations(theme)}
   `}
 `;
 

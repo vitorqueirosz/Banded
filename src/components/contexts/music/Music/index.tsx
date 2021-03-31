@@ -55,7 +55,6 @@ export const MusicalItem = ({
               amount={bands}
             />
           )}
-
           <Discover
             icon={FiDisc}
             title="Álbuns"
