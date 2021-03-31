@@ -6,7 +6,6 @@ export const useCache = (key: string) => {
   const { mutate } = useMutation(key, {
     onMutate: (newData) => {
       queryClient.cancelQueries(key);
-
       queryClient.setQueryData(key, newData);
     },
   });

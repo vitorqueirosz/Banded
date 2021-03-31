@@ -3,14 +3,13 @@ import * as Avatar from 'components/structure/Avatar/Avatar.styles';
 
 export const Container = styled.div`
   ${({ theme }) => css`
+    grid-area: nav;
     height: ${theme.elements.nav};
     background: ${theme.colors.dark.element};
     padding: ${theme.spacings.xsm};
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    transform: translateX(-${theme.elements.relations});
-    transition: transform 0.3s ease-in-out;
   `}
 `;
 

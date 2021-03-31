@@ -37,6 +37,8 @@
       "no-use-before-define": "off",
       "react/no-unused-prop-types": "off",
       "no-param-reassign": "off",
+      "no-mixed-operators": "off",
+      "react/jsx-props-no-multi-spaces": "off",
       "react/require-default-props": "off",
       "@typescript-eslint/no-non-null-assertion": "off",
       "react/jsx-props-no-spreading": "off",

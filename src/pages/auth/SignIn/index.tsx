@@ -3,7 +3,6 @@ import { Button } from 'components/structure/Button';
 import { FiLogIn } from 'react-icons/fi';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import { ROUTES } from 'constants/routes';
 import { useAuth } from 'useCases/auth';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -51,7 +50,7 @@ export const SignIn = () => {
       </S.Form>
 
       <S.CreateAccount>
-        <Link to={ROUTES.signUp.firstStep}>
+        <Link to="/sign-up">
           <FiLogIn color="#fff" size={22} />
           Criar conta
         </Link>

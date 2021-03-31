@@ -4,6 +4,7 @@ import { GlobalStyles } from 'styles/global';
 import theme from 'styles/theme';
 import { QueryClientProvider, QueryClient } from 'react-query';
 import { ToastProvider } from 'contexts';
+import { SettingsProvider } from 'contexts/Settings';
 
 const queryClient = new QueryClient();
 
@@ -12,9 +13,11 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <GlobalStyles />
-        <ToastProvider>
-          <AppRoutes />
-        </ToastProvider>
+        <SettingsProvider>
+          <ToastProvider>
+            <AppRoutes />
+          </ToastProvider>
+        </SettingsProvider>
       </ThemeProvider>
     </QueryClientProvider>
 

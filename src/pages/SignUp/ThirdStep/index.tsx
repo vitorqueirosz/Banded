@@ -1,9 +1,10 @@
 import { TextField } from 'components/form';
 import { Add, Button } from 'components/structure';
-import { ShortMusic, MusicProps } from 'components/contexts/music';
+import { ShortMusic } from 'components/contexts/music';
 import { FiArrowLeft } from 'react-icons/fi';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import { MusicProps } from 'interfaces/music';
 import { ROUTES } from 'constants/routes';
 import { useCallback, useState } from 'react';
 import { useCreateUser } from 'useCases/SignUp';

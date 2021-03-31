@@ -74,7 +74,7 @@ export const FirstStep = () => {
       </S.Form>
 
       <S.HasAccount>
-        <Link to={ROUTES.auth.initial}>
+        <Link to="/login">
           <FiArrowLeft color="#DEDEEA" size={22} />
           Já tenho conta
         </Link>

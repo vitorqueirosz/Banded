@@ -1,3 +1,4 @@
+import { MusicProps } from 'interfaces/music';
 import {
   createContext,
   SetStateAction,
@@ -6,14 +7,12 @@ import {
   useState,
 } from 'react';
 
-import { MusicProps } from 'components/contexts/music/Music';
-
 export type User = {
   name?: string;
   avatar?: string;
   email?: string;
   password?: string;
-  city?: string;
+  city: string;
   userMusician?: {
     bandsName?: string;
     instrument?: string;
@@ -40,10 +39,8 @@ const initialValues: SignUpContextData = {
   setUser: () => undefined,
 };
 
-const SignUpContext = createContext<SignUpContextData>({
-  user: initialValues.user,
-  setUser: initialValues.setUser,
-});
+const SignUpContext = createContext<SignUpContextData>(initialValues);
+
 export const SignUpProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User>(initialValues.user);
 

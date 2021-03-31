@@ -1,41 +1,74 @@
-import React from 'react';
-
-import { FiX } from 'react-icons/fi';
+import { BandResponse, MusicianResponse } from 'useCases/feed';
+import { FiDisc, FiMusic, FiUsers } from 'react-icons/fi';
+import { Avatar } from 'components/structure';
+import { Discover } from '../Discover';
 import * as S from './Music.styles';
 
-export type MusicProps = {
-  music_name: string;
-  artist_name: string;
-  duration?: string;
-  album_name: string;
-  album_image: string;
-  size: 'normal' | 'large';
-  hasClosing?: boolean;
-  type: 'normal' | 'band' | 'user';
+type MusicalItem = Partial<BandResponse> & Partial<MusicianResponse>;
+
+export type MusicalItemProps = {
+  item: MusicalItem;
+  type?: 'normal' | 'band' | 'user';
 };
 
-export const Music = ({
-  music_name,
-  artist_name,
-  duration,
-  album_image,
-  size = 'normal',
-  hasClosing,
+export const MusicalItem = ({
+  item: {
+    image,
+    name,
+    city,
+    albums,
+    genres,
+    musics, instrument, bands, members },
   type = 'normal',
-}: MusicProps) => (
-  <S.Wrapper size={size} type={type}>
-    <img src={album_image} alt={music_name} />
+}: MusicalItemProps) => {
+  const genresJoined = genres?.map(g => g.name).join(', ');
 
-    <S.MusicContent>
-      <S.MusicName>{music_name}</S.MusicName>
-      <S.ArtistName>{artist_name}</S.ArtistName>
-    </S.MusicContent>
+  return (
+    <S.Wrapper type={type}>
+      <Avatar src={image || ''} instrument={instrument} />
 
-    {hasClosing && (
-      <S.CloseWrapp>
-        <FiX size={16} color="#fff" />
-      </S.CloseWrapp>
-    )}
-    {!!duration && <S.Duration>{duration}</S.Duration>}
-  </S.Wrapper>
-);
+      <S.InfoContainer>
+
+        <S.Infos>
+          <S.Divisor>
+            <S.Title>{name}</S.Title>
+            <span>{city}</span>
+          </S.Divisor>
+
+          <S.Divisor>
+            <S.GenreTitle>{instrument ? 'Instrumento' : 'Gêneros'}</S.GenreTitle>
+            <S.Genres>{genresJoined || instrument}</S.Genres>
+          </S.Divisor>
+        </S.Infos>
+
+        <S.Discovery>
+          {members ? (
+            <Discover
+              icon={FiUsers}
+              title="Membros"
+              amount={members}
+            />
+          ) : (
+            <Discover
+              icon={FiDisc}
+              title="Bandas"
+              amount={bands}
+            />
+          )}
+
+          <Discover
+            icon={FiDisc}
+            title="Álbuns"
+            amount={albums}
+          />
+          <Discover
+            icon={FiMusic}
+            title="Músicas"
+            amount={musics}
+          />
+        </S.Discovery>
+
+      </S.InfoContainer>
+    </S.Wrapper>
+  );
+};
