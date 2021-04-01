@@ -25,7 +25,7 @@ export const MusicalItem = ({
 
   return (
     <S.Wrapper type={type}>
-      <Avatar src={image || ''} instrument={instrument} />
+      <Avatar src={image || ''} instrument={instrument} hasBackground={!image} />
 
       <S.InfoContainer>
 
@@ -36,7 +36,7 @@ export const MusicalItem = ({
           </S.Divisor>
 
           <S.Divisor>
-            <S.GenreTitle>{instrument ? 'Instrumento' : 'Gêneros'}</S.GenreTitle>
+            <S.GenreTitle>{instrument ? 'ins' : 'Gêneros'}</S.GenreTitle>
             <S.Genres>{genresJoined || instrument}</S.Genres>
           </S.Divisor>
         </S.Infos>

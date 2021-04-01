@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import media from 'styled-media-query';
 
 export const Container = styled.div`
   ${({ theme }) => css`
@@ -11,7 +12,15 @@ export const Container = styled.div`
     > svg {
       align-self: flex-end;
       margin-right: ${theme.spacings['2xs']};
+
+      @media (max-width: 340px) {
+        display: none;
+      }
     }
+
+    ${media.lessThan('large')`
+      padding-right: 0;
+    `}
   `}
 `;
 
@@ -19,6 +28,11 @@ export const Title = styled.span`
   ${({ theme }) => css`
     font-size: ${theme.font.sizes.xsm};
     color: ${theme.colors.light.lighter};
+    margin-right: ${theme.spacings.xsm};
+
+    ${media.lessThan('large')`
+      margin-right: ${theme.spacings['2xs']};
+    `}
   `}
 `;
 

@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import * as Avatar from 'components/structure/Avatar/Avatar.styles';
+import media from 'styled-media-query';
 
 export const Container = styled.div`
   ${({ theme }) => css`
@@ -10,6 +11,10 @@ export const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-end;
+
+    ${media.lessThan('large')`
+      justify-content: space-between;
+    `}
   `}
 `;
 
@@ -31,10 +36,17 @@ export const UserContainer = styled.div`
     border-radius: ${theme.border.radius};
     padding: 0.4rem ${theme.spacings['2xs']};
 
-    ${Avatar.Image} {
+    /* ${Avatar.Image} {
       width: 3.6rem;
       height: 3.4rem;
-    }
+    } */
+
+    ${media.lessThan('large')`
+      max-width: 3.6rem;
+      width: 100%;
+      background: transparent;
+      padding: 0;
+    `}
   `}
 `;
 

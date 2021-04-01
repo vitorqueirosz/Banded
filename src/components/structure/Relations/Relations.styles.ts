@@ -1,5 +1,6 @@
 import styled, { css, DefaultTheme } from 'styled-components';
 import { RelationsProps } from 'components/structure';
+import media from 'styled-media-query';
 
 type WrapperProps = Pick<RelationsProps, 'hasRelations'>;
 
@@ -23,6 +24,12 @@ export const Wrapper = styled.div<WrapperProps>`
     width: ${theme.elements.relations};
     background: ${theme.colors.dark.element};
     transition: transform 0.3s ease-in-out;
+
+    ${media.lessThan('large')`
+      bottom: 0;
+      transform: translateY(90%);
+      width: 100%;
+    `}
 
     ${hasRelations && wrapperModifiers.hasRelations(theme)}
   `}

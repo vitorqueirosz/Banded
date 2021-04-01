@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import * as Avatar from 'components/structure/Avatar/Avatar.styles';
+import media from 'styled-media-query';
 import { MusicalItemProps } from '.';
 
 type WrapperProps = Pick<MusicalItemProps, 'type'>;
@@ -23,8 +24,8 @@ export const Wrapper = styled.article<WrapperProps>`
       border-radius: ${theme.border.radius} 0 0 ${theme.border.radius};
 
       > svg {
-        width: 8rem;
-        height: 8rem;
+        width: 6rem;
+        height: 6rem;
       }
     }
 
@@ -34,6 +35,11 @@ export const Wrapper = styled.article<WrapperProps>`
       height: 100%;
       object-fit: cover;
     }
+
+    ${media.lessThan('large')`
+      grid-template-columns: 10rem 1fr;
+      max-width: 100%;
+    `}
   `}
 `;
 
@@ -58,6 +64,10 @@ export const Title = styled.h2`
     color: ${theme.colors.neutral.light};
     font-size: 2.2rem;
     font-weight: 500;
+
+    ${media.lessThan('large')`
+      font-size: ${theme.font.sizes.md};
+    `}
   `}
 `;
 
@@ -90,7 +100,7 @@ export const Divisor = styled.aside`
 `;
 
 export const Discovery = styled.div`
-  width: 100px;
+  width: auto;
   height: 100%;
   display: flex;
   flex-direction: column;

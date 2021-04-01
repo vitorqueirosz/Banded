@@ -1,9 +1,9 @@
-import { Relations } from 'components/structure';
-import NavBar from 'components/structure/NavBar';
+import { Relations, NavBar, Overlay } from 'components/structure';
 import { USERS } from 'constants/endpoints';
 import { User } from 'contexts';
 import { useSettings } from 'contexts/Settings';
 import { useFetch } from 'hooks/useFetch';
+import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import * as S from './Private.styles';
 
@@ -14,10 +14,20 @@ export type UserFetchProps = {
 export const PrivateRoutes = () => {
   const { data } = useFetch<UserFetchProps>(USERS.BASE);
   const { hasRelations, setHasRelations } = useSettings();
+  const [showOverlay, setShowOverlay] = useState(false);
 
   return (
     <S.Wrapper hasRelations={hasRelations}>
-      <NavBar user={data?.user} />
+      <NavBar
+        user={data?.user}
+        handleOverlay={() => setShowOverlay(prevState => !prevState)}
+      />
+
+      <Overlay
+        show={showOverlay}
+        user={data?.user}
+        handleCloseOverlay={() => setShowOverlay(prevState => !prevState)}
+      />
 
       <S.OutletWrapper>
         <Outlet />
@@ -26,6 +36,7 @@ export const PrivateRoutes = () => {
       <Relations
         hasRelations={hasRelations}
         handleRelations={() => setHasRelations(prevState => !prevState)}
+
       />
     </S.Wrapper>
   );

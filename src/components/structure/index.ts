@@ -4,3 +4,5 @@ export * from './Layouts/layout';
 export * from './Toast';
 export * from './Avatar';
 export * from './Relations';
+export * from './NavBar';
+export * from './Overlay';
