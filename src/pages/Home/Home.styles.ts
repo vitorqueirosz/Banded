@@ -10,13 +10,6 @@ export const Wrapper = styled.div`
   `}
 `;
 
-export const Title = styled.h1`
-  ${({ theme }) => css`
-    color: ${theme.colors.neutral.light};
-
-  `}
-`;
-
 export const OptionsContainer = styled.div`
   ${({ theme }) => css`
     margin: ${theme.spacings.sm} 0;

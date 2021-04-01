@@ -6,3 +6,4 @@ export * from './Avatar';
 export * from './Relations';
 export * from './NavBar';
 export * from './Overlay';
+export * from './Typography/Typography.styles';

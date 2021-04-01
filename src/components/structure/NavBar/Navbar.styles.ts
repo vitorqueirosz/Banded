@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components';
-import * as Avatar from 'components/structure/Avatar/Avatar.styles';
 import media from 'styled-media-query';
 
 export const Container = styled.div`
@@ -35,11 +34,6 @@ export const UserContainer = styled.div`
     background: ${theme.colors.dark.darker};
     border-radius: ${theme.border.radius};
     padding: 0.4rem ${theme.spacings['2xs']};
-
-    /* ${Avatar.Image} {
-      width: 3.6rem;
-      height: 3.4rem;
-    } */
 
     ${media.lessThan('large')`
       max-width: 3.6rem;

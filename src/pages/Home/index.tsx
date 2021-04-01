@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { UserFetchProps } from 'components/contexts/routes';
 import { MusicalList } from 'components/contexts/music';
 import { USERS } from 'constants/endpoints';
+import { Title } from 'components/structure';
 import * as S from './Home.styles';
 
 export const Home = () => {
@@ -16,7 +17,7 @@ export const Home = () => {
 
   return (
     <S.Wrapper>
-      <S.Title>Hall musical</S.Title>
+      <Title>Hall musical</Title>
 
       <S.OptionsContainer>
         <S.Option

@@ -23,7 +23,9 @@ export const Avatar = ({ src, size = 'medium', instrument, hasBackground }: Avat
 
   return (
     <S.Wrapper size={size} hasBackground={hasBackground}>
-      {src ? <S.Image src={src} alt="User Avatar" /> : icons[instrument! || 'Guitarra']}
+      {src
+        ? <S.Image src={src} alt="User Avatar" />
+        : instrument ? icons[instrument] : icons.Guitarra}
     </S.Wrapper>
   );
 };

@@ -28,5 +28,10 @@ export const OutletWrapper = styled.div`
   ${({ theme }) => css`
     grid-area: main;
     padding-bottom: ${theme.spacings['2xlg']};
+    display: flex;
+    justify-content: center;
+    > div {
+      max-width: 1300px;
+    }
   `}
 `;

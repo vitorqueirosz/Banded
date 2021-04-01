@@ -21,13 +21,13 @@ export const MusicalList = ({ city, activeTab }: MusicalListProps) => {
     <>
       <S.Container show={activeTab === MusicTabs.Band}>
         {bands.data?.map(band => (
-          <MusicalItem item={band} />
+          <MusicalItem key={band.id} item={band} />
         ))}
       </S.Container>
 
       <S.Container show={activeTab === MusicTabs.Musicians}>
         {musicians.data?.map(musician => (
-          <MusicalItem item={musician} />
+          <MusicalItem key={musician.id} item={musician} />
         ))}
       </S.Container>
 

@@ -36,7 +36,7 @@ export const MusicalItem = ({
           </S.Divisor>
 
           <S.Divisor>
-            <S.GenreTitle>{instrument ? 'ins' : 'Gêneros'}</S.GenreTitle>
+            <S.GenreTitle>{instrument ? 'Instrumento' : 'Gêneros'}</S.GenreTitle>
             <S.Genres>{genresJoined || instrument}</S.Genres>
           </S.Divisor>
         </S.Infos>

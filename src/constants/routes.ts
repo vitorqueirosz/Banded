@@ -13,4 +13,6 @@ export const ROUTES = {
     secondStep: 'second-step',
     thirdStep: 'third-step',
   },
+  profile: 'profile',
+  search: 'search',
 };

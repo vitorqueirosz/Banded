@@ -18,7 +18,7 @@ const optionsOverlay = [
   },
   {
     name: 'Pesquisar bandas',
-    link: '/bands',
+    link: '/search',
   },
   {
     name: 'Sair',
@@ -40,6 +40,7 @@ export const Overlay = ({ show, user, handleCloseOverlay }: OverlayProps) => (
     <S.Content>
       {optionsOverlay.map(opt => (
         <S.Option
+          key={opt.name}
           as={opt.isOut ? 'button' : Link}
           to={opt.link!}
         >

@@ -1,9 +1,26 @@
-import styled, { css } from 'styled-components';
+import styled, { css, DefaultTheme } from 'styled-components';
+import { InputProps } from 'components/form';
 
-export const Wrapper = styled.div`
-  ${({ theme }) => css`
+const wrapperModifiers = {
+  color: (theme: DefaultTheme) => css`
+    ${InputWrapper} {
+      background: ${theme.colors.light.lighter};
+    }
+  `,
+  isSearch: (theme: DefaultTheme) => css`
+    ${Input} {
+      padding-left: ${theme.spacings.lg};
+    }
+  `,
+};
+
+export const Wrapper = styled.div<Pick<InputProps, 'color' | 'isSearch'>>`
+  ${({ theme, color, isSearch }) => css`
     width: 100%;
     margin-bottom: ${theme.spacings['2xs']};
+
+    ${isSearch && wrapperModifiers.isSearch(theme)}
+    ${color === 'secondary' && wrapperModifiers.color(theme)}
   `}
 `;
 
@@ -15,8 +32,13 @@ export const InputWrapper = styled.div`
     border-radius: ${theme.border.radius};
     position: relative;
     display: flex;
-    flex-direction: column;
+    align-items: center;
     transition: all 0.2s ease-ease-in-out;
+
+    > svg {
+      position: absolute;
+      left: 8px;
+    }
   `}
 `;
 export const Input = styled.input`

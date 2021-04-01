@@ -19,6 +19,10 @@ export const Container = styled.div<ContainerProps>`
     grid-gap: ${theme.spacings.md} ${theme.spacings.lg};
 
     ${media.lessThan('large')`
+      grid-template-columns: repeat(2, 1fr);
+    `}
+
+    ${media.lessThan('medium')`
       grid-template-columns: 1fr;
     `}
 

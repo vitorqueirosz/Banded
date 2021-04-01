@@ -36,6 +36,7 @@
       "import/prefer-default-export": "off",
       "no-use-before-define": "off",
       "react/no-unused-prop-types": "off",
+      "no-nested-ternary": "off",
       "no-param-reassign": "off",
       "no-mixed-operators": "off",
       "react/jsx-props-no-multi-spaces": "off",
