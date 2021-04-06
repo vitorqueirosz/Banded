@@ -10,7 +10,7 @@ export const Container = styled.div`
 
 export const Radio = styled.input`
   ${({ theme }) => css`
-    display: flex;
+    /* display: flex;
     align-items: center;
     justify-content: center;
     appearance: none;
@@ -40,7 +40,7 @@ export const Radio = styled.input`
       &:before {
         opacity: 1;
       }
-    }
+    } */
   `}
 `;
 

@@ -64,10 +64,10 @@ export const SecondStep = () => {
           error={errors.bandsName?.message}
         />
         <Checkbox
-          checked={isChecked}
-          handleCheck={handleSubmit(handleAddUserMusic)}
+          register={register}
           name="hasMusic"
           label="Tem músicas próprias?"
+          onClick={handleSubmit(handleAddUserMusic)}
         />
 
         <Button type="submit">FINALIZAR</Button>

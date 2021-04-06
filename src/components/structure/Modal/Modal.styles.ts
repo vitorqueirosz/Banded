@@ -65,14 +65,7 @@ export const Divisor = styled.div`
 
 export const SubTitle = styled.span`
   ${({ theme }) => css`
-    color: ${theme.colors.light.gray};
-  `}
-`;
-
-export const FormGroupCustom = styled.div`
-  ${({ theme }) => css`
-    /* display: grid;
-    grid-template-columns: 10rem 1fr;
-    grid-gap: 0 ${theme.spacings.xsm}; */
+    color: ${theme.colors.light.lighter};
+    font-size: ${theme.font.sizes.lg};
   `}
 `;

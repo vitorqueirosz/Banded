@@ -31,7 +31,7 @@ export const Wrapper = styled.div<WrapperProps>`
       width: 100%;
     `}
 
-    ${hasRelations && wrapperModifiers.hasRelations(theme)}
+    ${!hasRelations && wrapperModifiers.hasRelations(theme)}
   `}
 `;
 

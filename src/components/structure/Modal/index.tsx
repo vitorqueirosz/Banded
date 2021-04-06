@@ -1,9 +1,8 @@
-import Radio from 'components/form/Radio';
-import { Genre } from 'pages/Search';
+import { Genre, Params } from 'pages/Search';
 import { useForm } from 'react-hook-form';
 import { FiXCircle } from 'react-icons/fi';
 import { Button } from 'components/structure';
-import { SelectField } from 'components/form';
+import { Checkbox, SelectField, Option } from 'components/form';
 import { useFetch } from 'hooks/useFetch';
 import { CITIES } from 'constants/endpoints';
 import { useCallback, useMemo, useState } from 'react';
@@ -14,9 +13,8 @@ import { brazilianState } from './states';
 export type ModalProps = {
   show: boolean;
   handleCloseModal: () => void;
-  handleSelectGenres: (value: Genre) => void;
+  handleFiltersSubmit: (value: Params) => void;
   genres: Genre[];
-  selectedGenres: Genre[];
 }
 
 type City = {
@@ -24,23 +22,33 @@ type City = {
   nome: string;
 }
 
+type Payload = {
+  city: Option;
+  uf: string;
+  genres: string[];
+}
+
 export const Modal = ({
   show,
   handleCloseModal,
-  handleSelectGenres,
-  genres,
-  selectedGenres }: ModalProps) => {
-  const { register, control } = useForm();
+  handleFiltersSubmit,
+  genres }: ModalProps) => {
+  const { register, control, handleSubmit } = useForm<Payload>();
   const [selectedUf, setSelectedUf] = useState('');
 
   const { data, isLoading } = useFetch<City[]>(CITIES.BY_STATE(selectedUf));
 
-  const onChange = useCallback((value: string) => setSelectedUf(value), []);
+  const onChange = useCallback(({ value }: Option) => setSelectedUf(value), []);
 
   const cities = useMemo(
     () => data?.map(({ id, nome }) => ({ value: id, label: nome })),
     [data],
   );
+
+  const onSubmit = ({ genres, city }: Payload) => {
+    handleFiltersSubmit({ genres, city: city && city.label });
+    handleCloseModal();
+  };
 
   return (
     <S.Wrapper show={show}>
@@ -48,27 +56,25 @@ export const Modal = ({
         <Title>Filtros</Title>
         <FiXCircle color="#fff" size={18} onClick={handleCloseModal} />
 
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <S.FilterContainer>
             <S.Divisor>
-              <S.SubTitle>Generos</S.SubTitle>
-              {genres.map(({ label, value }, index) => (
-                <Radio
-                  onClick={() => handleSelectGenres(genres[index])}
-                  key={value}
-                  name={label}
-                  label={label}
+              <S.SubTitle>Gêneros</S.SubTitle>
+              {genres.map(({ label, value }) => (
+                <Checkbox
                   register={register}
-                  checked={selectedGenres.includes(genres[index])}
+                  key={value}
+                  name="genres"
+                  label={label}
                   value={value}
-                  readOnly
+                  id={label}
                 />
               ))}
             </S.Divisor>
 
             <S.Divisor>
               <S.SubTitle>Cidade</S.SubTitle>
-              <S.FormGroupCustom>
+              <div>
                 <SelectField
                   control={control}
                   name="uf"
@@ -85,12 +91,11 @@ export const Modal = ({
                   placeholder="Selecione uma cidade"
                   isLoading={isLoading}
                 />
-
-              </S.FormGroupCustom>
+              </div>
             </S.Divisor>
           </S.FilterContainer>
 
-          <Button type="submit">Salvar</Button>
+          <Button type="button">Salvar</Button>
         </form>
       </S.Content>
     </S.Wrapper>

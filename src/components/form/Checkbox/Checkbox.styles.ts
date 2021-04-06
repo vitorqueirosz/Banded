@@ -4,15 +4,14 @@ export const Container = styled.div`
   ${({ theme }) => css`
     display: flex;
     align-items: center;
-    margin: ${theme.spacings['2xs']} 0 ${theme.spacings.sm};
+    margin: ${theme.spacings['2xs']} 0 ${theme.spacings.xsm};
   `}
 `;
 
 export const Label = styled.label`
   ${({ theme }) => css`
     color: #aaffe5;
-    font-weight: 500;
-    margin-right: ${theme.spacings.xsm};
+    margin-left: ${theme.spacings['2xs']};
   `}
 `;
 
@@ -22,9 +21,8 @@ export const Input = styled.input`
     width: 18px;
     height: 16px;
     border-radius: ${theme.border.radius};
-    background: ${theme.colors.dark.darker};
+    background: ${theme.colors.light.lighter};
     outline: none;
-
 
     &:checked {
       background ${theme.colors.primary};

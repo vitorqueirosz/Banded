@@ -50,7 +50,7 @@ export default {
       black: '#000',
     },
     error: '#FF5E5E',
-    bgModal: 'rgba(0, 0, 0, 0.6)',
+    bgModal: 'rgba(0, 0, 0, 0.9)',
   },
   spacings: {
     '2xs': '0.8rem',

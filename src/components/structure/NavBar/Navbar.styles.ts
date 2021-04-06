@@ -30,13 +30,13 @@ export const Container = styled.div<Pick<NavBarProps, 'hasRelations'>>`
       justify-content: space-between;
     `}
 
-    ${!hasRelations && containerModifiers.hasRelations(theme)}
+    ${hasRelations && containerModifiers.hasRelations(theme)}
   `}
 `;
 
 const titleModifiers = {
   active: (theme: DefaultTheme) => css`
-    color: ${theme.colors.secondary};
+    color: ${theme.colors.primary};
   `,
 };
 

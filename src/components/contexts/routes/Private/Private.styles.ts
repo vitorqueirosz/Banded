@@ -20,7 +20,7 @@ export const Wrapper = styled.div<WrapperProps>`
     width: 100%;
     transition: width 0.3s ease-in-out;
 
-    ${!hasRelations && wrapperModifiers.hasRelations(theme)}
+    ${hasRelations && wrapperModifiers.hasRelations(theme)}
   `}
 `;
 

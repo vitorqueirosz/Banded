@@ -16,22 +16,28 @@ export type Genre = {
   value: string;
 }
 
+export type Params = {
+  name?: string;
+  city?: string;
+  genres?: string[];
+}
+
 export const Search = () => {
   const { register, errors } = useForm();
-  const [showFilterModal, setShowFilterModal] = useState(false);
-  const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
+  const [params, setParams] = useState<Params>({} as Params);
+
   const { data: genres } = useFetch<Genre[]>(GENRES.BASE);
-  const { data: dataByFilters } = useSearchByFilters();
+  const { data: dataByFilters } = useSearchByFilters(params);
+
+  const [showFilterModal, setShowFilterModal] = useState(false);
+
+  const handleFitersSubmit = useCallback(
+    ({ genres, city }: Omit<Params, 'name'>) => setParams({ genres, city }), [],
+  );
 
   const handleCloseModal = useCallback(() => setShowFilterModal(false), []);
-  const handleSelectGenres = useCallback((value: Genre) => {
-    if (!selectedGenres.includes(value)) {
-      return setSelectedGenres(prevState => [...prevState, value]);
-    }
 
-    const filteredGenres = selectedGenres.filter(genre => genre.value !== value.value);
-    return setSelectedGenres(filteredGenres);
-  }, [selectedGenres]);
+  const handleCleanParams = () => setParams({} as Params);
 
   return (
     <S.Container>
@@ -56,20 +62,38 @@ export const Search = () => {
           />
         </S.Divisor>
 
-        {!!selectedGenres.length && (
+        {!!params.genres?.length && (
         <S.Divisor>
-          <button type="button">Remover filtros</button>
+          <S.Filters>
+            {params.genres.length && (
+              <S.Display>
+                <span>Gênero</span>
+              </S.Display>
+            )}
+
+            {params.city && (
+              <S.Display>
+                <span>Cidade</span>
+              </S.Display>
+            )}
+          </S.Filters>
+
+          <S.CleanButton
+            type="button"
+            onClick={handleCleanParams}
+          >
+            Remover filtros
+
+          </S.CleanButton>
         </S.Divisor>
         )}
 
         <Modal
           show={showFilterModal}
           handleCloseModal={handleCloseModal}
-          handleSelectGenres={handleSelectGenres}
-          selectedGenres={selectedGenres}
+          handleFiltersSubmit={handleFitersSubmit}
           genres={genres || []}
         />
-
       </S.SearchContainer>
 
       <WrapperList>

@@ -2,7 +2,7 @@ import { useController, UseFormMethods } from 'react-hook-form';
 import Select from 'react-select';
 import * as S from './Select.styles';
 
-type Option = {
+export type Option = {
   id?: string;
   name?: string;
   value: string;
@@ -14,7 +14,7 @@ type SelectProps = Pick<UseFormMethods, 'control'> & {
   options: Option[];
   name: string;
   placeholder?: string;
-  onChange?: (value: string) => void;
+  onChange?: (value: Option) => void;
   isLoading?: boolean;
 };
 
@@ -32,7 +32,7 @@ export const SelectField = ({
     name,
   });
 
-  const handleChange = ({ value }: Option) => {
+  const handleChange = (value: Option) => {
     if (onChange) {
       onChange(value);
       return onFieldChange(value);
