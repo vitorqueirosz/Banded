@@ -1,9 +1,9 @@
 import { User } from 'contexts';
-import { Avatar } from 'components/structure';
-
+import { Avatar, Dropdown } from 'components/structure';
 import { FiMenu } from 'react-icons/fi';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useChangeFocus } from 'hooks/useChangeFocus';
 import * as S from './Navbar.styles';
 import { MediaMatch } from '../MediaMatch';
 
@@ -24,10 +24,25 @@ export const optionsNav = [
   },
 ];
 
+const optionsDropdown = [
+  {
+    name: 'Perfil',
+    link: '/profile',
+  },
+  {
+    name: 'Sair',
+  },
+];
+
 export const NavBar = ({ user, handleOverlay, hasRelations }: NavBarProps) => {
   const [selectedOption, setSelectedOption] = useState('Home');
+  const [showDropdown, setShowDropdown] = useState(false);
+  const currentRef = useChangeFocus(() => setShowDropdown(false));
 
-  const handleSelectOption = (option: string) => setSelectedOption(option);
+  const handleShowDropdown = () => setShowDropdown(prevState => !prevState);
+
+  const handleSelectOption = (option: string) =>
+    setSelectedOption(option);
 
   return (
     <S.Container hasRelations={hasRelations}>
@@ -47,7 +62,7 @@ export const NavBar = ({ user, handleOverlay, hasRelations }: NavBarProps) => {
         ))}
 
       </MediaMatch>
-      <S.UserContainer>
+      <S.UserContainer onClick={handleShowDropdown}>
         <Avatar
           size="small"
           instrument={user?.userMusician?.instrument}
@@ -58,6 +73,8 @@ export const NavBar = ({ user, handleOverlay, hasRelations }: NavBarProps) => {
           <S.UserName>{user?.name}</S.UserName>
         </MediaMatch>
       </S.UserContainer>
+
+      <Dropdown ref={currentRef} show={showDropdown} options={optionsDropdown} />
     </S.Container>
   );
 };

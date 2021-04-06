@@ -11,6 +11,7 @@ const containerModifiers = {
 export const Container = styled.div<Pick<NavBarProps, 'hasRelations'>>`
   ${({ theme, hasRelations }) => css`
     grid-area: nav;
+    position: relative;
     height: ${theme.elements.nav};
     background: ${theme.colors.dark.element};
     padding: ${theme.spacings.xsm};
@@ -54,8 +55,10 @@ export const Title = styled.span<{ active: boolean }>`
 export const UserContainer = styled.div`
   ${({ theme }) => css`
     display: flex;
+    cursor: pointer;
     align-items: center;
     width: 18rem;
+    height: auto;
     background: ${theme.colors.dark.darker};
     border-radius: ${theme.border.radius};
     padding: 0.4rem ${theme.spacings['2xs']};

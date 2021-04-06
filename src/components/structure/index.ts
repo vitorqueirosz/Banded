@@ -7,3 +7,4 @@ export * from './NavBar';
 export * from './Overlay';
 export * from './Typography/Typography.styles';
 export * from './Modal';
+export * from './Dropdown';
