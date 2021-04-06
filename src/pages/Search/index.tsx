@@ -1,7 +1,7 @@
 import { TextField } from 'components/form';
 import { Modal, Title, WrapperList } from 'components/structure';
 import { useFetch } from 'hooks/useFetch';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FiList } from 'react-icons/fi';
 
@@ -9,6 +9,7 @@ import { GENRES } from 'constants/endpoints';
 
 import { useSearchByFilters } from 'useCases/search';
 import { MusicalItem } from 'components/contexts';
+import { useDebounce } from 'hooks/useDebounce';
 import * as S from './Search.styles';
 
 export type Genre = {
@@ -22,22 +23,42 @@ export type Params = {
   genres?: string[];
 }
 
+const initialValues = {
+  name: '', city: '', genres: [],
+};
+
+type InputForm = {
+  name: string;
+}
+
 export const Search = () => {
-  const { register, errors } = useForm();
-  const [params, setParams] = useState<Params>({} as Params);
+  const { register, errors } = useForm<InputForm>();
+  const [params, setParams] = useState<Params>(initialValues);
+  const [showFilterModal, setShowFilterModal] = useState(false);
+  const [hasToClean, setHasToClean] = useState(false);
 
   const { data: genres } = useFetch<Genre[]>(GENRES.BASE);
   const { data: dataByFilters } = useSearchByFilters(params);
 
-  const [showFilterModal, setShowFilterModal] = useState(false);
-
+  const handleFilterByName = useDebounce(
+    (value: string) => setParams(prevState => ({ ...prevState, name: value })), 350,
+  );
   const handleFitersSubmit = useCallback(
-    ({ genres, city }: Omit<Params, 'name'>) => setParams({ genres, city }), [],
+    ({ genres, city }: Omit<Params, 'name'>) =>
+      setParams(prevState => ({ ...prevState, genres, city })),
+    [],
   );
 
   const handleCloseModal = useCallback(() => setShowFilterModal(false), []);
 
-  const handleCleanParams = () => setParams({} as Params);
+  const handleCleanParams = () => {
+    setParams(initialValues);
+    setHasToClean(true);
+  };
+
+  useEffect(() => {
+    hasToClean && setHasToClean(false);
+  }, [hasToClean]);
 
   return (
     <S.Container>
@@ -48,12 +69,13 @@ export const Search = () => {
           <TextField
             inputSize="small"
             color="secondary"
-            name="search"
+            name="name"
             register={register}
             isSearch
             placeholder="Músicos e bandas"
             label="Músicos e bandas"
-            error={errors.email?.message}
+            error={errors.name?.message}
+            onChange={({ target: { value } }) => handleFilterByName(value)}
           />
           <FiList
             color="#fff"
@@ -66,13 +88,13 @@ export const Search = () => {
         <S.Divisor>
           <S.Filters>
             {params.genres.length && (
-              <S.Display>
+              <S.Display onClick={() => setShowFilterModal(true)}>
                 <span>Gênero</span>
               </S.Display>
             )}
 
             {params.city && (
-              <S.Display>
+              <S.Display onClick={() => setShowFilterModal(true)}>
                 <span>Cidade</span>
               </S.Display>
             )}
@@ -83,16 +105,15 @@ export const Search = () => {
             onClick={handleCleanParams}
           >
             Remover filtros
-
           </S.CleanButton>
         </S.Divisor>
         )}
-
         <Modal
           show={showFilterModal}
           handleCloseModal={handleCloseModal}
           handleFiltersSubmit={handleFitersSubmit}
           genres={genres || []}
+          hasToClean={hasToClean}
         />
       </S.SearchContainer>
 

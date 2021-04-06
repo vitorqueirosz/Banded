@@ -26,6 +26,7 @@ export const SelectField = ({
   placeholder,
   label,
   isLoading,
+  ...rest
 }: SelectProps) => {
   const { field: { ref, value, onChange: onFieldChange } } = useController({
     control,
@@ -33,11 +34,8 @@ export const SelectField = ({
   });
 
   const handleChange = (value: Option) => {
-    if (onChange) {
-      onChange(value);
-      return onFieldChange(value);
-    }
-    return onFieldChange(value);
+    onChange && onChange(value);
+    onFieldChange(value);
   };
 
   return (
@@ -48,10 +46,11 @@ export const SelectField = ({
         options={options}
         name={name}
         placeholder={placeholder}
-        value={options.find(({ value: optValue }) => optValue === value)}
+        value={value}
         onChange={(value) => value && handleChange(value)}
         isLoading={isLoading}
         isDisabled={isLoading}
+        {...rest}
       />
       {!!label && <S.Label show={!!value} htmlFor={name}>{label}</S.Label>}
     </S.Wrapper>

@@ -54,6 +54,7 @@ export const Display = styled.div`
     padding-left: 0.4rem;
     width: 8.5rem;
     margin-right: ${theme.spacings.xsm};
+    cursor: pointer;
 
     > span {
       color: ${theme.colors.light.lighter};

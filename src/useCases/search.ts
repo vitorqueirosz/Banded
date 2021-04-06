@@ -8,5 +8,13 @@ export type FilterParams = {
   city?: string;
 }
 
-export const useSearchByFilters = (params?: FilterParams) =>
-  useFetch<BandResponse[]>(BANDS.BY_FILTERS, { params });
+const getSearchByFiltersUrl = (url: string, params: FilterParams) => {
+  const { name = '', genres = [], city = '' } = params;
+
+  const genresJoined = genres.join('&');
+
+  return `${url}?name=${name}&city=${city}&genres=${genresJoined}`;
+};
+
+export const useSearchByFilters = (params: FilterParams) =>
+  useFetch<BandResponse[]>(getSearchByFiltersUrl(BANDS.BY_FILTERS, params));

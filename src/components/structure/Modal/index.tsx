@@ -5,7 +5,7 @@ import { Button } from 'components/structure';
 import { Checkbox, SelectField, Option } from 'components/form';
 import { useFetch } from 'hooks/useFetch';
 import { CITIES } from 'constants/endpoints';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Title } from '../Typography/Typography.styles';
 import * as S from './Modal.styles';
 import { brazilianState } from './states';
@@ -13,6 +13,7 @@ import { brazilianState } from './states';
 export type ModalProps = {
   show: boolean;
   handleCloseModal: () => void;
+  hasToClean: boolean;
   handleFiltersSubmit: (value: Params) => void;
   genres: Genre[];
 }
@@ -28,12 +29,26 @@ type Payload = {
   genres: string[];
 }
 
+type ModalInputForm = {
+  city: string;
+  uf: string;
+  genres: string[];
+}
+
 export const Modal = ({
   show,
   handleCloseModal,
   handleFiltersSubmit,
-  genres }: ModalProps) => {
-  const { register, control, handleSubmit } = useForm<Payload>();
+  genres,
+  hasToClean,
+}: ModalProps) => {
+  const { register, control, handleSubmit, reset } = useForm<ModalInputForm>({
+    defaultValues: {
+      city: '',
+      uf: '',
+      genres: [],
+    },
+  });
   const [selectedUf, setSelectedUf] = useState('');
 
   const { data, isLoading } = useFetch<City[]>(CITIES.BY_STATE(selectedUf));
@@ -50,6 +65,13 @@ export const Modal = ({
     handleCloseModal();
   };
 
+  useEffect(() => {
+    if (hasToClean) {
+      reset();
+      setSelectedUf('');
+    }
+  }, [hasToClean, reset]);
+
   return (
     <S.Wrapper show={show}>
       <S.Content>
@@ -62,12 +84,12 @@ export const Modal = ({
               <S.SubTitle>Gêneros</S.SubTitle>
               {genres.map(({ label, value }) => (
                 <Checkbox
+                  id={label}
                   register={register}
                   key={value}
                   name="genres"
                   label={label}
                   value={value}
-                  id={label}
                 />
               ))}
             </S.Divisor>
