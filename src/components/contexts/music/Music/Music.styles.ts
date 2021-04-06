@@ -12,7 +12,7 @@ export const Wrapper = styled.article<WrapperProps>`
     background: ${theme.colors.dark.light};
     border-radius: ${theme.border.radius};
     width: 100%;
-    max-width: 45rem;
+    max-width: 42rem;
     height: 12rem;
     max-height: 100%;
     cursor: pointer;
@@ -38,7 +38,6 @@ export const Wrapper = styled.article<WrapperProps>`
 
     ${media.lessThan('large')`
       grid-template-columns: 10rem 1fr;
-      max-width: 100%;
     `}
   `}
 `;

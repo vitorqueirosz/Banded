@@ -24,6 +24,10 @@ export const GlobalStyles = createGlobalStyle`
       font-family: ${theme.font.family};
       font-size: ${theme.font.sizes.md};
       background: ${theme.colors.neutral.black};
+
+      a {
+        text-decoration: none;
+      }
     }
   `}
 `;

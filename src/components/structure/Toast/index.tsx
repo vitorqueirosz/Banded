@@ -1,5 +1,6 @@
 import { ToastProps } from 'contexts';
-import { FiXCircle } from 'react-icons/fi';
+import { FiAlertCircle, FiCheckCircle, FiXCircle } from 'react-icons/fi';
+import theme from 'styles/theme';
 import * as S from './Toast.styles';
 
 export type ToastItemProps = {
@@ -7,6 +8,15 @@ export type ToastItemProps = {
   handleCloseToast: () => void;
   hasMarginTop?: boolean;
 } & ToastProps
+
+type Icon = {
+  [key: string]: JSX.Element;
+}
+
+const typeIcon = {
+  error: <FiAlertCircle color={theme.colors.dark.light} size={16} />,
+  success: <FiCheckCircle color={theme.colors.dark.light} size={16} />,
+} as Icon;
 
 export const Toast = ({
   title,
@@ -17,7 +27,10 @@ export const Toast = ({
   hasMarginTop,
 }: ToastItemProps) => (
   <S.Wrapper hasMarginTop={hasMarginTop} type={type} show={show}>
-    <S.Title>{title}</S.Title>
+    <S.Divisor>
+      <S.Title>{title}</S.Title>
+      {typeIcon[type]}
+    </S.Divisor>
     <S.Description>{description}</S.Description>
     <S.IconWrapper onClick={handleCloseToast}>
       <FiXCircle size={14} color="#fff" />

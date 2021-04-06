@@ -3,28 +3,14 @@ import { FiX } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import theme from 'styles/theme';
 import { Avatar } from '../Avatar';
-import * as S from './Overlay';
+import * as S from './Overlay.styles';
+import { optionsOverlay } from './Overlay.mock';
 
 export type OverlayProps = {
   show: boolean;
   user?: User;
   handleCloseOverlay: () => void;
 }
-
-const optionsOverlay = [
-  {
-    name: 'Meu perfil',
-    link: '/profile',
-  },
-  {
-    name: 'Pesquisar bandas',
-    link: '/search',
-  },
-  {
-    name: 'Sair',
-    isOut: true,
-  },
-];
 
 export const Overlay = ({ show, user, handleCloseOverlay }: OverlayProps) => (
   <S.Wrapper show={show}>
@@ -40,6 +26,7 @@ export const Overlay = ({ show, user, handleCloseOverlay }: OverlayProps) => (
     <S.Content>
       {optionsOverlay.map(opt => (
         <S.Option
+          onClick={handleCloseOverlay}
           key={opt.name}
           as={opt.isOut ? 'button' : Link}
           to={opt.link!}

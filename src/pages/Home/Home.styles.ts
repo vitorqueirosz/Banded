@@ -1,5 +1,6 @@
 import { MusicTabs } from 'constants/enums';
 import styled, { css, DefaultTheme } from 'styled-components';
+import media from 'styled-media-query';
 
 export const Wrapper = styled.div`
   ${({ theme }) => css`
@@ -7,6 +8,10 @@ export const Wrapper = styled.div`
     width: 100%;
     padding: ${theme.spacings.md};
     overflow: hidden;
+
+    ${media.lessThan('large')`
+      padding: ${theme.spacings.xsm};
+    `}
   `}
 `;
 
@@ -46,7 +51,7 @@ export const Option = styled.div<OptionProps>`
     background: ${theme.colors.dark.element};
     cursor: pointer;
     color: ${theme.colors.light.gray};
-    transition: background 0.3s ease-in-out;
+    transition: background 0.3s ease-in-out, width 0.3s ease-in-out;
 
     ${activeTab && optionModifiers[activeTab](theme)}
   `}

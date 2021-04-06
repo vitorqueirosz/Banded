@@ -1,33 +1,52 @@
 import styled, { css, DefaultTheme } from 'styled-components';
 import { InputProps } from 'components/form';
 
+type WrapperProps = Pick<InputProps, 'color' | 'isSearch' | 'inputSize'>;
+
 const wrapperModifiers = {
   color: (theme: DefaultTheme) => css`
     ${InputWrapper} {
       background: ${theme.colors.light.lighter};
+    }
+    ${Input}, ${Label} {
+      color: ${theme.colors.dark.info};
+    }
+  `,
+  normal: () => css`
+    height: 5.6rem;
+  `,
+  small: () => css`
+    height: 4.6rem;
+    ${Label} {
+      top: -16%;
     }
   `,
   isSearch: (theme: DefaultTheme) => css`
     ${Input} {
       padding-left: ${theme.spacings.lg};
     }
+    ${Label} {
+      padding-left: ${theme.spacings.sm};
+    }
   `,
 };
 
-export const Wrapper = styled.div<Pick<InputProps, 'color' | 'isSearch'>>`
-  ${({ theme, color, isSearch }) => css`
+export const Wrapper = styled.div<WrapperProps>`
+  ${({ theme, color, isSearch, inputSize }) => css`
     width: 100%;
     margin-bottom: ${theme.spacings['2xs']};
+    border-radius: ${theme.border.radius};
 
     ${isSearch && wrapperModifiers.isSearch(theme)}
     ${color === 'secondary' && wrapperModifiers.color(theme)}
+    ${inputSize && wrapperModifiers[inputSize]}
   `}
 `;
 
 export const InputWrapper = styled.div`
   ${({ theme }) => css`
     width: 100%;
-    height: 56px;
+    height: 100%;
     background: ${theme.colors.dark.light};
     border-radius: ${theme.border.radius};
     position: relative;

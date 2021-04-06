@@ -10,6 +10,7 @@ export type InputProps = {
   name?: string;
   error?: string | undefined;
   color?: 'primary' | 'secondary';
+  inputSize?: 'normal' | 'small';
 } & InputHTMLAttributes<HTMLInputElement> &
   Pick<UseFormMethods, 'register'>;
 export const TextField = ({
@@ -19,11 +20,18 @@ export const TextField = ({
   error,
   isSearch,
   color = 'primary',
+  inputSize = 'normal',
   ...rest }: InputProps) => (
-    <S.Wrapper isSearch={isSearch} color={color}>
+    <S.Wrapper isSearch={isSearch} color={color} inputSize={inputSize}>
       <S.InputWrapper>
         {isSearch && <FiSearch size={20} color="#555" />}
-        <S.Input name={name} id={name} type="text" ref={register} {...rest} />
+        <S.Input
+          name={name}
+          id={name}
+          type="text"
+          ref={register}
+          {...rest}
+        />
         {!!label && <S.Label htmlFor={name}>{label}</S.Label>}
       </S.InputWrapper>
       {!!error && <S.Error>{error}</S.Error>}

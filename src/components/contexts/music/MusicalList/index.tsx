@@ -1,8 +1,7 @@
+import { WrapperList } from 'components/structure';
 import { MusicTabs } from 'constants/enums';
 import { useBands, useMusicians } from 'useCases/feed';
 import { MusicalItem } from '../Music';
-
-import * as S from './Musical.styles';
 
 type MusicalListProps = {
   city: string;
@@ -19,18 +18,17 @@ export const MusicalList = ({ city, activeTab }: MusicalListProps) => {
 
   return (
     <>
-      <S.Container show={activeTab === MusicTabs.Band}>
+      <WrapperList show={activeTab === MusicTabs.Band}>
         {bands.data?.map(band => (
           <MusicalItem key={band.id} item={band} />
         ))}
-      </S.Container>
+      </WrapperList>
 
-      <S.Container show={activeTab === MusicTabs.Musicians}>
+      <WrapperList show={activeTab === MusicTabs.Musicians}>
         {musicians.data?.map(musician => (
           <MusicalItem key={musician.id} item={musician} />
         ))}
-      </S.Container>
-
+      </WrapperList>
     </>
   );
 };

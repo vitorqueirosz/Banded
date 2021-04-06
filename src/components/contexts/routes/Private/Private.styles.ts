@@ -24,14 +24,15 @@ export const Wrapper = styled.div<WrapperProps>`
   `}
 `;
 
-export const OutletWrapper = styled.div`
+export const OutletWrapper = styled.div<WrapperProps>`
   ${({ theme }) => css`
     grid-area: main;
     padding-bottom: ${theme.spacings['2xlg']};
     display: flex;
     justify-content: center;
-    > div {
+
+    /* > div {
       max-width: 1300px;
-    }
+    } */
   `}
 `;

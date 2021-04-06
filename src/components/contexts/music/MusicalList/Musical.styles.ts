@@ -7,23 +7,20 @@ type ContainerProps = {
 
 const containerModifiers = {
   show: () => css`
-    display: grid;
+    display: flex;
   `,
 };
 
 export const Container = styled.div<ContainerProps>`
   ${({ theme, show }) => css`
     display: none;
-    grid-template-columns: repeat(3, 1fr);
     padding-top: ${theme.spacings.sm};
     grid-gap: ${theme.spacings.md} ${theme.spacings.lg};
+    flex-wrap: wrap;
 
     ${media.lessThan('large')`
-      grid-template-columns: repeat(2, 1fr);
-    `}
-
-    ${media.lessThan('medium')`
-      grid-template-columns: 1fr;
+      flex-direction: column;
+      align-items: center;
     `}
 
     ${show && containerModifiers.show}

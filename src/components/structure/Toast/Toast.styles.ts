@@ -50,7 +50,8 @@ export const Wrapper = styled.div<WrapperProps>`
 
 export const Title = styled.strong`
   ${({ theme }) => css`
-    color: ${theme.colors.dark.darker};
+    color: ${theme.colors.dark.light};
+    margin-right: ${theme.spacings['2xs']};
   `}
 `;
 
@@ -67,4 +68,9 @@ export const IconWrapper = styled.div`
     right: ${theme.spacings['2xs']};
     cursor: pointer;
   `}
+`;
+
+export const Divisor = styled.div`
+  display: flex;
+  align-items: center;
 `;

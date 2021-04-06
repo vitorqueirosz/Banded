@@ -1,4 +1,5 @@
-import { Relations, NavBar, Overlay } from 'components/structure';
+import { NavBar, Overlay } from 'components/structure';
+import { Relations } from 'components/contexts';
 import { USERS } from 'constants/endpoints';
 import { User } from 'contexts';
 import { useSettings } from 'contexts/Settings';
@@ -19,6 +20,7 @@ export const PrivateRoutes = () => {
   return (
     <S.Wrapper hasRelations={hasRelations}>
       <NavBar
+        hasRelations={hasRelations}
         user={data?.user}
         handleOverlay={() => setShowOverlay(prevState => !prevState)}
       />
@@ -29,14 +31,13 @@ export const PrivateRoutes = () => {
         handleCloseOverlay={() => setShowOverlay(prevState => !prevState)}
       />
 
-      <S.OutletWrapper>
+      <S.OutletWrapper hasRelations={hasRelations}>
         <Outlet />
       </S.OutletWrapper>
 
       <Relations
         hasRelations={hasRelations}
         handleRelations={() => setHasRelations(prevState => !prevState)}
-
       />
     </S.Wrapper>
   );

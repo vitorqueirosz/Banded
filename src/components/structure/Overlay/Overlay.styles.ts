@@ -34,6 +34,10 @@ export const Header = styled.header`
     width: 100%;
     align-items: center;
     justify-content: space-between;
+
+    > svg {
+      cursor: pointer;
+    }
 `;
 
 export const ProfileContent = styled.div`
@@ -68,7 +72,7 @@ export const Option = styled.button<ButtonTypes>`
     background: none;
     text-decoration: none;
 
-    &:nth-child(3) {
+    &:last-child {
       border: none;
       margin-top: ${theme.spacings.xsm};
       outline: none;

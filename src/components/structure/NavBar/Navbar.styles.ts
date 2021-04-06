@@ -1,8 +1,15 @@
-import styled, { css } from 'styled-components';
+import styled, { css, DefaultTheme } from 'styled-components';
 import media from 'styled-media-query';
+import { NavBarProps } from '.';
 
-export const Container = styled.div`
-  ${({ theme }) => css`
+const containerModifiers = {
+  hasRelations: (theme: DefaultTheme) => css`
+    width: calc(100vw - ${theme.elements.relations});
+  `,
+};
+
+export const Container = styled.div<Pick<NavBarProps, 'hasRelations'>>`
+  ${({ theme, hasRelations }) => css`
     grid-area: nav;
     height: ${theme.elements.nav};
     background: ${theme.colors.dark.element};
@@ -10,19 +17,37 @@ export const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    width: 100%;
+    transition: width 0.3s ease-in-out;
+
+    > div {
+      svg {
+        cursor: pointer;
+      }
+    }
 
     ${media.lessThan('large')`
       justify-content: space-between;
     `}
+
+    ${!hasRelations && containerModifiers.hasRelations(theme)}
   `}
 `;
 
-export const Title = styled.span`
-  ${({ theme }) => css`
+const titleModifiers = {
+  active: (theme: DefaultTheme) => css`
+    color: ${theme.colors.secondary};
+  `,
+};
+
+export const Title = styled.span<{ active: boolean }>`
+  ${({ theme, active }) => css`
     font-size: ${theme.font.sizes.lg};
     color: ${theme.colors.light.lighter};
     font-weight: 500;
     margin-right: ${theme.spacings.md};
+
+    ${active && titleModifiers.active(theme)}
   `}
 `;
 

@@ -1,5 +1,5 @@
 import styled, { css, DefaultTheme } from 'styled-components';
-import { RelationsProps } from 'components/structure';
+import { RelationsProps } from 'components/contexts';
 import media from 'styled-media-query';
 
 type WrapperProps = Pick<RelationsProps, 'hasRelations'>;

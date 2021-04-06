@@ -26,6 +26,7 @@
     "react-query": "^3.13.0",
     "react-router-dom": "6.0.0-beta.0",
     "react-scripts": "4.0.3",
+    "react-select": "^4.3.0",
     "react-spinners": "^0.10.6",
     "styled-components": "^5.2.1",
     "styled-media-query": "^2.1.2",
@@ -64,6 +65,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-select": "^4.0.14",
     "@types/styled-components": "^5.1.9",
     "@typescript-eslint/parser": "^4.18.0",
     "eslint": "^7.22.0",
