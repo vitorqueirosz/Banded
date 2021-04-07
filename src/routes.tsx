@@ -6,6 +6,7 @@ import { Home } from 'pages/Home';
 import { ROUTES } from 'constants/routes';
 import { isUserAuthenticated } from 'utils/session';
 import { Search } from 'pages/Search';
+import { Profile } from 'pages/Profile';
 
 type PrivateRouteProps = {
   children?: React.ReactNode;
@@ -28,6 +29,7 @@ export const AppRoutes = () => (
         <PrivateRoute path={ROUTES.app.base} element={<Navigate to={ROUTES.app.home} />} />
         <PrivateRoute path={ROUTES.app.home} element={<Home />} />
         <Route path={ROUTES.search} element={<Search />} />
+        <Route path={ROUTES.profile} element={<Profile />} />
       </PrivateRoute>
 
       <Route path={ROUTES.auth.initial} element={<PublicRoutes />}>

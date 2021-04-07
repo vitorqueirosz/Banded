@@ -4,7 +4,7 @@ import { useCache } from 'hooks/useCache';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from 'services/api';
-import { setUserSession } from 'utils/session';
+import { setUnathorizedUser, setUserSession } from 'utils/session';
 
 type AuthParams = {
   email: string;
@@ -38,4 +38,13 @@ export const useAuth = () => {
   };
 
   return { handleAuthenticate, isFetching };
+};
+
+export const useSignOut = () => {
+  const navigate = useNavigate();
+
+  return () => {
+    setUnathorizedUser();
+    navigate('/login');
+  };
 };

@@ -1,9 +1,10 @@
 import { User } from 'contexts';
 import { Avatar, Dropdown } from 'components/structure';
 import { FiMenu } from 'react-icons/fi';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useChangeFocus } from 'hooks/useChangeFocus';
+import { useSignOut } from 'useCases/auth';
 import * as S from './Navbar.styles';
 import { MediaMatch } from '../MediaMatch';
 
@@ -24,25 +25,27 @@ export const optionsNav = [
   },
 ];
 
-const optionsDropdown = [
-  {
-    name: 'Perfil',
-    link: '/profile',
-  },
-  {
-    name: 'Sair',
-  },
-];
-
 export const NavBar = ({ user, handleOverlay, hasRelations }: NavBarProps) => {
   const [selectedOption, setSelectedOption] = useState('Home');
   const [showDropdown, setShowDropdown] = useState(false);
   const currentRef = useChangeFocus(() => setShowDropdown(false));
+  const handleSignOut = useSignOut();
 
-  const handleShowDropdown = () => setShowDropdown(prevState => !prevState);
+  const handleDropDown = () => setShowDropdown(prevState => !prevState);
 
   const handleSelectOption = (option: string) =>
     setSelectedOption(option);
+
+  const optionsDropdown = useMemo(() => [
+    {
+      name: 'Perfil',
+      link: '/profile',
+    },
+    {
+      name: 'Sair',
+      callback: handleSignOut,
+    },
+  ], [handleSignOut]);
 
   return (
     <S.Container hasRelations={hasRelations}>
@@ -62,7 +65,7 @@ export const NavBar = ({ user, handleOverlay, hasRelations }: NavBarProps) => {
         ))}
 
       </MediaMatch>
-      <S.UserContainer onClick={handleShowDropdown}>
+      <S.UserContainer onClick={handleDropDown}>
         <Avatar
           size="small"
           instrument={user?.userMusician?.instrument}
@@ -74,7 +77,12 @@ export const NavBar = ({ user, handleOverlay, hasRelations }: NavBarProps) => {
         </MediaMatch>
       </S.UserContainer>
 
-      <Dropdown ref={currentRef} show={showDropdown} options={optionsDropdown} />
+      <Dropdown
+        handleCloseDropDown={handleDropDown}
+        ref={currentRef}
+        show={showDropdown}
+        options={optionsDropdown}
+      />
     </S.Container>
   );
 };

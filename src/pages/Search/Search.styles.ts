@@ -1,13 +1,9 @@
 import styled, { css } from 'styled-components';
 import { Wrapper } from 'components/form/TextField/TextField.styles';
-import { WrapperList } from 'components/structure';
+import { WrapperList, WrapperToOutlet } from 'components/structure';
 
-export const Container = styled.div`
+export const Container = styled(WrapperToOutlet)`
  ${({ theme }) => css`
-    height: 100%;
-    width: 100%;
-    padding: ${theme.spacings.md};
-    overflow: hidden;
 
     ${Wrapper} {
       background: ${theme.colors.light.lighter};

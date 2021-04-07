@@ -1,14 +1,10 @@
+import { WrapperToOutlet } from 'components/structure';
 import { MusicTabs } from 'constants/enums';
 import styled, { css, DefaultTheme } from 'styled-components';
 import media from 'styled-media-query';
 
-export const Wrapper = styled.div`
+export const Wrapper = styled(WrapperToOutlet)`
   ${({ theme }) => css`
-    height: 100%;
-    width: 100%;
-    padding: ${theme.spacings.md};
-    overflow: hidden;
-
     ${media.lessThan('large')`
       padding: ${theme.spacings.xsm};
     `}

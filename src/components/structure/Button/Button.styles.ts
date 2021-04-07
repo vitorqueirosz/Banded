@@ -22,6 +22,7 @@ export const Button = styled.button<Pick<ButtonProps, 'color'>>`
     font-size: ${theme.font.sizes.lg};
     cursor: pointer;
     transition: background 0.2s ease-in-out;
+    outline: none;
 
     &:hover {
       background: #18956f;

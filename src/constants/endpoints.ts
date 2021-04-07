@@ -12,7 +12,7 @@ export const AUTH = {
 };
 
 export const BANDS = {
-  BASE: `${bandPrefix}`,
+  BASE: bandPrefix,
   BANDLIST: `${bandPrefix}/bandList`,
   BY_FILTERS: `${bandPrefix}/filters`,
 };

@@ -46,6 +46,7 @@ export const Container = styled.div<{ show: boolean }>`
 export const ButtonDuo = styled.button<ButtonTypes>`
   ${({ theme }) => css`
     background: none;
+    cursor: pointer;
     padding: ${theme.spacings.xsm};
     border: none;
     color: ${theme.colors.light.gray};

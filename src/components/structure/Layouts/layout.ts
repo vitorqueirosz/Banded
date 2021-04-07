@@ -58,3 +58,12 @@ export const WrapperList = styled.div<ContainerProps>`
     ${show && containerModifiers.show}
   `}
 `;
+
+export const WrapperToOutlet = styled.div`
+  ${({ theme }) => css`
+    height: 100%;
+    width: 100%;
+    padding: ${theme.spacings.md};
+    overflow: hidden;
+  `}
+`;

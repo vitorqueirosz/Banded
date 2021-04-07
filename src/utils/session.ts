@@ -6,3 +6,8 @@ export const setUserSession = (accessToken: string, user: User) => {
 };
 
 export const isUserAuthenticated = () => localStorage.getItem('@Banded:token');
+
+export const setUnathorizedUser = () => {
+  localStorage.removeItem('@Banded:token');
+  localStorage.removeItem('@Banded:user');
+};
