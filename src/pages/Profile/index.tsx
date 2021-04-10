@@ -15,11 +15,11 @@ export const Profile = () => {
         <S.UserChip>
           <Avatar
             src={user?.avatar}
-            instrument={user?.userMusician?.instrument}
+            instrument={user?.instrument}
             hasBackground={!user?.avatar}
           />
           <h3>{user?.name}</h3>
-          <span>{user?.userMusician?.instrument}</span>
+          <span>{user?.instrument}</span>
         </S.UserChip>
 
         <S.MusicalInfos />

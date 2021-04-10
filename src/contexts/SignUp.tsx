@@ -1,4 +1,4 @@
-import { MusicProps } from 'interfaces/music';
+import { MusicProps, Album } from 'interfaces/music';
 import {
   createContext,
   SetStateAction,
@@ -7,7 +7,7 @@ import {
   useState,
 } from 'react';
 
-export type User = {
+export type UserPayload = {
   name?: string;
   avatar?: string;
   email?: string;
@@ -17,12 +17,13 @@ export type User = {
     bandsName?: string;
     instrument?: string;
     musics?: MusicProps[];
+    albums?: Album[];
   }
 };
 
 type SignUpContextData = {
-  user: User;
-  setUser: (user: SetStateAction<User>) => void;
+  user: UserPayload;
+  setUser: (user: SetStateAction<UserPayload>) => void;
 };
 
 const initialValues: SignUpContextData = {
@@ -42,7 +43,7 @@ const initialValues: SignUpContextData = {
 const SignUpContext = createContext<SignUpContextData>(initialValues);
 
 export const SignUpProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User>(initialValues.user);
+  const [user, setUser] = useState<UserPayload>(initialValues.user);
 
   const value = useMemo(() => ({ user, setUser }), [user]);
 

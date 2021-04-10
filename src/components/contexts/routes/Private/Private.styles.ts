@@ -19,6 +19,7 @@ export const Wrapper = styled.div<WrapperProps>`
     grid-template-columns: 1fr;
     width: 100%;
     transition: width 0.3s ease-in-out;
+    overflow: hidden;
 
     ${hasRelations && wrapperModifiers.hasRelations(theme)}
   `}

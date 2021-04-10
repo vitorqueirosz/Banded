@@ -1,7 +1,7 @@
 import { NavBar, Overlay } from 'components/structure';
 import { Relations } from 'components/contexts';
 import { USERS } from 'constants/endpoints';
-import { User } from 'contexts';
+import { User } from 'interfaces';
 import { useSettings } from 'contexts/Settings';
 import { useFetch } from 'hooks/useFetch';
 import { useState } from 'react';
@@ -9,7 +9,7 @@ import { Outlet } from 'react-router-dom';
 import * as S from './Private.styles';
 
 export type UserFetchProps = {
-  user: User
+  user: User;
 }
 
 export const PrivateRoutes = () => {

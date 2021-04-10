@@ -3,6 +3,7 @@ import media from 'styled-media-query';
 
 export const FormContainer = styled.form`
   ${({ theme }) => css`
+    padding: 0 ${theme.spacings['2xs']};
     width: 320px;
     height: 100%;
     margin: ${theme.spacings['2xlg']} 0;
@@ -65,5 +66,13 @@ export const WrapperToOutlet = styled.div`
     width: 100%;
     padding: ${theme.spacings.md};
     overflow: hidden;
+  `}
+`;
+
+export const Error = styled.span`
+  ${({ theme }) => css`
+    color: ${theme.colors.error};
+    font-size: ${theme.font.sizes.xsm};
+    margin-bottom: ${theme.spacings['2xs']};
   `}
 `;

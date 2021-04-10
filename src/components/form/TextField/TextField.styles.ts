@@ -13,10 +13,10 @@ const wrapperModifiers = {
     }
   `,
   normal: () => css`
-    height: 5.6rem;
+    min-height: 5.6rem;
   `,
   small: () => css`
-    height: 4.6rem;
+    min-height: 4.6rem;
     ${Label} {
       top: -16%;
     }
@@ -46,7 +46,6 @@ export const Wrapper = styled.div<WrapperProps>`
 export const InputWrapper = styled.div`
   ${({ theme }) => css`
     width: 100%;
-    height: 100%;
     background: ${theme.colors.dark.light};
     border-radius: ${theme.border.radius};
     position: relative;
@@ -98,12 +97,5 @@ export const Label = styled.label`
     top: -10%;
     margin-left: ${theme.spacings.xsm};
     transition: all 0.2s ease-in-out;
-  `}
-`;
-
-export const Error = styled.span`
-  ${({ theme }) => css`
-    color: ${theme.colors.error};
-    font-size: ${theme.font.sizes.xsm};
   `}
 `;

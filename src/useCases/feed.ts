@@ -1,5 +1,5 @@
 import { BANDS, USERS } from 'constants/endpoints';
-import { User } from 'contexts';
+import { User } from 'interfaces';
 import { useFetch } from 'hooks/useFetch';
 
 export type BandParams = {

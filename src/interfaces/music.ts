@@ -1,26 +1,23 @@
-import { User } from 'contexts';
+import { User } from 'interfaces';
 
 export type MusicProps = {
   music_name: string;
-  artist_name: string;
-  duration?: string;
-  album_name: string;
-  album_image: string;
+  duration: string;
 }
 
-type Music = {
+export type Music = {
   id: string;
   name: string;
   duration: string;
   genre: string;
 }
 
-type Album = {
+export type Album = {
   id: string,
-  name: string,
-  year: number,
-  genre:string;
-  musics: Music[],
+  album_image: string,
+  album_name: string,
+  year_release:string;
+  musics: MusicProps[];
 }
 
 export type BandResponse = {

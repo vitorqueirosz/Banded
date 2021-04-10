@@ -1,4 +1,4 @@
-import { User } from 'contexts';
+import { User } from 'interfaces';
 
 export const setUserSession = (accessToken: string, user: User) => {
   localStorage.setItem('@Banded:token', accessToken);

@@ -13,7 +13,7 @@ export const Button = ({ children, color = 'primary', isLoading }: ButtonProps) 
     color={color}
   >
     {isLoading ? (
-      <Spinner />
+      <Spinner color="secondary" />
     ) : (
       <>{children}</>
     )}

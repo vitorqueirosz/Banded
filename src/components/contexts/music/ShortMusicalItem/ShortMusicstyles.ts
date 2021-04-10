@@ -27,7 +27,7 @@ export const MusicName = styled.strong`
 
 export const CloseWrapp = styled.div`
   ${({ theme }) => css`
-    background: #888888;
+    background: ${theme.colors.dark.light};
     border-radius: 50%;
     padding: 0.2rem;
     display: flex;
@@ -36,5 +36,17 @@ export const CloseWrapp = styled.div`
     right: -${theme.spacings['2xs']};
     top: -${theme.spacings['2xs']};
     cursor: pointer;
+  `}
+`;
+
+export const FallbackImage = styled.div`
+  ${({ theme }) => css`
+    width: 6rem;
+    height: 6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: ${theme.colors.primary};
+    border-radius: ${theme.border.radius};
   `}
 `;

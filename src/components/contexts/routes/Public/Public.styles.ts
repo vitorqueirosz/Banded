@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import media from 'styled-media-query';
 import backgroundImage from 'assets/images/background.png';
 
@@ -31,14 +31,11 @@ export const BackgroundImage = styled.div`
 export const Logo = styled.img``;
 
 export const OutletWrapper = styled.div`
-  ${({ theme }) => css`
-    display: flex;
-    grid-area: outletWrapp;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: ${theme.spacings['2xlg']} 0;
-    transition: 0.2s ease-in-out;
-    transition-property: height;
-  `}
+  display: flex;
+  grid-area: outletWrapp;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s ease-in-out;
+  transition-property: height;
 `;

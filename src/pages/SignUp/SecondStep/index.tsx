@@ -1,19 +1,21 @@
-import { TextField, Checkbox } from 'components/form';
+import { TextField, Checkbox, SelectField } from 'components/form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button } from 'components/structure/Button';
 import { FiArrowLeft } from 'react-icons/fi';
 import { useForm } from 'react-hook-form';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ROUTES } from 'constants/routes';
-import { User, useSignUp } from 'contexts/SignUp';
-import { useState } from 'react';
+import { UserPayload, useSignUp } from 'contexts/SignUp';
+import { useCallback, useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { useCreateUser } from 'useCases/SignUp';
+import { Spinner } from 'components/structure/Spinner';
 import * as S from './SecondStep.styles';
 
 const schemaValidate = Yup.object().shape({
-  instrument: Yup.string().required('Nome obrigatorio'),
-  bandsName: Yup.string().required('Senha obrigatorio'),
+  instrument: Yup.string().required('Instrumento obrigatorio'),
+  bandsName: Yup.string().required('Banda obrigatoria'),
+  hasMusic: Yup.boolean(),
 });
 
 type MusicianPayload = {
@@ -21,40 +23,76 @@ type MusicianPayload = {
   instrument: string
 }
 
+const instruments = [
+  {
+    value: 'Microfone',
+    label: 'Microfone',
+  },
+  {
+    value: 'Guitarra',
+    label: 'Guitarra',
+  },
+  {
+    value: 'Bateria',
+    label: 'Bateria',
+  },
+  {
+    value: 'Teclado',
+    label: 'Teclado',
+  },
+  {
+    value: 'Violão',
+    label: 'Violão',
+  },
+  {
+    value: 'Baixo',
+    label: 'Baixo',
+  },
+];
+
 export const SecondStep = () => {
-  const { register, handleSubmit, errors } = useForm({
+  const { register, handleSubmit, errors, control } = useForm({
     resolver: yupResolver(schemaValidate),
   });
-  const [isChecked, setIsChecked] = useState(false);
+  const [isSubmitReady, setIsSubmitReady] = useState(false);
+  const [isReady, setIsReady] = useState(false);
   const handleCreateUser = useCreateUser();
   const { user, setUser } = useSignUp();
+  const navigate = useNavigate();
 
-  const onSubmit = (payload: User) => {
+  const onSubmit = (payload: UserPayload) => {
     handleCreateUser!({
       ...user,
       ...payload,
     });
   };
 
-  const handleAddUserMusic = (userMusician: MusicianPayload) => {
+  const handleAddUserMusic = useCallback((userMusician: MusicianPayload) => {
     setUser(prevState => ({ ...prevState, userMusician }));
-    setIsChecked(prevState => !prevState);
-  };
+    setIsReady(prevState => !prevState);
 
-  if (isChecked) {
-    return <Navigate to="/sign-up/third-step" />;
-  }
+    setTimeout(() => {
+      setIsReady(prevState => !prevState);
+      navigate('/sign-up/third-step');
+    }, 2000);
+  }, [setUser, navigate]);
+
+  useEffect(() => {
+    isSubmitReady && handleSubmit(handleAddUserMusic)();
+  }, [isSubmitReady, handleSubmit, handleAddUserMusic]);
+
   return (
     <S.Container>
       <S.Form onSubmit={handleSubmit(onSubmit)}>
         <S.Label>Dados musicais</S.Label>
-
-        <TextField
-          register={register}
+        <SelectField
+          control={control}
           name="instrument"
-          label="Instrumento"
-          placeholder="Instrumento"
+          options={instruments}
+          placeholder="Selecione um instrumento"
+          label="Selecione um instrumento"
           error={errors.instrument?.message}
+          inputSize
         />
         <TextField
           register={register}
@@ -67,9 +105,9 @@ export const SecondStep = () => {
           register={register}
           name="hasMusic"
           label="Tem músicas próprias?"
-          onClick={handleSubmit(handleAddUserMusic)}
+          onChange={() => setIsSubmitReady(prevState => !prevState)}
         />
-
+        {isReady && <Spinner size={24} />}
         <Button type="submit">FINALIZAR</Button>
       </S.Form>
 

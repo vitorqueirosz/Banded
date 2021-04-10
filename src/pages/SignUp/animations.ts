@@ -19,7 +19,7 @@ export const appearFromRight = keyframes`
 
 export const appearFromBottom = keyframes`
   0% {
-    transform: translateY(50%);
+    transform: translateY(25%);
     opacity: 0;
     visibility: hidden;
   }

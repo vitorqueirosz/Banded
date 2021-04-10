@@ -1,4 +1,4 @@
-import { User } from 'contexts';
+import { User } from 'interfaces';
 import { Avatar, Dropdown } from 'components/structure';
 import { FiMenu } from 'react-icons/fi';
 import { useMemo, useState } from 'react';
@@ -25,7 +25,10 @@ export const optionsNav = [
   },
 ];
 
-export const NavBar = ({ user, handleOverlay, hasRelations }: NavBarProps) => {
+export const NavBar = ({
+  user: { name, instrument, avatar } = {} as User,
+  handleOverlay,
+  hasRelations }: NavBarProps) => {
   const [selectedOption, setSelectedOption] = useState('Home');
   const [showDropdown, setShowDropdown] = useState(false);
   const currentRef = useChangeFocus(() => setShowDropdown(false));
@@ -68,12 +71,12 @@ export const NavBar = ({ user, handleOverlay, hasRelations }: NavBarProps) => {
       <S.UserContainer onClick={handleDropDown}>
         <Avatar
           size="small"
-          instrument={user?.userMusician?.instrument}
-          src={user?.avatar}
-          hasBackground={!user?.avatar}
+          instrument={instrument}
+          src={avatar}
+          hasBackground={!avatar}
         />
         <MediaMatch greaterThan="large">
-          <S.UserName>{user?.name}</S.UserName>
+          <S.UserName>{name}</S.UserName>
         </MediaMatch>
       </S.UserContainer>
 

@@ -1,4 +1,4 @@
-import { User } from 'contexts';
+import { User } from 'interfaces';
 import { FiX } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import theme from 'styles/theme';

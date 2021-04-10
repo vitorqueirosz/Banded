@@ -6,7 +6,8 @@ export const useChangeFocus = (cb: () => void) => {
 
   useEffect(() => {
     const handleChangeFocus = (event: globalThis.MouseEvent) => {
-      if (currentFocus.current && !currentFocus.current.contains(event.target)) {
+      if (currentFocus.current
+        && !currentFocus.current.contains(event.target)) {
         cb();
       }
     };

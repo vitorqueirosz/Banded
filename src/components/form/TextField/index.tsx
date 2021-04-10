@@ -1,3 +1,4 @@
+import { Error } from 'components/structure';
 import { InputHTMLAttributes } from 'react';
 import { UseFormMethods } from 'react-hook-form';
 import { FiSearch } from 'react-icons/fi';
@@ -34,6 +35,6 @@ export const TextField = ({
         />
         {!!label && <S.Label htmlFor={name}>{label}</S.Label>}
       </S.InputWrapper>
-      {!!error && <S.Error>{error}</S.Error>}
+      {!!error && <Error>{error}</Error>}
     </S.Wrapper>
 );

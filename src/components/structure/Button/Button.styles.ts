@@ -12,7 +12,7 @@ const buttonModifiers = {
 
 export const Button = styled.button<Pick<ButtonProps, 'color'>>`
   ${({ theme, color }) => css`
-    height: 56px;
+    min-height: 5.6rem;
     width: 100%;
     border-radius: ${theme.border.radius};
     border: none;

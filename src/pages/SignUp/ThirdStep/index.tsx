@@ -1,63 +1,122 @@
-import { TextField } from 'components/form';
+import { Checkbox, TextField } from 'components/form';
 import { Add, Button } from 'components/structure';
-import { ShortMusic } from 'components/contexts/music';
 import { FiArrowLeft } from 'react-icons/fi';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import { MusicProps } from 'interfaces/music';
+import { MusicProps, Album } from 'interfaces';
 import { ROUTES } from 'constants/routes';
 import { useCallback, useState } from 'react';
 import { useCreateUser } from 'useCases/SignUp';
 import { useSignUp } from 'contexts/SignUp';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
-
+import FileField from 'components/form/FileField';
+import { MusicList } from 'components/contexts';
+import { defaultValues, schemaValidate } from './validation';
 import * as S from './ThirdStep.styles';
 
-const schemaValidate = Yup.object().shape({
-  music_name: Yup.string().required('Nome obrigatorio'),
-  duration_ms: Yup.string().required('Email obrigatorio'),
-  album_name: Yup.string().required('Senha obrigatorio'),
-  album_image: Yup.string().required('Nome obrigatorio'),
-  artist_name: Yup.string().required('Nome obrigatorio'),
-});
+export type AlbumProps = {
+  previewImage?: string;
+} & Album;
+
+type AlbumPayload = {
+  images: {
+    previewImage?: string;
+    image: string;
+  };
+  music?: MusicProps;
+} & Omit<AlbumProps, 'musics'>;
 
 export const ThirdStep = () => {
-  const { register, handleSubmit, watch, reset, errors } = useForm({
+  const { register, handleSubmit, watch, reset, errors, control } = useForm({
     resolver: yupResolver(schemaValidate),
-    defaultValues: {
-      artist_name: '',
-      music_name: '',
-      duration_ms: '',
-      album_name: '',
-      album_image: '',
-    },
+    defaultValues,
   });
-  const musicName = watch('music_name');
+  const musicName = watch('music.music_name');
+  const albumName = watch('album_name');
 
   const [musics, setMusics] = useState<MusicProps[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [musicError, setMusicError] = useState('');
+  const [albumError, setAlbumError] = useState('');
+  const [albums, setAlbums] = useState<AlbumProps[]>([]);
+  const [currentAlbumImage, setCurrentAlbumImage] = useState('');
+
+  const [isLoading, setIsLoading] = useState(false);
   const handleCreateUser = useCreateUser();
   const { user } = useSignUp();
 
-  const handleAddMusic = useCallback((music: MusicProps) => {
-    if (musics.some(m => m.music_name === music.music_name)) {
-      setMusicError('Musica ja adicionada');
-    } else {
-      setMusics([...musics, music]);
-      setMusicError('');
-    }
+  const handleAlbumMusicsPayload = useCallback((userAlbum: AlbumPayload) => {
+    const currentMusic = userAlbum.music!;
+    const mergedMusics = [...musics, currentMusic];
 
-    reset();
+    const updatedUserAlbum = {
+      ...userAlbum, musics: musics.length ? mergedMusics : [currentMusic],
+    };
+
+    return updatedUserAlbum;
+  }, [musics]);
+
+  const handleAddAlbum = useCallback((album: AlbumPayload) => {
+    if (albums.some(a => a.album_name === album.album_name)) {
+      setAlbumError('Album ja adicionado');
+    } else {
+      const albumWithMusics = handleAlbumMusicsPayload(album);
+
+      const { id,
+        album_name,
+        year_release,
+        musics, images: { image, previewImage } } = albumWithMusics;
+
+      const updatedAlbum = {
+        id,
+        album_image: image,
+        album_name,
+        year_release,
+        previewImage,
+        musics,
+      };
+
+      setAlbums([...albums, updatedAlbum]);
+      setAlbumError('');
+      setCurrentAlbumImage('');
+      reset();
+    }
+  }, [albums, reset, handleAlbumMusicsPayload]);
+
+  const handleAddMusic = useCallback((music: MusicProps) => {
+    if (!musics.some(m => m.music_name === music.music_name)) {
+      reset({ music: defaultValues.music }, {
+        dirtyFields: true,
+        isDirty: true,
+      });
+      return setMusics([...musics, music]);
+    }
+    return setMusicError('Musica ja adicionada');
   }, [musics, reset]);
 
-  const handleRemoveMusic = (music_name: string) => {
+  const handleRemoveMusic = (music: MusicProps) => {
     setMusics(prevState =>
-      prevState.filter(music => music.music_name !== music_name));
+      prevState.filter(m => m !== music));
   };
 
-  const onSubmit = (userMusic: MusicProps) => {
+  const handleRemoveAlbum = (album: AlbumProps) => {
+    setAlbums(prevState =>
+      prevState.filter(a => a !== album));
+  };
+
+  const onSubmit = (userAlbum: AlbumPayload) => {
+    const albumWithMusics = handleAlbumMusicsPayload(userAlbum);
+
+    const { id,
+      album_name,
+      year_release,
+      musics, images: { image } } = albumWithMusics;
+
+    const updatedUserAlbum = { id,
+      album_image: image,
+      album_name,
+      year_release,
+      musics };
+
     setIsLoading(true);
     const { userMusician } = user;
 
@@ -65,7 +124,8 @@ export const ThirdStep = () => {
       userMusician: {
         bandsName: userMusician?.bandsName,
         instrument: userMusician?.instrument,
-        musics: [...musics, userMusic] },
+        albums: [...albums, updatedUserAlbum],
+      },
     });
   };
 
@@ -76,68 +136,92 @@ export const ThirdStep = () => {
     handleCreateUser!({ ...user,
       userMusician: { bandsName: userMusician?.bandsName,
         instrument: userMusician?.instrument,
-        musics },
+        albums,
+      },
     });
   };
+
+  const handlePreviewImage = useCallback((image: string) =>
+    setCurrentAlbumImage(image), []);
 
   return (
     <S.Container>
       <S.Form
-        onSubmit={!musicName && musics.length ? onSubmitByMusicsList : handleSubmit(onSubmit)}
+        onSubmit={!albumName && albums.length ? onSubmitByMusicsList : handleSubmit(onSubmit)}
       >
         <S.Header>
-          <S.Label>Músicas</S.Label>
-          {!!musicName && <Add title="Adicionar música" handleAdd={handleSubmit(handleAddMusic)} />}
+          <S.Label>Álbuns</S.Label>
+          {!!albumName && (
+            <Add
+              title="Adicionar álbum"
+              handleAdd={handleSubmit(handleAddAlbum)}
+            />
+          )}
         </S.Header>
 
-        {!!musics.length && (
-        <S.MusicList>
-          <S.MusicWrap>
-            {musics.map(music => (
-              <ShortMusic
-                {...music}
-                handleRemoveMusic={() => handleRemoveMusic(music.music_name)}
-              />
-            ))}
-          </S.MusicWrap>
-          {!!musicError && <S.Error>{musicError}</S.Error>}
-        </S.MusicList>
+        {!!albums.length && (
+        <MusicList
+          items={albums}
+          handleRemoveItem={handleRemoveAlbum}
+          error={albumError}
+        />
         )}
-
-        <TextField
-          register={register}
-          name="music_name"
-          label="Nome da música"
-          placeholder="Nome da música"
-          error={errors.music_name?.message}
-        />
-        <TextField
-          register={register}
-          name="duration_ms"
-          label="Duração"
-          placeholder="Duração"
-          error={errors.duration_ms?.message}
-        />
-        <TextField
-          register={register}
-          name="artist_name"
-          label="Nome do Artista"
-          placeholder="Nome do Artista"
-          error={errors.artist_name?.message}
-        />
         <TextField
           register={register}
           name="album_name"
-          label="Nome do Álbum"
-          placeholder="Nome do Álbum"
+          label="Nome do album"
+          placeholder="Nome do álbum "
           error={errors.album_name?.message}
         />
         <TextField
           register={register}
-          name="album_image"
-          label="Imagem do Álbum"
-          placeholder="Imagem do Álbum"
-          error={errors.album_image?.message}
+          name="year_release"
+          label="Ano de lançamento"
+          placeholder="Ano de lançamento"
+          error={errors.year_release?.message}
+        />
+        <S.Divisor hasImage={!!currentAlbumImage}>
+          <S.AlbumImage src={currentAlbumImage} alt="AlbumImage" />
+          <FileField
+            control={control}
+            name="images"
+            handlePreviewImage={handlePreviewImage}
+          />
+        </S.Divisor>
+        <S.Header>
+          <S.Label>Músicas</S.Label>
+          {!!musicName && (
+            <Add
+              title="Adicionar música"
+              handleAdd={handleSubmit(handleAddMusic)}
+            />
+          )}
+        </S.Header>
+        {!!musics.length && (
+        <MusicList
+          items={musics}
+          handleRemoveItem={handleRemoveMusic}
+          error={musicError}
+        />
+        )}
+        <TextField
+          register={register}
+          name="music.music_name"
+          label="Nome da música"
+          placeholder="Nome da música"
+          error={errors.music?.music_name?.message}
+        />
+        <TextField
+          register={register}
+          name="music.duration_ms"
+          label="Duração da música"
+          placeholder="Duração da música"
+          error={errors.music?.duration_ms?.message}
+        />
+        <Checkbox
+          register={register}
+          name="hasMusic"
+          label="Tem músicas independentes?"
         />
 
         <Button isLoading={isLoading} type="submit">FINALIZAR</Button>

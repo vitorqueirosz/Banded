@@ -5,7 +5,7 @@ import { FiArrowLeft } from 'react-icons/fi';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { ROUTES } from 'constants/routes';
-import { User, useSignUp } from 'contexts/SignUp';
+import { UserPayload, useSignUp } from 'contexts/SignUp';
 import * as Yup from 'yup';
 import * as S from './FirstStep.styles';
 
@@ -17,13 +17,13 @@ const schemaValidation = Yup.object().shape({
 });
 
 export const FirstStep = () => {
-  const { register, handleSubmit, errors } = useForm<User>({
+  const { register, handleSubmit, errors } = useForm<UserPayload>({
     resolver: yupResolver(schemaValidation),
   });
   const { setUser } = useSignUp();
   const navigate = useNavigate();
 
-  const onSubmit = ({ name, email, password, city }: User) => {
+  const onSubmit = ({ name, email, password, city }: UserPayload) => {
     setUser({
       name,
       email,

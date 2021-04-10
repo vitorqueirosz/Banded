@@ -1,5 +1,5 @@
 import { USERS } from 'constants/endpoints';
-import { User } from 'contexts/SignUp';
+import { UserPayload } from 'contexts/SignUp';
 import { useCache } from 'hooks/useCache';
 import { useNavigate } from 'react-router-dom';
 import { api } from 'services/api';
@@ -10,7 +10,7 @@ export const useCreateUser = () => {
   const mutate = useCache(USERS.BASE);
 
   try {
-    return async (params: User) => {
+    return async (params: UserPayload) => {
       const { data: { user, token } } = await api.post(USERS.BASE, params);
 
       if (token) {

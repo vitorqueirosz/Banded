@@ -12,6 +12,7 @@ export const ROUTES = {
     firstStep: 'sign-up',
     secondStep: 'second-step',
     thirdStep: 'third-step',
+    fourthStep: 'fourth-step',
   },
   profile: 'profile',
   search: 'search',
