@@ -5,7 +5,7 @@ import media from 'styled-media-query';
 type WrapperProps = Pick<RelationsProps, 'hasRelations'>;
 
 const wrapperModifiers = {
-  hasRelations: (theme: DefaultTheme) => css`
+  hide: (theme: DefaultTheme) => css`
     transform: translateX(${theme.elements.relations});
 
     ${Switch} {
@@ -31,7 +31,7 @@ export const Wrapper = styled.div<WrapperProps>`
       width: 100%;
     `}
 
-    ${!hasRelations && wrapperModifiers.hasRelations(theme)}
+    ${!hasRelations && wrapperModifiers.hide(theme)}
   `}
 `;
 

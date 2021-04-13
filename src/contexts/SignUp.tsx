@@ -52,4 +52,4 @@ export const SignUpProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export const useSignUp = () => useContext(SignUpContext);
+export const useSignUpContext = () => useContext(SignUpContext);

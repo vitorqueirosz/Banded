@@ -5,7 +5,7 @@ import { FiArrowLeft } from 'react-icons/fi';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { ROUTES } from 'constants/routes';
-import { UserPayload, useSignUp } from 'contexts/SignUp';
+import { UserPayload, useSignUpContext } from 'contexts/SignUp';
 import { useCallback, useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { useCreateUser } from 'useCases/SignUp';
@@ -57,7 +57,7 @@ export const SecondStep = () => {
   const [isSubmitReady, setIsSubmitReady] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const handleCreateUser = useCreateUser();
-  const { user, setUser } = useSignUp();
+  const { user, setUser } = useSignUpContext();
   const navigate = useNavigate();
 
   const onSubmit = (payload: UserPayload) => {

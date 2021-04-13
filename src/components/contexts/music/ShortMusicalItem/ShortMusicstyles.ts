@@ -22,6 +22,8 @@ export const MusicName = styled.strong`
   ${({ theme }) => css`
     color: ${theme.colors.light.lighter};
     margin-top: ${theme.spacings['2xs']};
+    text-align: center;
+    font-size: ${theme.font.sizes.sm};
   `}
 `;
 

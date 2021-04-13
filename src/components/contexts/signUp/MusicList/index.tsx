@@ -12,11 +12,12 @@ type MusicListProps = {
 export const MusicList = ({ items, error, handleRemoveItem }: MusicListProps) => (
   <S.Wrapper>
     <S.MusicWrap>
-      {items.map((item: any, index) => (
+      {items.map(({ album_name, music_name, previewImage }: any, index) => (
         <ShortMusicalItem
-          {...item}
+          name={album_name ?? music_name}
+          previewImage={previewImage}
           key={`musicalItem-${index}`}
-          handleRemoveItem={() => handleRemoveItem(item)}
+          handleRemoveItem={() => handleRemoveItem(items[index])}
         />
       ))}
     </S.MusicWrap>

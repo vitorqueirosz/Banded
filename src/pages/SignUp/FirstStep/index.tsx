@@ -5,22 +5,16 @@ import { FiArrowLeft } from 'react-icons/fi';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { ROUTES } from 'constants/routes';
-import { UserPayload, useSignUp } from 'contexts/SignUp';
-import * as Yup from 'yup';
+import { UserPayload, useSignUpContext } from 'contexts/SignUp';
+import { defaultValues, schemaValidation } from './FirstStep.validation';
 import * as S from './FirstStep.styles';
-
-const schemaValidation = Yup.object().shape({
-  name: Yup.string().required('Nome obrigatorio'),
-  email: Yup.string().required('Email obrigatorio').email('Digite um e-mail valido'),
-  password: Yup.string().required('Senha obrigatorio'),
-  city: Yup.string().required('Cidade obrigatoria'),
-});
 
 export const FirstStep = () => {
   const { register, handleSubmit, errors } = useForm<UserPayload>({
     resolver: yupResolver(schemaValidation),
+    defaultValues,
   });
-  const { setUser } = useSignUp();
+  const { setUser } = useSignUpContext();
   const navigate = useNavigate();
 
   const onSubmit = ({ name, email, password, city }: UserPayload) => {

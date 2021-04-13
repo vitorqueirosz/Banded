@@ -1,7 +1,9 @@
 import styled, { css, DefaultTheme } from 'styled-components';
 import { InputProps } from 'components/form';
 
-type WrapperProps = Pick<InputProps, 'color' | 'isSearch' | 'inputSize'>;
+type WrapperProps = Pick<InputProps, 'color' | 'isSearch' | 'inputSize'> & {
+  hasError: boolean;
+};
 
 const wrapperModifiers = {
   color: (theme: DefaultTheme) => css`
@@ -29,17 +31,22 @@ const wrapperModifiers = {
       padding-left: ${theme.spacings.sm};
     }
   `,
+  hasError: () => css`
+    min-height: 6.8rem;
+  `,
 };
 
 export const Wrapper = styled.div<WrapperProps>`
-  ${({ theme, color, isSearch, inputSize }) => css`
+  ${({ theme, color, isSearch, inputSize, hasError }) => css`
     width: 100%;
     margin-bottom: ${theme.spacings['2xs']};
     border-radius: ${theme.border.radius};
+    height: 100%;
 
     ${isSearch && wrapperModifiers.isSearch(theme)}
     ${color === 'secondary' && wrapperModifiers.color(theme)}
     ${inputSize && wrapperModifiers[inputSize]}
+    ${hasError && wrapperModifiers.hasError()}
   `}
 `;
 
@@ -68,7 +75,7 @@ export const Input = styled.input`
     height: 100%;
     outline: none;
     border-radius: ${theme.border.radius};
-    border: 1px solid transparent;
+    border: 1px solid #555;
     transition: all 0.2s ease-in-out;
     color: ${theme.colors.light.lighter};
     font-size: ${theme.font.sizes.md};

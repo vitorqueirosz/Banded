@@ -2,7 +2,7 @@ import { User } from 'interfaces';
 
 export type MusicProps = {
   music_name: string;
-  duration: string;
+  duration_ms: string;
 }
 
 export type Music = {
@@ -14,7 +14,7 @@ export type Music = {
 
 export type Album = {
   id: string,
-  album_image: string,
+  album_image?: string,
   album_name: string,
   year_release:string;
   musics: MusicProps[];

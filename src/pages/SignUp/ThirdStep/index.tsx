@@ -1,17 +1,17 @@
+import { useCallback, useState } from 'react';
 import { Checkbox, TextField } from 'components/form';
-import { Add, Button } from 'components/structure';
+import { Add, Button, Spinner } from 'components/structure';
 import { FiArrowLeft } from 'react-icons/fi';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { MusicProps, Album } from 'interfaces';
 import { ROUTES } from 'constants/routes';
-import { useCallback, useState } from 'react';
 import { useCreateUser } from 'useCases/SignUp';
-import { useSignUp } from 'contexts/SignUp';
+import { useSignUpContext } from 'contexts/SignUp';
 import { yupResolver } from '@hookform/resolvers/yup';
 import FileField from 'components/form/FileField';
 import { MusicList } from 'components/contexts';
-import { defaultValues, schemaValidate } from './validation';
+import { defaultValues, schemaValidate } from './ThirdStep.validation';
 import * as S from './ThirdStep.styles';
 
 export type AlbumProps = {
@@ -19,7 +19,7 @@ export type AlbumProps = {
 } & Album;
 
 type AlbumPayload = {
-  images: {
+  images?: {
     previewImage?: string;
     image: string;
   };
@@ -27,29 +27,34 @@ type AlbumPayload = {
 } & Omit<AlbumProps, 'musics'>;
 
 export const ThirdStep = () => {
-  const { register, handleSubmit, watch, reset, errors, control } = useForm({
+  const { register, handleSubmit, watch, reset, errors, control, getValues } = useForm({
     resolver: yupResolver(schemaValidate),
     defaultValues,
   });
-  const musicName = watch('music.music_name');
-  const albumName = watch('album_name');
+
+  const { user, setUser } = useSignUpContext();
 
   const [musics, setMusics] = useState<MusicProps[]>([]);
   const [musicError, setMusicError] = useState('');
   const [albumError, setAlbumError] = useState('');
   const [albums, setAlbums] = useState<AlbumProps[]>([]);
   const [currentAlbumImage, setCurrentAlbumImage] = useState('');
-
   const [isLoading, setIsLoading] = useState(false);
+  const [isReady, setIsReady] = useState(false);
+
+  const musicName = watch('music.music_name');
+  const albumName = watch('album_name');
+
   const handleCreateUser = useCreateUser();
-  const { user } = useSignUp();
+  const navigate = useNavigate();
 
   const handleAlbumMusicsPayload = useCallback((userAlbum: AlbumPayload) => {
     const currentMusic = userAlbum.music!;
     const mergedMusics = [...musics, currentMusic];
 
     const updatedUserAlbum = {
-      ...userAlbum, musics: musics.length ? mergedMusics : [currentMusic],
+      ...userAlbum,
+      musics: currentMusic.music_name && musics.length ? mergedMusics : [currentMusic],
     };
 
     return updatedUserAlbum;
@@ -64,7 +69,7 @@ export const ThirdStep = () => {
       const { id,
         album_name,
         year_release,
-        musics, images: { image, previewImage } } = albumWithMusics;
+        musics, images: { image, previewImage } = {} } = albumWithMusics;
 
       const updatedAlbum = {
         id,
@@ -78,20 +83,21 @@ export const ThirdStep = () => {
       setAlbums([...albums, updatedAlbum]);
       setAlbumError('');
       setCurrentAlbumImage('');
-      reset();
+      setMusics([]);
+      setCurrentAlbumImage('');
+      reset({ ...defaultValues });
     }
   }, [albums, reset, handleAlbumMusicsPayload]);
 
   const handleAddMusic = useCallback((music: MusicProps) => {
     if (!musics.some(m => m.music_name === music.music_name)) {
-      reset({ music: defaultValues.music }, {
-        dirtyFields: true,
-        isDirty: true,
-      });
+      reset({ ...getValues(), music: defaultValues.music });
+      setMusicError('');
       return setMusics([...musics, music]);
     }
+
     return setMusicError('Musica ja adicionada');
-  }, [musics, reset]);
+  }, [musics, reset, getValues]);
 
   const handleRemoveMusic = (music: MusicProps) => {
     setMusics(prevState =>
@@ -103,13 +109,18 @@ export const ThirdStep = () => {
       prevState.filter(a => a !== album));
   };
 
-  const onSubmit = (userAlbum: AlbumPayload) => {
+  const setTimeOutAndNavigate = useCallback(() => setTimeout(() => {
+    setIsReady(false);
+    navigate('/sign-up/fourth-step');
+  }, 2000), [navigate]);
+
+  const onSubmit = useCallback((userAlbum: AlbumPayload) => {
     const albumWithMusics = handleAlbumMusicsPayload(userAlbum);
 
     const { id,
       album_name,
       year_release,
-      musics, images: { image } } = albumWithMusics;
+      musics, images: { image } = {} } = albumWithMusics;
 
     const updatedUserAlbum = { id,
       album_image: image,
@@ -118,24 +129,44 @@ export const ThirdStep = () => {
       musics };
 
     setIsLoading(true);
-    const { userMusician } = user;
+      handleCreateUser!({ ...user,
+        userMusician: {
+          ...user.userMusician,
+          albums: [...albums, updatedUserAlbum],
+        },
+      });
+  }, [albums, handleCreateUser, handleAlbumMusicsPayload, user]);
 
-    handleCreateUser!({ ...user,
+  const handleUserPayload = useCallback((userAlbum: Album) => {
+    setIsReady(true);
+    const albumWithMusics = handleAlbumMusicsPayload(userAlbum);
+
+    const { id,
+      album_name,
+      year_release,
+      musics,
+      images: { image } = {} } = albumWithMusics;
+
+    const updatedUserAlbum = { id,
+      album_image: image,
+      album_name,
+      year_release,
+      musics };
+
+    setUser(prevState => ({
+      ...prevState,
       userMusician: {
-        bandsName: userMusician?.bandsName,
-        instrument: userMusician?.instrument,
+        ...user.userMusician,
         albums: [...albums, updatedUserAlbum],
       },
-    });
-  };
+    }));
+    setTimeOutAndNavigate();
+  }, [albums, setUser, user.userMusician, setTimeOutAndNavigate, handleAlbumMusicsPayload]);
 
   const onSubmitByMusicsList = () => {
     setIsLoading(true);
-    const { userMusician } = user;
-
     handleCreateUser!({ ...user,
-      userMusician: { bandsName: userMusician?.bandsName,
-        instrument: userMusician?.instrument,
+      userMusician: { ...user.userMusician,
         albums,
       },
     });
@@ -143,6 +174,31 @@ export const ThirdStep = () => {
 
   const handlePreviewImage = useCallback((image: string) =>
     setCurrentAlbumImage(image), []);
+
+  const handleUserWithoutPayload = useCallback(() => {
+    setIsReady(true);
+    setUser(prevState => ({ ...prevState,
+      userMusician: {
+        bandsName: user.userMusician?.bandsName,
+        instrument: user.userMusician?.instrument,
+        albums,
+      },
+    }));
+    setTimeOutAndNavigate();
+  }, [
+    albums,
+    setUser,
+    user.userMusician?.bandsName,
+    user.userMusician?.instrument,
+    setTimeOutAndNavigate,
+  ]);
+
+  const handleCheckState = () => {
+    if (albumName) {
+      return handleSubmit(handleUserPayload)();
+    }
+    return handleUserWithoutPayload();
+  };
 
   return (
     <S.Container>
@@ -189,11 +245,11 @@ export const ThirdStep = () => {
           />
         </S.Divisor>
         <S.Header>
-          <S.Label>Músicas</S.Label>
+          <S.Label>Músicas do álbum</S.Label>
           {!!musicName && (
             <Add
               title="Adicionar música"
-              handleAdd={handleSubmit(handleAddMusic)}
+              handleAdd={handleSubmit(({ music }) => handleAddMusic(music))}
             />
           )}
         </S.Header>
@@ -222,8 +278,10 @@ export const ThirdStep = () => {
           register={register}
           name="hasMusic"
           label="Tem músicas independentes?"
+          onChange={handleCheckState}
         />
 
+        {isReady && <Spinner size={24} />}
         <Button isLoading={isLoading} type="submit">FINALIZAR</Button>
       </S.Form>
 

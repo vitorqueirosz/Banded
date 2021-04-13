@@ -23,7 +23,12 @@ export const TextField = ({
   color = 'primary',
   inputSize = 'normal',
   ...rest }: InputProps) => (
-    <S.Wrapper isSearch={isSearch} color={color} inputSize={inputSize}>
+    <S.Wrapper
+      hasError={!!error}
+      isSearch={isSearch}
+      color={color}
+      inputSize={inputSize}
+    >
       <S.InputWrapper>
         {isSearch && <FiSearch size={20} color="#555" />}
         <S.Input

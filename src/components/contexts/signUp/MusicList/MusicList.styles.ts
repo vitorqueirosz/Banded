@@ -4,8 +4,7 @@ import styled, { css } from 'styled-components';
 
 export const Wrapper = styled.div`
   ${({ theme }) => css`
-    padding: ${theme.spacings.xsm} 0;
-    margin-bottom: ${theme.spacings.xsm};
+    padding: ${theme.spacings.sm} 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -14,6 +13,8 @@ export const Wrapper = styled.div`
     width: 100%;
     overflow: hidden;
     overflow-x: auto;
+    min-height: 14rem;
+    height: 100%;
 
     ${Scroll}
   `}
