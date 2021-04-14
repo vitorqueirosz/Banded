@@ -4,7 +4,7 @@ import { Add, Button, Spinner } from 'components/structure';
 import { FiArrowLeft } from 'react-icons/fi';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import { MusicProps, Album } from 'interfaces';
+import { MusicProps, AlbumPayload } from 'interfaces';
 import { ROUTES } from 'constants/routes';
 import { useCreateUser } from 'useCases/SignUp';
 import { useSignUpContext } from 'contexts/SignUp';
@@ -16,12 +16,13 @@ import * as S from './ThirdStep.styles';
 
 export type AlbumProps = {
   previewImage?: string;
-} & Album;
+  checkImage?: string;
+} & AlbumPayload;
 
-type AlbumPayload = {
+type Album = {
   images?: {
     previewImage?: string;
-    image: string;
+    image: File;
   };
   music?: MusicProps;
 } & Omit<AlbumProps, 'musics'>;
@@ -33,7 +34,6 @@ export const ThirdStep = () => {
   });
 
   const { user, setUser } = useSignUpContext();
-
   const [musics, setMusics] = useState<MusicProps[]>([]);
   const [musicError, setMusicError] = useState('');
   const [albumError, setAlbumError] = useState('');
@@ -48,19 +48,19 @@ export const ThirdStep = () => {
   const handleCreateUser = useCreateUser();
   const navigate = useNavigate();
 
-  const handleAlbumMusicsPayload = useCallback((userAlbum: AlbumPayload) => {
-    const currentMusic = userAlbum.music!;
-    const mergedMusics = [...musics, currentMusic];
+  const handleAlbumMusicsPayload = useCallback((userAlbum: Album) => {
+    const { music } = userAlbum;
+    const mergedMusics = music?.music_name ? [...musics, music] : musics;
 
     const updatedUserAlbum = {
       ...userAlbum,
-      musics: currentMusic.music_name && musics.length ? mergedMusics : [currentMusic],
+      musics: musics.length ? mergedMusics : music?.music_name ? [music] : [],
     };
 
     return updatedUserAlbum;
   }, [musics]);
 
-  const handleAddAlbum = useCallback((album: AlbumPayload) => {
+  const handleAddAlbum = useCallback((album: Album) => {
     if (albums.some(a => a.album_name === album.album_name)) {
       setAlbumError('Album ja adicionado');
     } else {
@@ -73,7 +73,8 @@ export const ThirdStep = () => {
 
       const updatedAlbum = {
         id,
-        album_image: image,
+        album_image: image!,
+        checkImage: image?.name,
         album_name,
         year_release,
         previewImage,
@@ -84,7 +85,6 @@ export const ThirdStep = () => {
       setAlbumError('');
       setCurrentAlbumImage('');
       setMusics([]);
-      setCurrentAlbumImage('');
       reset({ ...defaultValues });
     }
   }, [albums, reset, handleAlbumMusicsPayload]);
@@ -114,7 +114,7 @@ export const ThirdStep = () => {
     navigate('/sign-up/fourth-step');
   }, 2000), [navigate]);
 
-  const onSubmit = useCallback((userAlbum: AlbumPayload) => {
+  const onSubmit = useCallback((userAlbum: Album) => {
     const albumWithMusics = handleAlbumMusicsPayload(userAlbum);
 
     const { id,
@@ -123,19 +123,20 @@ export const ThirdStep = () => {
       musics, images: { image } = {} } = albumWithMusics;
 
     const updatedUserAlbum = { id,
-      album_image: image,
+      album_image: image!,
+      checkImage: image?.name,
       album_name,
       year_release,
       musics };
 
     setIsLoading(true);
-      handleCreateUser!({ ...user,
-        userMusician: {
-          ...user.userMusician,
-          albums: [...albums, updatedUserAlbum],
-        },
-      });
-  }, [albums, handleCreateUser, handleAlbumMusicsPayload, user]);
+    handleCreateUser!({ ...user,
+      userMusician: {
+        ...user.userMusician,
+        albums: [...albums, updatedUserAlbum],
+      },
+    });
+  }, [albums, handleCreateUser, user, handleAlbumMusicsPayload]);
 
   const handleUserPayload = useCallback((userAlbum: Album) => {
     setIsReady(true);
@@ -148,7 +149,8 @@ export const ThirdStep = () => {
       images: { image } = {} } = albumWithMusics;
 
     const updatedUserAlbum = { id,
-      album_image: image,
+      album_image: image!,
+      checkImage: image?.name,
       album_name,
       year_release,
       musics };
@@ -163,14 +165,18 @@ export const ThirdStep = () => {
     setTimeOutAndNavigate();
   }, [albums, setUser, user.userMusician, setTimeOutAndNavigate, handleAlbumMusicsPayload]);
 
-  const onSubmitByMusicsList = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onSubmitByMusicsList = useCallback((e: any) => {
+    e.preventDefault();
     setIsLoading(true);
+
     handleCreateUser!({ ...user,
-      userMusician: { ...user.userMusician,
+      userMusician: {
+        ...user.userMusician,
         albums,
       },
     });
-  };
+  }, [albums, handleCreateUser, user]);
 
   const handlePreviewImage = useCallback((image: string) =>
     setCurrentAlbumImage(image), []);
@@ -203,7 +209,8 @@ export const ThirdStep = () => {
   return (
     <S.Container>
       <S.Form
-        onSubmit={!albumName && albums.length ? onSubmitByMusicsList : handleSubmit(onSubmit)}
+        onSubmit={!albumName && albums.length || user.userMusician?.albums?.length
+          ? onSubmitByMusicsList : handleSubmit(onSubmit)}
       >
         <S.Header>
           <S.Label>Álbuns</S.Label>

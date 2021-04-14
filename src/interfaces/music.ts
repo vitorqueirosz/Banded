@@ -12,6 +12,10 @@ export type Music = {
   genre: string;
 }
 
+export type AlbumPayload = {
+  album_image: File;
+} & Omit<Album, 'album_image'>;
+
 export type Album = {
   id: string,
   album_image?: string,

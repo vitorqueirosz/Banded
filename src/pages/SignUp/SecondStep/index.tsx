@@ -7,16 +7,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ROUTES } from 'constants/routes';
 import { UserPayload, useSignUpContext } from 'contexts/SignUp';
 import { useCallback, useEffect, useState } from 'react';
-import * as Yup from 'yup';
 import { useCreateUser } from 'useCases/SignUp';
 import { Spinner } from 'components/structure/Spinner';
+import { defaultValues, schemaValidate } from './SeconStep.validation';
 import * as S from './SecondStep.styles';
-
-const schemaValidate = Yup.object().shape({
-  instrument: Yup.string().required('Instrumento obrigatorio'),
-  bandsName: Yup.string().required('Banda obrigatoria'),
-  hasMusic: Yup.boolean(),
-});
 
 type MusicianPayload = {
   bandsName: string
@@ -53,6 +47,7 @@ const instruments = [
 export const SecondStep = () => {
   const { register, handleSubmit, errors, control } = useForm({
     resolver: yupResolver(schemaValidate),
+    defaultValues,
   });
   const [isSubmitReady, setIsSubmitReady] = useState(false);
   const [isReady, setIsReady] = useState(false);

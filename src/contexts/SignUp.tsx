@@ -1,4 +1,4 @@
-import { MusicProps, Album } from 'interfaces/music';
+import { MusicProps, AlbumPayload } from 'interfaces/music';
 import {
   createContext,
   SetStateAction,
@@ -8,16 +8,16 @@ import {
 } from 'react';
 
 export type UserPayload = {
-  name?: string;
+  name: string;
   avatar?: string;
-  email?: string;
-  password?: string;
+  email: string;
+  password: string;
   city: string;
   userMusician?: {
     bandsName?: string;
     instrument?: string;
     musics?: MusicProps[];
-    albums?: Album[];
+    albums?: AlbumPayload[];
   }
 };
 

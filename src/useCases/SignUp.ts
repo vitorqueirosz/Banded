@@ -11,8 +11,23 @@ export const useCreateUser = () => {
 
   try {
     return async (params: UserPayload) => {
-      const { data: { user, token } } = await api.post(USERS.BASE, params);
+      const formData = new FormData();
 
+      Object.entries(params).forEach(([key, value]) => {
+        if (key !== 'userMusician') {
+          formData.append(key, String(value));
+        }
+
+        if (key === 'userMusician') {
+          formData.append(key, JSON.stringify(value));
+        }
+      });
+
+      params.userMusician?.albums?.forEach(({ album_image }) => {
+        formData.append('album_image', album_image);
+      });
+
+      const { data: { user, token } } = await api.post(USERS.BASE, formData);
       if (token) {
         setUserSession(token, user);
         navigate('/home');

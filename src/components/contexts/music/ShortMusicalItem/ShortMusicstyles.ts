@@ -24,6 +24,11 @@ export const MusicName = styled.strong`
     margin-top: ${theme.spacings['2xs']};
     text-align: center;
     font-size: ${theme.font.sizes.sm};
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+   -webkit-line-clamp: 2;
+   -webkit-box-orient: vertical;
   `}
 `;
 
