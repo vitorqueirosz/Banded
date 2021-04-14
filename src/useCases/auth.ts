@@ -1,9 +1,9 @@
 import { USERS, AUTH } from 'constants/endpoints';
 import { useToast } from 'contexts';
 import { useCache } from 'hooks/useCache';
+import { useRequest } from 'hooks/useRequest';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { api } from 'services/api';
 import { setUnathorizedUser, setUserSession } from 'utils/session';
 
 type AuthParams = {
@@ -13,6 +13,7 @@ type AuthParams = {
 
 export const useAuth = () => {
   const navigate = useNavigate();
+  const api = useRequest();
   const { setToast } = useToast();
   const [isFetching, setIsFetching] = useState(false);
   const mutate = useCache(USERS.BASE);

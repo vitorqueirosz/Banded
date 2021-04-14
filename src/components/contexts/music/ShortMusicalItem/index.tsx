@@ -14,7 +14,7 @@ export const ShortMusicalItem = ({
 }: ShortMusicProps) => (
   <S.Wrapper>
     {previewImage ? (
-      <img src={previewImage} alt={name} />
+      <img src={previewImage} alt={name} loading="lazy" />
     ) : (
       <S.FallbackImage>
         <FiMusic size={16} color="#fff" />

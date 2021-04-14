@@ -1,12 +1,13 @@
 import { USERS } from 'constants/endpoints';
 import { UserPayload } from 'contexts/SignUp';
 import { useCache } from 'hooks/useCache';
+import { useRequest } from 'hooks/useRequest';
 import { useNavigate } from 'react-router-dom';
-import { api } from 'services/api';
 import { setUserSession } from 'utils/session';
 
 export const useCreateUser = () => {
   const navigate = useNavigate();
+  const api = useRequest();
   const mutate = useCache(USERS.BASE);
 
   try {

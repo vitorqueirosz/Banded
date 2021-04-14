@@ -8,7 +8,7 @@ export const PublicRoutes = () => (
     <S.Wrapper>
       <S.BackgroundImage />
       <S.OutletWrapper>
-        <S.Logo src={logoImg} alt="logo-banded" />
+        <S.Logo src={logoImg} alt="logo-banded" loading="lazy" />
         <Outlet />
       </S.OutletWrapper>
     </S.Wrapper>
