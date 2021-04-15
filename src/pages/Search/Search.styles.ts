@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 import { Wrapper } from 'components/form/TextField/TextField.styles';
 import { WrapperList, WrapperToOutlet } from 'components/structure';
+import media from 'styled-media-query';
 
 export const Container = styled(WrapperToOutlet)`
  ${({ theme }) => css`
@@ -18,7 +19,12 @@ export const Container = styled(WrapperToOutlet)`
 export const SearchContainer = styled.div`
   ${({ theme }) => css`
     width: 400px;
-    margin-bottom: ${theme.spacings.md};
+    margin-bottom: calc(${theme.spacings.xsm} - 0.2rem);
+
+
+    ${media.lessThan('medium')`
+      width: auto;
+    `}
   `}
 `;
 

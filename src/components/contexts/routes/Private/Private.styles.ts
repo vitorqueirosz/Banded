@@ -1,4 +1,5 @@
 import styled, { css, DefaultTheme } from 'styled-components';
+import media from 'styled-media-query';
 
 type WrapperProps = {
   hasRelations: boolean;
@@ -7,6 +8,10 @@ type WrapperProps = {
 const wrapperModifiers = {
   hasRelations: (theme: DefaultTheme) => css`
     width: calc(100% - ${theme.elements.relations});
+
+    ${media.lessThan('large')`
+      width: 100%;
+    `}
   `,
 };
 

@@ -1,19 +1,13 @@
 import { WrapperToOutlet } from 'components/structure';
 import { MusicTabs } from 'constants/enums';
 import styled, { css, DefaultTheme } from 'styled-components';
-import media from 'styled-media-query';
 
 export const Wrapper = styled(WrapperToOutlet)`
-  ${({ theme }) => css`
-    ${media.lessThan('large')`
-      padding: ${theme.spacings.xsm};
-    `}
-  `}
 `;
 
 export const OptionsContainer = styled.div`
   ${({ theme }) => css`
-    margin: ${theme.spacings.sm} 0;
+    margin-bottom: ${theme.spacings.sm};
     display: flex;
     align-items: center;
     width: 100%;

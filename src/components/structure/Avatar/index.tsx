@@ -1,4 +1,5 @@
 import { IcDrum, IcSinger, IcGuitar, IcKeyboard, IcAcoustic } from 'assets/icons';
+import { memo } from 'react';
 import * as S from './Avatar.styles';
 
 export type AvatarProps = {
@@ -12,20 +13,21 @@ type Icon = {
   [key: string]: JSX.Element;
 }
 
-export const Avatar = ({ src, size = 'medium', instrument, hasBackground }: AvatarProps) => {
-  const icons = {
-    Cantor: <IcSinger />,
-    Guitarra: <IcGuitar />,
-    Bateria: <IcDrum />,
-    tecladista: <IcKeyboard />,
-    Violão: <IcAcoustic />,
-  } as Icon;
+const icons = {
+  cantor: <IcSinger />,
+  guitarra: <IcGuitar />,
+  bateria: <IcDrum />,
+  teclado: <IcKeyboard />,
+  violão: <IcAcoustic />,
+} as Icon;
 
-  return (
-    <S.Wrapper size={size} hasBackground={hasBackground}>
-      {src
-        ? <S.Image src={src} alt="User Avatar" />
-        : instrument ? icons[instrument] : icons.Guitarra}
-    </S.Wrapper>
-  );
-};
+export const Avatar = memo(({ src, size = 'medium', instrument, hasBackground }: AvatarProps) => (
+  <S.Wrapper size={size} hasBackground={hasBackground}>
+    {src
+      ? (
+        <S.Wrapper size={size} hasBackground={hasBackground}>
+          <S.Image src={src} alt="User Avatar" />
+        </S.Wrapper>
+      ) : icons[instrument ? instrument.toLowerCase() : 'guitarra'] }
+  </S.Wrapper>
+));

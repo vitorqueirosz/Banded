@@ -26,6 +26,8 @@ export const useRequest = () => {
       title: 'Error',
       type: 'error',
     });
+
+    return Promise.reject(error);
   };
 
   api.current.interceptors.request.use(onRequest);

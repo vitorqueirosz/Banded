@@ -27,8 +27,9 @@ export const Wrapper = styled.div<WrapperProps>`
 
     ${media.lessThan('large')`
       bottom: 0;
+      left: 0;
       transform: translateY(90%);
-      width: 100%;
+      width: 100vw;
     `}
 
     ${!hasRelations && wrapperModifiers.hide(theme)}

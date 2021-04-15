@@ -52,6 +52,7 @@ export const WrapperList = styled.div<ContainerProps>`
     width: 100%;
 
     ${media.lessThan('large')`
+      width: auto;
       flex-direction: column;
       align-items: center;
     `}
@@ -66,6 +67,10 @@ export const WrapperToOutlet = styled.div`
     width: 100%;
     padding: ${theme.spacings.md};
     overflow: hidden;
+
+    ${media.lessThan('large')`
+      padding: ${theme.spacings.xsm};
+    `}
   `}
 `;
 

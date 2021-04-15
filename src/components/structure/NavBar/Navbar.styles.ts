@@ -29,6 +29,7 @@ export const Container = styled.div<Pick<NavBarProps, 'hasRelations'>>`
 
     ${media.lessThan('large')`
       justify-content: space-between;
+      width: 100%;
     `}
 
     ${hasRelations && containerModifiers.hasRelations(theme)}

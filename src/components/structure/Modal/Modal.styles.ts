@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import { ModalProps } from 'components/structure';
+import media from 'styled-media-query';
 
 const wrapperModifiers = {
   show: () => css`
@@ -45,6 +46,10 @@ export const Content = styled.main`
       top: ${theme.spacings.xsm};
       transform: translateY(50%);
     }
+
+    ${media.lessThan('medium')`
+      width: 90vw;
+    `}
   `}
 `;
 
@@ -54,6 +59,7 @@ export const FilterContainer = styled.div`
     height: auto;
     grid-template-columns: repeat(2, 1fr);
     margin-top: ${theme.spacings.lg};
+    width: 100%;
   `}
 `;
 

@@ -49,7 +49,10 @@ export const FourthStep = () => {
     });
   };
 
-  const onSubmitByMusicsList = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onSubmitByMusicsList = (e: any) => {
+    e.preventDefault();
+
     setIsLoading(true);
     handleCreateUser!({ ...user,
       userMusician: {

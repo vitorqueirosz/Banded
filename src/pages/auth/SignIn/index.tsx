@@ -34,7 +34,6 @@ export const SignIn = () => {
           label="E-mail"
           placeholder="E-mail"
           error={errors.email?.message}
-          defaultValue="linkedin.com/in/"
         />
         <TextField
           name="password"
@@ -43,7 +42,6 @@ export const SignIn = () => {
           label="Senha"
           placeholder="Senha"
           error={errors.password?.message}
-
         />
 
         <S.ForgotPassword>Esqueci a senha</S.ForgotPassword>

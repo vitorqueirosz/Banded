@@ -25,7 +25,7 @@ export const MusicalItem = ({
 
   return (
     <S.Wrapper type={type}>
-      <Avatar src={image || ''} instrument={instrument} hasBackground={!image} />
+      <Avatar src={image ?? ''} instrument={instrument} hasBackground={!image} />
 
       <S.InfoContainer>
 
