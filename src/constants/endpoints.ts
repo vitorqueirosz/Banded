@@ -5,6 +5,9 @@ const genrePrefix = 'genres';
 export const USERS = {
   BASE: usersPrefix,
   MUSICIAN: 'userMusician',
+  BANDS: `${usersPrefix}/bands`,
+  MUSICS: `${usersPrefix}/musics`,
+  ALBUMS: `${usersPrefix}/albums`,
 };
 
 export const AUTH = {

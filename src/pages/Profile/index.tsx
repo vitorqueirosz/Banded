@@ -1,4 +1,5 @@
 import { UserFetchProps } from 'components/contexts';
+import { UserMusicalList } from 'components/contexts/user';
 import { Avatar } from 'components/structure';
 import { USERS } from 'constants/endpoints';
 import { useFetch } from 'hooks/useFetch';
@@ -8,9 +9,10 @@ import * as S from './Profile.styles';
 export const Profile = () => {
   const { data: { user } = {} } = useFetch<UserFetchProps>(USERS.BASE);
 
+  // console.log(user);
+
   return (
     <S.Container>
-
       <S.UserContainer>
         <S.UserChip>
           <Avatar
@@ -21,10 +23,10 @@ export const Profile = () => {
           <h3>{user?.name}</h3>
           <span>{user?.instrument}</span>
         </S.UserChip>
-
         <S.MusicalInfos />
       </S.UserContainer>
 
+      <UserMusicalList />
     </S.Container>
   );
 };

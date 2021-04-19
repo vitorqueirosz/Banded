@@ -46,10 +46,11 @@ const containerModifiers = {
 export const WrapperList = styled.div<ContainerProps>`
    ${({ theme, show }) => css`
     display: none;
-    padding-top: ${theme.spacings.sm};
+    padding: ${theme.spacings.sm} 0;
     grid-gap: ${theme.spacings.md} ${theme.spacings.lg};
     flex-wrap: wrap;
     width: 100%;
+    height: auto;
 
     ${media.lessThan('large')`
       width: auto;
@@ -66,10 +67,12 @@ export const WrapperToOutlet = styled.div`
     height: 100%;
     width: 100%;
     padding: ${theme.spacings.md};
-    overflow: hidden;
 
     ${media.lessThan('large')`
       padding: ${theme.spacings.xsm};
+      overflow-y: auto;
+      max-height: calc(100vh - 80px);
+      padding-bottom: ${theme.spacings['2xlg']};
     `}
   `}
 `;

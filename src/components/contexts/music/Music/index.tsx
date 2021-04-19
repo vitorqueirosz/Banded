@@ -1,6 +1,7 @@
 import { BandResponse, MusicianResponse } from 'useCases/feed';
 import { FiDisc, FiMusic, FiUsers } from 'react-icons/fi';
 import { Avatar } from 'components/structure';
+import { ForwardedRef, forwardRef } from 'react';
 import { Discover } from '../Discover';
 import * as S from './Music.styles';
 
@@ -11,7 +12,7 @@ export type MusicalItemProps = {
   type?: 'normal' | 'band' | 'user';
 };
 
-export const MusicalItem = ({
+export const MusicalItem = forwardRef(({
   item: {
     image,
     name,
@@ -20,11 +21,11 @@ export const MusicalItem = ({
     genres,
     musics, instrument, bands, members },
   type = 'normal',
-}: MusicalItemProps) => {
+}: MusicalItemProps, ref: ForwardedRef<HTMLDivElement>) => {
   const genresJoined = genres?.map(g => g.name).join(', ');
 
   return (
-    <S.Wrapper type={type}>
+    <S.Wrapper ref={ref} type={type}>
       <Avatar src={image ?? ''} instrument={instrument} hasBackground={!image} />
 
       <S.InfoContainer>
@@ -70,4 +71,4 @@ export const MusicalItem = ({
       </S.InfoContainer>
     </S.Wrapper>
   );
-};
+});

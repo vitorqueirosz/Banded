@@ -2,8 +2,7 @@ import { WrapperToOutlet } from 'components/structure';
 import { MusicTabs } from 'constants/enums';
 import styled, { css, DefaultTheme } from 'styled-components';
 
-export const Wrapper = styled(WrapperToOutlet)`
-`;
+export const Wrapper = styled(WrapperToOutlet)``;
 
 export const OptionsContainer = styled.div`
   ${({ theme }) => css`
