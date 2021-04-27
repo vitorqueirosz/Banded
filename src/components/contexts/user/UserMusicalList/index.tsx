@@ -1,47 +1,74 @@
-import { useRef, useState } from 'react';
-import { useUserBands } from 'useCases/profile';
+import { useState } from 'react';
+import { useUserAlbums, useUserBands, useUserMusics } from 'useCases/profile';
+import { UserMusicalKeys } from 'constants/enums';
 import { UserMusicalData } from '../UserMusicalData';
 
 import * as S from './UserMusicalList.styles';
 
-const userMusicalKeys: UserMusicalKeys[] = ['Bandas', 'Albums', 'Musicas'];
-
-type UserMusicalKeys = 'Bandas'| 'Albums' | 'Musicas';
+const userMusicalKeys = ['Albums', 'Bands', 'Musics'] as UserMusicalKeys[];
 
 export const UserMusicalList = () => {
-  const bandsRef = useRef<HTMLDivElement>(null);
-  const musicsRef = useRef<HTMLDivElement>(null);
-  const albumsRef = useRef<HTMLDivElement>(null);
-  const [activeTab, setActiveTab] = useState<UserMusicalKeys>('Bandas');
+  const [activeTab, setActiveTab] = useState(UserMusicalKeys.Albums);
 
-  const { data: { userBands } = {} } = useUserBands();
-  // const { data: { userBands } = {} } = useUserMusics();
-  // const { data: {} = {} } = useUserAlbums();
+  const { useFetchUserBands } = useUserBands();
+  const { data: { userBands } = {},
+    hasMoreBands,
+    isFetchingBands,
+    loadMoreBands,
+  } = useFetchUserBands();
+
+  const { useFetchUserMusics } = useUserMusics();
+  const {
+    data: { userMusics } = {},
+    loadMoreMusics,
+    hasMoreMusics,
+    isFetchingMusics,
+  } = useFetchUserMusics();
+
+  const { useFetchUserAlbums } = useUserAlbums();
+  const {
+    data: { userAlbums } = {},
+    loadMoreAlbums,
+    hasMoreAlbums,
+    isFetchingAlbums,
+  } = useFetchUserAlbums();
 
   return (
     <S.Container>
-      {userMusicalKeys.map((key) => (
-        <S.Tab onClick={() => setActiveTab(key)} active={activeTab === key}>
-          {key}
-        </S.Tab>
-      ))}
+      <S.TabsWrapper>
+        {userMusicalKeys.map((key) => (
+          <S.Tab
+            key={key}
+            onClick={() => setActiveTab(key)}
+            active={activeTab === key}
+          >
+            {key}
+          </S.Tab>
+        ))}
+      </S.TabsWrapper>
 
       <UserMusicalData
-        show={activeTab === 'Bandas'}
+        show={activeTab === UserMusicalKeys.Bands}
         items={userBands as [] ?? []}
-        ref={bandsRef}
+        callback={loadMoreBands}
+        hasMore={hasMoreBands}
+        isFetching={isFetchingBands}
       />
 
       <UserMusicalData
-        show={activeTab === 'Albums'}
-        items={userBands as [] ?? []}
-        ref={musicsRef}
+        show={activeTab === UserMusicalKeys.Albums}
+        items={userAlbums as [] ?? []}
+        callback={loadMoreAlbums}
+        hasMore={hasMoreAlbums}
+        isFetching={isFetchingAlbums}
       />
 
       <UserMusicalData
-        show={activeTab === 'Musicas'}
-        items={userBands as [] ?? []}
-        ref={albumsRef}
+        show={activeTab === UserMusicalKeys.Musics}
+        items={userMusics as [] ?? []}
+        callback={loadMoreMusics}
+        hasMore={hasMoreMusics}
+        isFetching={isFetchingMusics}
       />
 
     </S.Container>

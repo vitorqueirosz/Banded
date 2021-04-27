@@ -41,7 +41,7 @@ export const Wrapper = styled.div<WrapperProps>`
     width: 100%;
     margin-bottom: ${theme.spacings['2xs']};
     border-radius: ${theme.border.radius};
-    height: 100%;
+    /* height: 100%; */
 
     ${isSearch && wrapperModifiers.isSearch(theme)}
     ${color === 'secondary' && wrapperModifiers.color(theme)}

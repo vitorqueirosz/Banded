@@ -9,6 +9,8 @@ export const useFetch = <Data = unknown>(url: string, axiosConfig?: AxiosRequest
     const response = await api.get(url, axiosConfig);
 
     return response.data;
+  }, {
+    staleTime: 1000 * 50,
   });
 
   return {

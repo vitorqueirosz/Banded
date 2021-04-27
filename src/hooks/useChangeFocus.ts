@@ -1,11 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef } from 'react';
 
 export const useChangeFocus = (cb: () => void) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const currentFocus = useRef<any>();
+  const currentFocus = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const handleChangeFocus = (event: globalThis.MouseEvent) => {
+    const handleChangeFocus = (event: any) => {
       if (currentFocus.current
         && !currentFocus.current.contains(event.target)) {
         cb();

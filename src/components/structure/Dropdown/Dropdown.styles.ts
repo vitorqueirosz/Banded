@@ -1,6 +1,7 @@
 import { ButtonHTMLAttributes } from 'react';
 import { LinkProps } from 'react-router-dom';
 import styled, { css } from 'styled-components';
+import media from 'styled-media-query';
 
 type ButtonTypes =
   | LinkProps
@@ -29,17 +30,22 @@ export const Container = styled.div<{ show: boolean }>`
     z-index: ${theme.layers.menu};
 
     &::after {
-      position: absolute;
       content: '';
+      position: absolute;
       border-style: solid;
       border-width: 0 1.6rem 1.6rem 1.6rem;
       border-color: ${theme.colors.dark.darker} transparent;
-      border-right: ${theme.colors.dark.darker};
-      right: 0;
+      right: 50%;
+      transform: translateX(50%);
       top: -1.6rem;
     }
 
     ${show && containerModifiers.show()}
+
+    ${media.lessThan('large')`
+      opacity: 0;
+      visibility: hidden;
+    `}
   `}
 `;
 

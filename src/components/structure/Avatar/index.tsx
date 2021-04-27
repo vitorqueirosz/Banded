@@ -3,7 +3,7 @@ import { memo } from 'react';
 import * as S from './Avatar.styles';
 
 export type AvatarProps = {
-  src: string | undefined;
+  src?: string | undefined;
   size?: 'small' | 'medium' | 'large'
   instrument?: string;
   hasBackground?: boolean;

@@ -1,6 +1,6 @@
-import { USERS, AUTH } from 'constants/endpoints';
+import { AUTH } from 'constants/endpoints';
 import { useToast } from 'contexts';
-import { useCache } from 'hooks/useCache';
+// import { useCache } from 'hooks/useCache';
 import { useRequest } from 'hooks/useRequest';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -16,7 +16,7 @@ export const useAuth = () => {
   const api = useRequest();
   const { setToast } = useToast();
   const [isFetching, setIsFetching] = useState(false);
-  const mutate = useCache(USERS.BASE);
+  // const mutate = useCache(USERS.BASE);
 
   const handleAuthenticate = async (params: AuthParams) => {
     setIsFetching(true);
@@ -24,9 +24,9 @@ export const useAuth = () => {
       const { data: { user, token } } = await api.post(AUTH.BASE, params);
 
       if (token) {
-        setUserSession(token, user);
+        setUserSession(token, user.id);
         navigate('/home');
-        mutate(user);
+        // mutate(user);
       }
     } catch (error) {
       setIsFetching(false);

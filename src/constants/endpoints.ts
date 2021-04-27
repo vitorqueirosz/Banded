@@ -6,8 +6,9 @@ export const USERS = {
   BASE: usersPrefix,
   MUSICIAN: 'userMusician',
   BANDS: `${usersPrefix}/bands`,
-  MUSICS: `${usersPrefix}/musics`,
-  ALBUMS: `${usersPrefix}/albums`,
+  MUSICS: 'userMusics',
+  ALBUMS: 'userAlbums',
+  CHAT: 'userChats',
 };
 
 export const AUTH = {
@@ -18,6 +19,13 @@ export const BANDS = {
   BASE: bandPrefix,
   BANDLIST: `${bandPrefix}/bandList`,
   BY_FILTERS: `${bandPrefix}/filters`,
+};
+
+export const SOCKET = {
+  NEW_MESSAGE: 'new-message',
+  SENDED_MESSAGE: 'sended-message',
+  JOIN_PRIVATE_CHANNEL: 'join-private-channel',
+  JOINNED_PRIVATE_CHANNEL: 'joinned-private-channel',
 };
 
 export const GENRES = {

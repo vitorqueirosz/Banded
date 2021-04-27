@@ -1,19 +1,31 @@
-import { RefObject, useEffect, useMemo } from 'react';
+import { useCallback, useRef } from 'react';
 
 const options = {
   threshold: 1.0,
 };
 
-export const useInfiniteScroll = (ref: RefObject<HTMLDivElement>, callback: () => void) => {
-  const intersectionObserver = useMemo(() => new IntersectionObserver(entries => {
-    const radio = entries[0].intersectionRatio;
+export const useInfiniteScroll = (hasMore: boolean, callback: () => void) => {
+  const observerRef = useRef(
+    new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        callback();
+      }
+    }, options),
+  );
 
-    radio >= 1 && callback();
-  }, options), [callback]);
+  const lastRef = useCallback((node) => {
+    if (!node) return;
 
-  useEffect(() => {
-    ref.current && intersectionObserver.observe(ref.current);
+    if (!hasMore && observerRef.current) {
+      return observerRef.current.disconnect();
+    }
 
-    return () => intersectionObserver.disconnect();
-  }, [intersectionObserver, ref]);
+    if (observerRef) {
+      observerRef.current.disconnect();
+    }
+
+    if (node) observerRef.current.observe(node);
+  }, [hasMore]);
+
+  return lastRef;
 };

@@ -1,6 +1,6 @@
 import { USERS } from 'constants/endpoints';
 import { UserPayload } from 'contexts/SignUp';
-import { useCache } from 'hooks/useCache';
+// import { useCache } from 'hooks/useCache';
 import { useRequest } from 'hooks/useRequest';
 import { useNavigate } from 'react-router-dom';
 import { setUserSession } from 'utils/session';
@@ -8,7 +8,7 @@ import { setUserSession } from 'utils/session';
 export const useCreateUser = () => {
   const navigate = useNavigate();
   const api = useRequest();
-  const mutate = useCache(USERS.BASE);
+  // const mutate = useCache(USERS.BASE);
 
   try {
     return async (params: UserPayload) => {
@@ -30,9 +30,9 @@ export const useCreateUser = () => {
 
       const { data: { user, token } } = await api.post(USERS.BASE, formData);
       if (token) {
-        setUserSession(token, user);
+        setUserSession(token, user.id);
         navigate('/home');
-        mutate(user);
+        // mutate(user);
       }
     };
   } catch (error) {

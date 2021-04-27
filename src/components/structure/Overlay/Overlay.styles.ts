@@ -14,7 +14,7 @@ type ButtonTypes =
   | ButtonHTMLAttributes<HTMLButtonElement>
 
 export const Wrapper = styled.div<Pick<OverlayProps, 'show'>>`
-  ${({ theme, show }) => css`
+  ${({ theme, show = false }) => css`
     background: ${theme.colors.dark.element};
     padding: ${theme.spacings.lg} ${theme.spacings.xsm};
     width: 60%;

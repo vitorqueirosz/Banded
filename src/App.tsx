@@ -3,6 +3,7 @@ import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from 'styles/global';
 import theme from 'styles/theme';
 import { QueryClientProvider, QueryClient } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { ToastProvider } from 'contexts';
 import { SettingsProvider } from 'contexts/Settings';
 
@@ -19,6 +20,7 @@ function App() {
           </ToastProvider>
         </SettingsProvider>
       </ThemeProvider>
+      <ReactQueryDevtools />
     </QueryClientProvider>
 
   );

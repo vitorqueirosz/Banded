@@ -58,7 +58,7 @@ export const WrapperList = styled.div<ContainerProps>`
       align-items: center;
     `}
 
-    ${show && containerModifiers.show}
+    ${show && containerModifiers.show()}
   `}
 `;
 
