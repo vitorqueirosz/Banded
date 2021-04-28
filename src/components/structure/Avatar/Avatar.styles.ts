@@ -3,15 +3,15 @@ import { AvatarProps } from 'components/structure';
 
 const wrapperModifiers = {
   small: () => css`
-    width: 4.0rem;
+    min-width: 4.0rem;
     height: 4.0rem;
   `,
   medium: () => css`
-    width: 6.0rem;
+    min-width: 6.0rem;
     height: 6.0rem;
   `,
   large: () => css`
-    width: 8.0rem;
+    min-width: 8.0rem;
     height: 8.0rem;
   `,
   hasBackground: (theme: DefaultTheme) => css`

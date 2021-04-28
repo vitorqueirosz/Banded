@@ -23,6 +23,7 @@ type SocketChatContextData = {
   handleSendMessage: (value: MessageData) => void;
   handlePrivateJoinChannel: (userId: string) => void;
   room: JoinnedChannelData;
+  setRoom: (value: JoinnedChannelData) => void;
 }
 
 const defaultContextValues: SocketChatContextData = {
@@ -30,6 +31,7 @@ const defaultContextValues: SocketChatContextData = {
   handleSendMessage: () => undefined,
   handlePrivateJoinChannel: () => undefined,
   room: {} as JoinnedChannelData,
+  setRoom: () => undefined,
 };
 
 const SocketChatContext = createContext(defaultContextValues);
@@ -73,11 +75,13 @@ export const SocketChatProvider = ({ children }: { children: React.ReactNode}) =
     socket,
     handlePrivateJoinChannel,
     room,
+    setRoom,
   }), [
     handleSendMessage,
     socket,
     handlePrivateJoinChannel,
     room,
+    setRoom,
   ]);
 
   return (

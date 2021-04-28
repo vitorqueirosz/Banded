@@ -1,13 +1,13 @@
 import styled, { css, DefaultTheme } from 'styled-components';
-import { InputProps } from 'components/form';
+import { TextFieldProps } from 'components/form';
 
-type WrapperProps = Pick<InputProps, 'color' | 'isSearch' | 'inputSize'> & {
+type WrapperProps = Pick<TextFieldProps, 'color' | 'isSearch'> & {
   hasError: boolean;
 };
 
 const wrapperModifiers = {
   color: (theme: DefaultTheme) => css`
-    ${InputWrapper} {
+    ${Input} {
       background: ${theme.colors.light.lighter};
     }
     ${Input}, ${Label} {
@@ -15,14 +15,20 @@ const wrapperModifiers = {
     }
   `,
   normal: () => css`
-    min-height: 5.6rem;
+    height: 5.4rem;
   `,
   small: () => css`
-    min-height: 4.6rem;
-    ${Label} {
-      top: -16%;
+    height: 4.6rem;
+    & + ${Label} {
+      top: -10%;
     }
   `,
+  xsmall: () => css`
+   height: 3.6rem;
+   & + ${Label} {
+     top: -12%;
+   }
+ `,
   isSearch: (theme: DefaultTheme) => css`
     ${Input} {
       padding-left: ${theme.spacings.lg};
@@ -32,20 +38,17 @@ const wrapperModifiers = {
     }
   `,
   hasError: () => css`
-    min-height: 6.8rem;
+    height: 6.8rem;
   `,
 };
 
 export const Wrapper = styled.div<WrapperProps>`
-  ${({ theme, color, isSearch, inputSize, hasError }) => css`
+  ${({ theme, color, isSearch, hasError }) => css`
     width: 100%;
     margin-bottom: ${theme.spacings['2xs']};
-    border-radius: ${theme.border.radius};
-    /* height: 100%; */
 
     ${isSearch && wrapperModifiers.isSearch(theme)}
     ${color === 'secondary' && wrapperModifiers.color(theme)}
-    ${inputSize && wrapperModifiers[inputSize]}
     ${hasError && wrapperModifiers.hasError()}
   `}
 `;
@@ -53,8 +56,7 @@ export const Wrapper = styled.div<WrapperProps>`
 export const InputWrapper = styled.div`
   ${({ theme }) => css`
     width: 100%;
-    background: ${theme.colors.dark.light};
-    border-radius: ${theme.border.radius};
+    background: none;
     position: relative;
     display: flex;
     align-items: center;
@@ -62,17 +64,22 @@ export const InputWrapper = styled.div`
 
     > svg {
       position: absolute;
-      left: 8px;
+      left: ${theme.spacings['2xs']};
     }
   `}
 `;
-export const Input = styled.input`
-  ${({ theme }) => css`
+
+type InputProps = Pick<TextFieldProps, 'inputSize'> & {
+  hasLabel?: boolean;
+}
+
+export const Input = styled.input<InputProps>`
+  ${({ theme, inputSize, hasLabel }) => css`
     width: 100%;
-    background: transparent;
+    background: ${theme.colors.light.lighter};
     border: none;
-    padding: ${theme.spacings.xsm};
-    height: 100%;
+    padding: 0 ${theme.spacings.xsm};
+    max-height: 100%;
     outline: none;
     border-radius: ${theme.border.radius};
     border: 1px solid #555;
@@ -88,10 +95,18 @@ export const Input = styled.input`
       }
     }
 
+    ${hasLabel && css`
+      &:not(:placeholder-shown) {
+        padding-top: ${theme.spacings['2xs']};
+      }
+    `}
+
     &:active,
     &:focus {
       border-color: ${theme.colors.primary};
     }
+
+    ${inputSize && wrapperModifiers[inputSize]}
   `}
 `;
 
@@ -101,7 +116,7 @@ export const Label = styled.label`
     line-height: ${theme.font.lineHeight.md};
     font-size: ${theme.font.sizes.xsm};
     position: absolute;
-    top: -10%;
+    top: -8%;
     margin-left: ${theme.spacings.xsm};
     transition: all 0.2s ease-in-out;
   `}

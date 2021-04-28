@@ -5,13 +5,13 @@ import { FiSearch } from 'react-icons/fi';
 
 import * as S from './TextField.styles';
 
-export type InputProps = {
+export type TextFieldProps = {
   isSearch?: boolean;
   label?: string;
   name?: string;
   error?: string | undefined;
   color?: 'primary' | 'secondary';
-  inputSize?: 'normal' | 'small';
+  inputSize?:'xsmall' | 'normal' | 'small';
 } & InputHTMLAttributes<HTMLInputElement> &
   Pick<UseFormMethods, 'register'>;
 export const TextField = ({
@@ -22,20 +22,21 @@ export const TextField = ({
   isSearch,
   color = 'primary',
   inputSize = 'normal',
-  ...rest }: InputProps) => (
+  ...rest }: TextFieldProps) => (
     <S.Wrapper
       hasError={!!error}
       isSearch={isSearch}
       color={color}
-      inputSize={inputSize}
     >
       <S.InputWrapper>
         {isSearch && <FiSearch size={20} color="#555" />}
         <S.Input
+          ref={register}
           name={name}
           id={name}
           type="text"
-          ref={register}
+          inputSize={inputSize}
+          hasLabel={!!label}
           {...rest}
         />
         {!!label && <S.Label htmlFor={name}>{label}</S.Label>}

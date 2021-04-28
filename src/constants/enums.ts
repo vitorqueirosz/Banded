@@ -14,3 +14,8 @@ export enum UserMusicalKeys {
   Musics = 'Musics',
   Albums = 'Albums',
 }
+
+export enum RelationTabs {
+  Chat = 'Chat',
+  Bands = 'Bandas',
+}

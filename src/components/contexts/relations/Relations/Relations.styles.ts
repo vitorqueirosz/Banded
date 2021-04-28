@@ -26,7 +26,6 @@ export const Wrapper = styled.div<WrapperProps>`
     width: ${theme.elements.relations};
     background: ${theme.colors.dark.element};
     transition: transform 0.3s ease-in-out;
-    padding: ${theme.spacings.xsm};
 
     ${media.lessThan('large')`
       bottom: 0;
@@ -55,77 +54,69 @@ export const Switch = styled.div`
 `;
 
 export const Tabs = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: 100px;
+  ${({ theme }) => css`
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: ${theme.spacings.xsm};
+    padding-bottom: ${theme.spacings.xsm};
+  `}
 `;
 
-export const Tab = styled.div`
-  text-align: center;
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  > span {
-    color: #fff;
-    margin-top: 16px;
-  }
-`;
-
-export const ChatList = styled.div`
-  height: auto;
-  width: 100%;
-`;
-
-export const UserChip = styled.div`
-  height: 100px;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-
-  > span {
-    color: #fff;
-    margin-left: 16px;
-  }
-
-  &:hover {
-    filter: brightness(3);
-  }
-`;
-
-const chatRoomModifiers = {
-  show: () => css`
-    opacity: 1;
-    visibility: visible;
+const tabModifiers = {
+  active: (theme: DefaultTheme) => css`
+    &:after{
+      background: ${theme.colors.primary};
+      transform: translateX(50%);
+    }
   `,
 };
 
-export const ChatRoom = styled.div<{ show: boolean }>`
-  ${({ show }) => css`
-    z-index: 50;
-    position: absolute;
-    background: #0c1015;
-    right: 0;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    padding: 16px;
-    opacity: 0;
-    visibility: hidden;
+export const Tab = styled.div<{ active: boolean }>`
+  ${({ theme, active }) => css`
+    text-align: center;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
 
-    > form {
-      display: flex;
-      align-items: center;
+    > span {
+      color: ${theme.colors.light.lighter};
+      margin: ${theme.spacings.xsm} 0 0.4rem;
     }
 
-    button {
-      border: none;
-      background: none;
-      padding: 8px;
+    &:after {
+      content: '';
+      width: 100%;
+      height: 0.3rem;
+      background: transparent;
+      position: absolute;
+      bottom: -${theme.spacings['2xs']};
+      right: 50%;
+      transform: translateX(0%);
+      transition: all 0.3s ease-in-out;
+
+      ${media.lessThan('medium')`
+        width: 2rem;
+      `}
     }
 
-    ${show && chatRoomModifiers.show()}
+    &:last-child {
+      border-right: none;
+    }
+
+    ${active && tabModifiers.active(theme)}
+  `}
+`;
+
+export const Divisor = styled.div`
+  ${({ theme }) => css`
+    margin-top: ${theme.spacings['2xs']};
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding:  0 ${theme.spacings.xsm};
   `}
 `;

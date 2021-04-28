@@ -1,9 +1,9 @@
-type User = {
+export type UserChat = {
   id: string;
   name: string;
   avatar?: string;
 }
 
 export type JoinnedChannelData = {
-  user: User;
+  user: UserChat;
 }
