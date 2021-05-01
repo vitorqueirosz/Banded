@@ -1,4 +1,4 @@
-import { USERS } from 'constants/endpoints';
+import { USERS, MESSAGES } from 'constants/endpoints';
 import { useFetch } from 'hooks/useFetch';
 import { setUrlWithParams } from 'utils';
 
@@ -18,5 +18,14 @@ export const useChats = (params: Params) => {
 
   return {
     ...users,
+  };
+};
+
+export const useLatestMessages = (chatId: string) => {
+  const url = setUrlWithParams(MESSAGES.LATEST_MESSAGES(chatId));
+  const latestMessages = useFetch<User[]>(url);
+
+  return {
+    ...latestMessages,
   };
 };

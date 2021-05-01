@@ -5,7 +5,7 @@ export type UserChipProps = {
   name: string;
   avatar?: string;
   lastMessage?: string;
-  onClick: () => void;
+  onClick?: () => void;
   size?: 'small' | 'medium' | 'large';
   hasBorder?: boolean;
 }

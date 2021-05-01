@@ -1,30 +1,15 @@
-import { TextField } from 'components/form';
 import { UserChip } from 'components/structure';
 import { useSocketChat } from 'contexts';
-import { JoinnedChannelData, UserChat } from 'interfaces';
-import { useForm } from 'react-hook-form';
-import { FiChevronLeft, FiSend } from 'react-icons/fi';
+import { UserChat } from 'interfaces';
+
 import * as S from './ChatList.styles';
 
 type ChatListProps = {
   chats: UserChat[];
 }
 
-type MessageData = {
-  message: string;
-}
-
 export const ChatList = ({ chats }: ChatListProps) => {
-  const { register, handleSubmit } = useForm();
-  const { handleSendMessage, handlePrivateJoinChannel, room, setRoom } = useSocketChat();
-
-  const onSubmit = ({ message }: MessageData) => {
-    const messagePayload = {
-      chatId: room.user.id,
-      text: message,
-    };
-    handleSendMessage(messagePayload);
-  };
+  const { handlePrivateJoinChannel } = useSocketChat();
 
   return (
     <S.Container>
@@ -38,38 +23,6 @@ export const ChatList = ({ chats }: ChatListProps) => {
           hasBorder
         />
       ))}
-
-      <S.ChatRoom show={!!room.user?.id}>
-        <>
-          <S.Header>
-            <FiChevronLeft
-              color="#fff"
-              size={22}
-              onClick={() => setRoom({} as JoinnedChannelData)}
-            />
-            <UserChip
-              name={room.user?.name}
-              avatar={room.user?.avatar}
-              onClick={() => handlePrivateJoinChannel(room.user?.id)}
-              size="small"
-            />
-          </S.Header>
-
-          <S.Form onSubmit={handleSubmit(onSubmit)}>
-            <TextField
-              name="message"
-              register={register}
-              placeholder="Digite uma mensagem"
-              inputSize="xsmall"
-              color="secondary"
-              autoComplete="off"
-            />
-            <S.SendMessageButton type="submit">
-              <FiSend color="#fff" size={20} />
-            </S.SendMessageButton>
-          </S.Form>
-        </>
-      </S.ChatRoom>
     </S.Container>
   );
 };

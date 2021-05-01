@@ -8,6 +8,7 @@ import { useChats } from 'useCases';
 
 import { RelationTabs } from 'constants/enums';
 
+import { ChatRoomWrapper } from 'components/contexts/chat';
 import * as S from './Relations.styles';
 
 export type RelationsProps = {
@@ -67,6 +68,7 @@ export const Relations = ({ hasRelations, handleRelations }: RelationsProps) => 
         />
 
         <ChatList chats={data} />
+        <ChatRoomWrapper />
       </S.Divisor>
     </S.Wrapper>
   );

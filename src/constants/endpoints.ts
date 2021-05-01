@@ -1,6 +1,7 @@
 const usersPrefix = 'users';
 const bandPrefix = 'band';
 const genrePrefix = 'genres';
+const messagesPrefix = 'messages';
 
 export const USERS = {
   BASE: usersPrefix,
@@ -9,6 +10,12 @@ export const USERS = {
   MUSICS: 'userMusics',
   ALBUMS: 'userAlbums',
   CHAT: 'userChats',
+
+};
+
+export const MESSAGES = {
+  BASE: messagesPrefix,
+  LATEST_MESSAGES: (chatId: string) => `${messagesPrefix}/latest-messages/${chatId}`,
 };
 
 export const AUTH = {
