@@ -4,7 +4,7 @@ import { SOCKET } from 'constants/endpoints';
 import io from 'socket.io-client';
 import { useSocketListener } from 'hooks/useSocketListener';
 import { getUserIdOnSession } from 'utils';
-import { JoinnedChannelData } from 'interfaces/chat';
+import { JoinnedChannelData, UserChat } from 'interfaces/chat';
 
 const {
   SENDED_MESSAGE,
@@ -16,21 +16,22 @@ const {
 type MessageData = {
   chatId: string;
   text: string;
+  userReceivingId: string;
 }
 
 type SocketChatContextData = {
   socket: SocketIOClient.Socket;
   handleSendMessage: (value: MessageData) => void;
   handlePrivateJoinChannel: (userId: string) => void;
-  room: JoinnedChannelData;
-  setRoom: (value: JoinnedChannelData) => void;
+  room: UserChat;
+  setRoom: (value: UserChat) => void;
 }
 
 const defaultContextValues: SocketChatContextData = {
   socket: io(SOCKET_URL, { autoConnect: false }),
   handleSendMessage: () => undefined,
   handlePrivateJoinChannel: () => undefined,
-  room: {} as JoinnedChannelData,
+  room: {} as UserChat,
   setRoom: () => undefined,
 };
 
@@ -38,7 +39,7 @@ const SocketChatContext = createContext(defaultContextValues);
 
 export const SocketChatProvider = ({ children }: { children: React.ReactNode}) => {
   const [socket, setSocket] = useState(defaultContextValues.socket);
-  const [room, setRoom] = useState({} as JoinnedChannelData);
+  const [room, setRoom] = useState({} as UserChat);
 
   useEffect(() => {
     setSocket(io.connect(SOCKET_URL, {
@@ -64,7 +65,7 @@ export const SocketChatProvider = ({ children }: { children: React.ReactNode}) =
   }, []);
 
   const onChannelJoined = useCallback((data: JoinnedChannelData) => {
-    setRoom(data);
+    setRoom(data.user);
   }, []);
 
   useSocketListener(socket, NEW_MESSAGE, onNewMessage);

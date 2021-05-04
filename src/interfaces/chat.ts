@@ -2,6 +2,7 @@ export type UserChat = {
   id: string;
   name: string;
   avatar?: string;
+  chatId: string;
 }
 
 export type JoinnedChannelData = {

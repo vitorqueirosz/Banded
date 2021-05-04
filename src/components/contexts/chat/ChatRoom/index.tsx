@@ -1,7 +1,7 @@
 import { TextField } from 'components/form';
 import { UserChip } from 'components/structure';
 import { useSocketChat } from 'contexts';
-import { JoinnedChannelData } from 'interfaces';
+import { UserChat } from 'interfaces';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { FiChevronLeft, FiSend } from 'react-icons/fi';
@@ -17,7 +17,7 @@ type MessageData = {
 export const ChatRoom = () => {
   const { register, handleSubmit } = useForm();
   const { room, setRoom, handleSendMessage } = useSocketChat();
-  const { data } = useLatestMessages(room.user.id);
+  const { data } = useLatestMessages(room.id);
 
   const messages = useMemo(() => {
     const messages = data?.latestMessages.map(message => ({
@@ -30,24 +30,25 @@ export const ChatRoom = () => {
 
   const onSubmit = ({ message }: MessageData) => {
     const messagePayload = {
-      chatId: room.user.id,
+      chatId: room.chatId,
+      userReceivingId: room.id,
       text: message,
     };
     handleSendMessage(messagePayload);
   };
 
   return (
-    <S.Container show={!!room.user?.id}>
+    <S.Container show={!!room?.id}>
       <>
         <S.Header>
           <FiChevronLeft
             color="#fff"
             size={22}
-            onClick={() => setRoom({} as JoinnedChannelData)}
+            onClick={() => setRoom({} as UserChat)}
           />
           <UserChip
-            name={room.user?.name}
-            avatar={room.user?.avatar}
+            name={room?.name}
+            avatar={room?.avatar}
             size="small"
           />
         </S.Header>

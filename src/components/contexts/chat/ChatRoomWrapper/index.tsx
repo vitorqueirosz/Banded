@@ -6,7 +6,7 @@ export const ChatRoomWrapper = () => {
 
   return (
     <>
-      {room.user?.id && (
+      {room?.id && (
         <ChatRoom />
       )}
     </>
