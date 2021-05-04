@@ -2,9 +2,12 @@ import { TextField } from 'components/form';
 import { UserChip } from 'components/structure';
 import { useSocketChat } from 'contexts';
 import { JoinnedChannelData } from 'interfaces';
+import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { FiChevronLeft, FiSend } from 'react-icons/fi';
-// import { useLatestMessages } from 'useCases';
+import { useLatestMessages } from 'useCases';
+import { getUserIdOnSession } from 'utils';
+import { Message } from '../Message';
 import * as S from './ChatRoom.styles';
 
 type MessageData = {
@@ -14,10 +17,16 @@ type MessageData = {
 export const ChatRoom = () => {
   const { register, handleSubmit } = useForm();
   const { room, setRoom, handleSendMessage } = useSocketChat();
+  const { data } = useLatestMessages(room.user.id);
 
-  // const { data } = useLatestMessages(room.user.id);
+  const messages = useMemo(() => {
+    const messages = data?.latestMessages.map(message => ({
+      ...message,
+      isReceived: message.user !== getUserIdOnSession(),
+    }));
 
-  // eslint-disable-next-line no-console
+    return messages;
+  }, [data?.latestMessages]);
 
   const onSubmit = ({ message }: MessageData) => {
     const messagePayload = {
@@ -42,6 +51,17 @@ export const ChatRoom = () => {
             size="small"
           />
         </S.Header>
+
+        <S.Messages>
+          {messages?.map(({ id, isReceived, text, createdAt }) => (
+            <Message
+              key={id}
+              isReceived={isReceived}
+              message={text}
+              time={new Date(createdAt)}
+            />
+          ))}
+        </S.Messages>
 
         <S.Form onSubmit={handleSubmit(onSubmit)}>
           <TextField

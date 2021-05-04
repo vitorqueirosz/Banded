@@ -1,5 +1,6 @@
 import { USERS, MESSAGES } from 'constants/endpoints';
 import { useFetch } from 'hooks/useFetch';
+import { LatestMessagesList } from 'interfaces';
 import { setUrlWithParams } from 'utils';
 
 type User = {
@@ -23,7 +24,7 @@ export const useChats = (params: Params) => {
 
 export const useLatestMessages = (chatId: string) => {
   const url = setUrlWithParams(MESSAGES.LATEST_MESSAGES(chatId));
-  const latestMessages = useFetch<User[]>(url);
+  const latestMessages = useFetch<LatestMessagesList>(url);
 
   return {
     ...latestMessages,

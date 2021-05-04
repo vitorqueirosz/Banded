@@ -48,6 +48,17 @@ export const Form = styled.form`
   }
 `;
 
+export const Messages = styled.div`
+  ${({ theme }) => css`
+    display: flex;
+    /* overflow-y: auto; */
+    gap: ${theme.spacings['2xs']};
+    flex-direction: column-reverse;
+    margin-top: auto;
+    padding: ${theme.spacings['2xs']};
+  `}
+`;
+
 export const SendMessageButton = styled.button`
   ${({ theme }) => css`
     background: ${theme.colors.primary};
