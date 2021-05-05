@@ -51,9 +51,9 @@ export const Form = styled.form`
 export const Messages = styled.div`
   ${({ theme }) => css`
     display: flex;
-    /* overflow-y: auto; */
+    overflow-y: auto;
     gap: ${theme.spacings['2xs']};
-    flex-direction: column-reverse;
+    flex-direction: column;
     margin-top: auto;
     padding: ${theme.spacings['2xs']};
   `}

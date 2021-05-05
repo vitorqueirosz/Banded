@@ -20,3 +20,5 @@ export type LatestMessages = {
   text: string;
   createdAt: Date;
 }
+
+export type Message = Omit<LatestMessages, 'chatId'>;

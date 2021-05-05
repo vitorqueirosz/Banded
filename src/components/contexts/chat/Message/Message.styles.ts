@@ -3,8 +3,10 @@ import { MessageProps } from 'components/contexts/chat/Message';
 
 const wrapperModifiers = {
   isReceived: (theme: DefaultTheme) => css`
-    background: ${theme.colors.dark.light};
     align-self: flex-start;
+   ${MessageWrapper} {
+    background: ${theme.colors.message.secondary};
+   }
   `,
 };
 
@@ -13,6 +15,7 @@ export const Wrapper = styled.div<Pick<MessageProps, 'isReceived'>>`
     display: flex;
     flex: 1 0 36px;
     align-self: flex-end;
+
     ${isReceived && wrapperModifiers.isReceived(theme)}
   `}
 `;
@@ -21,13 +24,14 @@ export const MessageWrapper = styled.div`
   ${({ theme }) => css`
     display: flex;
     flex-direction: column;
-    background: ${theme.colors.primary};
+    background: ${theme.colors.message.primary};
     max-width: 24rem;
     min-width: 10rem;
     word-break: break-word;
     border-radius: ${theme.border.radius};
     padding: 0.6rem ${theme.spacings['2xs']};
     position: relative;
+
   `}
 `;
 

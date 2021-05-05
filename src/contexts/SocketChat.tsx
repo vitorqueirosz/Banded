@@ -2,15 +2,13 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import { SOCKET_URL } from 'constants/utils';
 import { SOCKET } from 'constants/endpoints';
 import io from 'socket.io-client';
-import { useSocketListener } from 'hooks/useSocketListener';
 import { getUserIdOnSession } from 'utils';
-import { JoinnedChannelData, UserChat } from 'interfaces/chat';
+import { UserChat } from 'interfaces/chat';
+import { UseMutateFunction } from 'react-query';
 
 const {
   SENDED_MESSAGE,
-  NEW_MESSAGE,
   JOIN_PRIVATE_CHANNEL,
-  JOINNED_PRIVATE_CHANNEL,
 } = SOCKET;
 
 type MessageData = {
@@ -21,10 +19,15 @@ type MessageData = {
 
 type SocketChatContextData = {
   socket: SocketIOClient.Socket;
-  handleSendMessage: (value: MessageData) => void;
+  handleSendMessage: (
+    value: MessageData,
+    mutate: UseMutateFunction<unknown, unknown, unknown, void>
+  ) => void;
   handlePrivateJoinChannel: (userId: string) => void;
   room: UserChat;
   setRoom: (value: UserChat) => void;
+  latestMessagesUrl: string;
+  setLatestMessagesUrl: (value: string) => void;
 }
 
 const defaultContextValues: SocketChatContextData = {
@@ -33,13 +36,18 @@ const defaultContextValues: SocketChatContextData = {
   handlePrivateJoinChannel: () => undefined,
   room: {} as UserChat,
   setRoom: () => undefined,
+  latestMessagesUrl: '',
+  setLatestMessagesUrl: () => undefined,
 };
 
 const SocketChatContext = createContext(defaultContextValues);
 
 export const SocketChatProvider = ({ children }: { children: React.ReactNode}) => {
   const [socket, setSocket] = useState(defaultContextValues.socket);
-  const [room, setRoom] = useState({} as UserChat);
+  const [room, setRoom] = useState(defaultContextValues.room);
+  const [latestMessagesUrl, setLatestMessagesUrl] = useState(
+    defaultContextValues.latestMessagesUrl,
+  );
 
   useEffect(() => {
     setSocket(io.connect(SOCKET_URL, {
@@ -51,7 +59,18 @@ export const SocketChatProvider = ({ children }: { children: React.ReactNode}) =
     }));
   }, []);
 
-  const handleSendMessage = useCallback((message: MessageData) => {
+  const handleSendMessage = useCallback((
+    message: MessageData,
+    mutate: UseMutateFunction<unknown, unknown, unknown, void>,
+  ) => {
+    const messagePayloadWithTime = {
+      ...message,
+      id: `${message}-${new Date().toISOString()}`,
+      user: getUserIdOnSession(),
+      createdAt: new Date(),
+      isReceived: false,
+    };
+    mutate(messagePayloadWithTime);
     socket.emit(SENDED_MESSAGE, message);
   }, [socket]);
 
@@ -59,30 +78,22 @@ export const SocketChatProvider = ({ children }: { children: React.ReactNode}) =
     socket.emit(JOIN_PRIVATE_CHANNEL, userId);
   }, [socket]);
 
-  const onNewMessage = useCallback((data: string) => {
-    // eslint-disable-next-line no-console
-    console.log('message', data);
-  }, []);
-
-  const onChannelJoined = useCallback((data: JoinnedChannelData) => {
-    setRoom(data.user);
-  }, []);
-
-  useSocketListener(socket, NEW_MESSAGE, onNewMessage);
-  useSocketListener(socket, JOINNED_PRIVATE_CHANNEL, onChannelJoined);
-
   const contextValue = useMemo(() => ({
     handleSendMessage,
     socket,
     handlePrivateJoinChannel,
     room,
     setRoom,
+    latestMessagesUrl,
+    setLatestMessagesUrl,
   }), [
     handleSendMessage,
     socket,
     handlePrivateJoinChannel,
     room,
     setRoom,
+    latestMessagesUrl,
+    setLatestMessagesUrl,
   ]);
 
   return (

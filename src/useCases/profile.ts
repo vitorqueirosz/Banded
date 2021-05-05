@@ -1,8 +1,8 @@
 import { useFetch } from 'hooks/useFetch';
 import { USERS } from 'constants/endpoints';
-import { setUrlWithParams, useMutateOnLoad } from 'utils';
+import { setUrlWithParams } from 'utils';
 import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
-import { useRequest } from 'hooks/useRequest';
+import { useRequest, useMutateOnLoad } from 'hooks';
 import { UserData } from 'constants/enums';
 import { BandResponse } from './feed';
 

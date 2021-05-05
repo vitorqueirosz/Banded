@@ -2,6 +2,7 @@ const usersPrefix = 'users';
 const bandPrefix = 'band';
 const genrePrefix = 'genres';
 const messagesPrefix = 'messages';
+const chatPrefix = 'chats';
 
 export const USERS = {
   BASE: usersPrefix,
@@ -9,7 +10,8 @@ export const USERS = {
   BANDS: `${usersPrefix}/bands`,
   MUSICS: 'userMusics',
   ALBUMS: 'userAlbums',
-  CHAT: 'userChats',
+  CHATS: chatPrefix,
+  USER_CHATS: `${chatPrefix}/search`,
 
 };
 

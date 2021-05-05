@@ -1,6 +1,7 @@
 import { TextField } from 'components/form';
 import { UserChip } from 'components/structure';
 import { useSocketChat } from 'contexts';
+import { useMutateByUrl } from 'hooks';
 import { UserChat } from 'interfaces';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
@@ -15,9 +16,13 @@ type MessageData = {
 }
 
 export const ChatRoom = () => {
-  const { register, handleSubmit } = useForm();
-  const { room, setRoom, handleSendMessage } = useSocketChat();
+  const { register, handleSubmit, setValue } = useForm();
+  const { room, setRoom, handleSendMessage, latestMessagesUrl } = useSocketChat();
   const { data } = useLatestMessages(room.id);
+  const latestMessagesKey = 'latestMessages';
+  const mutate = useMutateByUrl(latestMessagesUrl, () => undefined, latestMessagesKey);
+
+  // console.log(data?.latestMessages);
 
   const messages = useMemo(() => {
     const messages = data?.latestMessages.map(message => ({
@@ -34,7 +39,8 @@ export const ChatRoom = () => {
       userReceivingId: room.id,
       text: message,
     };
-    handleSendMessage(messagePayload);
+    handleSendMessage(messagePayload, mutate);
+    setValue('message', '');
   };
 
   return (

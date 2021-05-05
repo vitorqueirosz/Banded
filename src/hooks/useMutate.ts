@@ -22,3 +22,21 @@ export const useMutateOnLoad = <T>(
 
   return mutate;
 };
+
+export const useMutateByUrl = (
+  key: string,
+  mutationFn: (value: number) => void,
+  dataKey: string,
+) => {
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation(mutationFn as any, {
+    onMutate: (value: any) => {
+      queryClient.setQueryData(key, (prevState: any) => ({
+        [dataKey]: [...prevState[dataKey], value],
+      }));
+    },
+  });
+
+  return mutate;
+};

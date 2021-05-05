@@ -49,6 +49,10 @@ export default {
       light: '#FFF',
       black: '#000',
     },
+    message: {
+      primary: '#0D523D',
+      secondary: '#565555',
+    },
     error: '#FF5E5E',
     bgModal: 'rgba(0, 0, 0, 0.9)',
   },
