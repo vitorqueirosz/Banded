@@ -5,7 +5,7 @@ import { UserChat } from 'interfaces';
 import * as S from './ChatList.styles';
 
 type ChatListProps = {
-  chats: UserChat[];
+  chats: Omit<UserChat, 'chatId'>[];
 }
 
 export const ChatList = ({ chats }: ChatListProps) => {

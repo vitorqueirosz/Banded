@@ -1,10 +1,14 @@
 import { TextField } from 'components/form';
 import { UserChip } from 'components/structure';
 import { useSocketChat } from 'contexts';
-import { JoinnedChannelData } from 'interfaces';
+import { useMutateByUrl } from 'hooks';
+import { UserChat } from 'interfaces';
+import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { FiChevronLeft, FiSend } from 'react-icons/fi';
-// import { useLatestMessages } from 'useCases';
+import { useLatestMessages } from 'useCases';
+import { getUserIdOnSession } from 'utils';
+import { Message } from '../Message';
 import * as S from './ChatRoom.styles';
 
 type MessageData = {
@@ -12,36 +16,59 @@ type MessageData = {
 }
 
 export const ChatRoom = () => {
-  const { register, handleSubmit } = useForm();
-  const { room, setRoom, handleSendMessage } = useSocketChat();
+  const { register, handleSubmit, setValue } = useForm();
+  const { room, setRoom, handleSendMessage, latestMessagesUrl } = useSocketChat();
+  const { data } = useLatestMessages(room.id);
+  const latestMessagesKey = 'latestMessages';
+  const mutate = useMutateByUrl(latestMessagesUrl, () => undefined, latestMessagesKey);
 
-  // const { data } = useLatestMessages(room.user.id);
+  // console.log(data?.latestMessages);
 
-  // eslint-disable-next-line no-console
+  const messages = useMemo(() => {
+    const messages = data?.latestMessages.map(message => ({
+      ...message,
+      isReceived: message.user !== getUserIdOnSession(),
+    }));
+
+    return messages;
+  }, [data?.latestMessages]);
 
   const onSubmit = ({ message }: MessageData) => {
     const messagePayload = {
-      chatId: room.user.id,
+      chatId: room.chatId,
+      userReceivingId: room.id,
       text: message,
     };
-    handleSendMessage(messagePayload);
+    handleSendMessage(messagePayload, mutate);
+    setValue('message', '');
   };
 
   return (
-    <S.Container show={!!room.user?.id}>
+    <S.Container show={!!room?.id}>
       <>
         <S.Header>
           <FiChevronLeft
             color="#fff"
             size={22}
-            onClick={() => setRoom({} as JoinnedChannelData)}
+            onClick={() => setRoom({} as UserChat)}
           />
           <UserChip
-            name={room.user?.name}
-            avatar={room.user?.avatar}
+            name={room?.name}
+            avatar={room?.avatar}
             size="small"
           />
         </S.Header>
+
+        <S.Messages>
+          {messages?.map(({ id, isReceived, text, createdAt }) => (
+            <Message
+              key={id}
+              isReceived={isReceived}
+              message={text}
+              time={new Date(createdAt)}
+            />
+          ))}
+        </S.Messages>
 
         <S.Form onSubmit={handleSubmit(onSubmit)}>
           <TextField
