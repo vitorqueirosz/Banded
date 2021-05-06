@@ -76,7 +76,7 @@ type InputProps = Pick<TextFieldProps, 'inputSize'> & {
 export const Input = styled.input<InputProps>`
   ${({ theme, inputSize, hasLabel }) => css`
     width: 100%;
-    background: ${theme.colors.light.lighter};
+    background: ${theme.colors.dark.darker};
     border: none;
     padding: 0 ${theme.spacings.xsm};
     max-height: 100%;

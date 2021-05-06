@@ -50,7 +50,7 @@ export const SignIn = () => {
       </S.Form>
 
       <S.CreateAccount>
-        <Link to="/sign-up">
+        <Link to="signUp">
           <FiLogIn color="#fff" size={22} />
           Criar conta
         </Link>
