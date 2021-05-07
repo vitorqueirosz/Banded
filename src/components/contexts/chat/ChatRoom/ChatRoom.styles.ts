@@ -1,29 +1,15 @@
 import styled, { css } from 'styled-components';
 import * as TextField from 'components/form/TextField/TextField.styles';
 
-const chatRoomModifiers = {
-  show: () => css`
-    transform: translateX(0);
-  `,
-};
-
-export const Container = styled.div<{ show: boolean }>`
-  ${({ theme, show }) => css`
+export const Container = styled.div`
+  ${({ theme }) => css`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    position: absolute;
-    background: ${theme.colors.dark.element};
-    left: 0;
-    top: 0;
     height: 100%;
     width: 100%;
     padding-top: 16px;
-    transform: translateX(100%);
-    transition: transform 0.3s ease-in-out;
     padding: ${theme.spacings.xsm};
-
-    ${show && chatRoomModifiers.show()}
   `}
 `;
 

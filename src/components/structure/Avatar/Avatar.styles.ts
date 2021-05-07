@@ -3,27 +3,31 @@ import { AvatarProps } from 'components/structure';
 
 const wrapperModifiers = {
   small: () => css`
-    min-width: 4.0rem;
-    height: 4.0rem;
+    min-width: 4rem;
+    height: 4rem;
+  `,
+  normal: () => css`
+    min-width: 5rem;
+    height: 5rem;
   `,
   medium: () => css`
-    min-width: 6.0rem;
-    height: 6.0rem;
+    min-width: 6rem;
+    height: 6rem;
   `,
   large: () => css`
-    min-width: 8.0rem;
-    height: 8.0rem;
+    min-width: 8rem;
+    height: 8rem;
   `,
   hasBackground: (theme: DefaultTheme) => css`
-   background: ${theme.colors.primary};
-   border-radius: 50%;
-   padding: ${theme.spacings['2xs']};
+    background: ${theme.colors.primary};
+    border-radius: 50%;
+    padding: ${theme.spacings['2xs']};
   `,
 };
 
 type WrapperProps = {
   hasBackground?: boolean;
-} & Pick<AvatarProps, 'size'>
+} & Pick<AvatarProps, 'size'>;
 
 export const Wrapper = styled.div<WrapperProps>`
   ${({ theme, size, hasBackground }) => css`
@@ -31,7 +35,6 @@ export const Wrapper = styled.div<WrapperProps>`
     display: flex;
     align-items: center;
     justify-content: center;
-
 
     ${size && wrapperModifiers[size]}
     ${hasBackground && wrapperModifiers.hasBackground(theme)}

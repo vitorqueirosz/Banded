@@ -11,13 +11,13 @@ export const USERS = {
   MUSICS: 'userMusics',
   ALBUMS: 'userAlbums',
   CHATS: chatPrefix,
-  USER_CHATS: `${chatPrefix}/search`,
-
+  USER_CHATS: `${chatPrefix}`,
 };
 
 export const MESSAGES = {
   BASE: messagesPrefix,
-  LATEST_MESSAGES: (chatId: string) => `${messagesPrefix}/latest-messages/${chatId}`,
+  LATEST_MESSAGES: (chatId: string) =>
+    `${messagesPrefix}/latest-messages/${chatId}`,
 };
 
 export const AUTH = {
@@ -42,5 +42,6 @@ export const GENRES = {
 };
 
 export const CITIES = {
-  BY_STATE: (uf: string) => `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`,
+  BY_STATE: (uf: string) =>
+    `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`,
 };

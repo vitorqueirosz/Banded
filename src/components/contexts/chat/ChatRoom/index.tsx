@@ -2,7 +2,6 @@ import { TextField } from 'components/form';
 import { UserChip } from 'components/structure';
 import { useSocketChat } from 'contexts';
 import { useMutateByUrl } from 'hooks';
-import { UserChat } from 'interfaces';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { FiChevronLeft, FiSend } from 'react-icons/fi';
@@ -15,14 +14,16 @@ type MessageData = {
   message: string;
 }
 
-export const ChatRoom = () => {
+type ChatRoomProps = {
+  handleChatVisibility: () => void;
+}
+
+export const ChatRoom = ({ handleChatVisibility }: ChatRoomProps) => {
   const { register, handleSubmit, setValue } = useForm();
-  const { room, setRoom, handleSendMessage, latestMessagesUrl } = useSocketChat();
+  const { room, handleSendMessage, latestMessagesUrl } = useSocketChat();
   const { data } = useLatestMessages(room.id);
   const latestMessagesKey = 'latestMessages';
   const mutate = useMutateByUrl(latestMessagesUrl, () => undefined, latestMessagesKey);
-
-  // console.log(data?.latestMessages);
 
   const messages = useMemo(() => {
     const messages = data?.latestMessages.map(message => ({
@@ -44,13 +45,13 @@ export const ChatRoom = () => {
   };
 
   return (
-    <S.Container show={!!room?.id}>
+    <S.Container>
       <>
         <S.Header>
           <FiChevronLeft
             color="#fff"
             size={22}
-            onClick={() => setRoom({} as UserChat)}
+            onClick={handleChatVisibility}
           />
           <UserChip
             name={room?.name}

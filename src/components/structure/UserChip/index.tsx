@@ -1,12 +1,14 @@
+import { LatestMessages } from 'interfaces';
+import { getLocalHourFromDate, removeSecondsFromTime } from 'utils';
 import { Avatar } from '../Avatar';
 import * as S from './UserChip.styles';
 
 export type UserChipProps = {
   name: string;
   avatar?: string;
-  lastMessage?: string;
+  lastMessage?: LatestMessages;
   onClick?: () => void;
-  size?: 'small' | 'medium' | 'large';
+  size?: 'small' | 'normal' | 'medium' | 'large';
   hasBorder?: boolean;
 }
 
@@ -22,7 +24,16 @@ export const UserChip = ({
     <Avatar size={size} src={avatar} hasBackground />
     <S.Divisor>
       <span>{name}</span>
-      <p>{lastMessage}</p>
+      <p>{lastMessage?.text}</p>
+    </S.Divisor>
+    <S.Divisor isShort>
+      <span>
+        {lastMessage && removeSecondsFromTime(
+          getLocalHourFromDate(
+            new Date(lastMessage.createdAt).toISOString(),
+          ),
+        )}
+      </span>
     </S.Divisor>
   </S.Container>
 );

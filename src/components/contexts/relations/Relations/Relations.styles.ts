@@ -65,7 +65,7 @@ export const Tabs = styled.div`
 
 const tabModifiers = {
   active: (theme: DefaultTheme) => css`
-    &:after{
+    &:after {
       background: ${theme.colors.primary};
       transform: translateX(50%);
     }
@@ -113,10 +113,18 @@ export const Tab = styled.div<{ active: boolean }>`
 
 export const Divisor = styled.div`
   ${({ theme }) => css`
-    margin-top: ${theme.spacings['2xs']};
     position: relative;
     width: 100%;
     height: 100%;
-    padding:  0 ${theme.spacings.xsm};
+    padding: ${theme.spacings.xsm};
+  `}
+`;
+
+export const DisplayContent = styled.div<{ show: boolean }>`
+  ${({ show }) => css`
+    display: ${show ? 'block' : 'none'};
+    position: relative;
+    width: 100%;
+    height: 100%;
   `}
 `;

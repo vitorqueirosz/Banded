@@ -5,7 +5,7 @@ type ContainerProps = Pick<UserChipProps, 'size' | 'hasBorder'>;
 
 const containerModifiers = {
   hasBorder: (theme: DefaultTheme) => css`
-  border-top: 1px solid ${theme.colors.dark.light};
+    border-top: 1px solid ${theme.colors.dark.light};
   `,
 };
 
@@ -17,12 +17,25 @@ export const Container = styled.div<ContainerProps>`
 
     padding: ${theme.spacings['2xs']};
 
+    &:hover {
+      background: #161c24;
+    }
+
     ${hasBorder && containerModifiers.hasBorder(theme)}
   `}
 `;
 
-export const Divisor = styled.div`
-  ${({ theme }) => css`
+const divisorModifiers = {
+  short: (theme: DefaultTheme) => css`
+    width: 10rem;
+    margin: auto;
+    font-size: ${theme.font.sizes.xsm};
+    text-align: center;
+  `,
+};
+
+export const Divisor = styled.div<{ isShort?: boolean }>`
+  ${({ theme, isShort }) => css`
     margin-left: ${theme.spacings['2xs']};
     width: 100%;
 
@@ -32,6 +45,10 @@ export const Divisor = styled.div`
 
     > p {
       color: ${theme.colors.light.gray};
+      font-size: ${theme.font.sizes.sm};
+      margin-top: 0.4rem;
     }
+
+    ${isShort && divisorModifiers.short(theme)}
   `}
 `;

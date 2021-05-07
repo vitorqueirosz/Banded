@@ -1,10 +1,6 @@
 import { ChatList } from 'components/contexts';
-import { TextField } from 'components/form';
-import { useDebounce } from 'hooks/useDebounce';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { FiArrowRightCircle, FiMessageCircle, FiMusic } from 'react-icons/fi';
-import { useChats } from 'useCases';
 
 import { RelationTabs } from 'constants/enums';
 
@@ -28,12 +24,7 @@ const relationTabs = [
 ];
 
 export const Relations = ({ hasRelations, handleRelations }: RelationsProps) => {
-  const [name, setName] = useState('');
-  const { register } = useForm();
-  const { data = [] } = useChats({ name });
   const [selectedTab, setSelectedTab] = useState(RelationTabs.Chat);
-
-  const handleSearchByName = useDebounce((value: string) => setName(value), 350);
 
   return (
     <S.Wrapper hasRelations={hasRelations}>
@@ -55,19 +46,14 @@ export const Relations = ({ hasRelations, handleRelations }: RelationsProps) => 
       </S.Tabs>
 
       <S.Divisor>
-        <TextField
-          name="uuid"
-          register={register}
-          color="secondary"
-          label="Pesquise um usuario"
-          placeholder="Pesquise um usuario"
-          isSearch
-          inputSize="small"
-          onChange={({ target: { value } }) => handleSearchByName(value)}
-          autoComplete="off"
-        />
+        <S.DisplayContent show={selectedTab === RelationTabs.Chat}>
+          <ChatList />
+        </S.DisplayContent>
 
-        <ChatList chats={data} />
+        <S.DisplayContent show={selectedTab === RelationTabs.Bands}>
+          <ChatList />
+        </S.DisplayContent>
+
         <ChatRoomWrapper />
       </S.Divisor>
     </S.Wrapper>

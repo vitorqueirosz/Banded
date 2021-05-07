@@ -4,7 +4,7 @@ import * as S from './Avatar.styles';
 
 export type AvatarProps = {
   src?: string | undefined;
-  size?: 'small' | 'medium' | 'large'
+  size?: 'small' | 'normal' | 'medium' | 'large';
   instrument?: string;
   hasBackground?: boolean;
 }
