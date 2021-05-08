@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from 'useCases/auth';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { ROUTES } from 'constants/routes';
 import * as S from './SignIn.styles';
 
 const schemaValidation = Yup.object().shape({
@@ -50,7 +51,7 @@ export const SignIn = () => {
       </S.Form>
 
       <S.CreateAccount>
-        <Link to="signUp">
+        <Link to={ROUTES.signUp.setLink('base')}>
           <FiLogIn color="#fff" size={22} />
           Criar conta
         </Link>

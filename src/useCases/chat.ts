@@ -18,15 +18,25 @@ type Params = {
 };
 
 export const useChats = (params: Params) => {
-  const { socket, setRoom, latestMessagesUrl } = useSocketChat();
+  const {
+    socket,
+    setRoom,
+    latestMessagesUrl,
+    setLatestUserChatsURL,
+  } = useSocketChat();
   const url = setUrlWithParams(USERS.USER_CHATS, params);
   const users = useFetch<UserChatMessage[]>(url);
+
   const latestMessagesKey = 'latestMessages';
   const mutate = useMutateByUrl(
     latestMessagesUrl,
     () => undefined,
     latestMessagesKey,
   );
+
+  useEffect(() => {
+    setLatestUserChatsURL(url);
+  }, [setLatestUserChatsURL, url]);
 
   const onNewMessage = useCallback(
     (data: Message) => {

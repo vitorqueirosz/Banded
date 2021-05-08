@@ -15,7 +15,6 @@ export const useMutateOnLoad = <T>(
       queryClient.setQueryData(key, (prevState: any) => ({
         ...prevState,
         userMusics: [...prevState[dataKey], ...result],
-
       }));
     },
   });
@@ -35,6 +34,29 @@ export const useMutateByUrl = (
       queryClient.setQueryData(key, (prevState: any) => ({
         [dataKey]: [...prevState[dataKey], value],
       }));
+    },
+  });
+
+  return mutate;
+};
+
+export const useMutateLatestMessage = (
+  key: string,
+  mutationFn: (value: number) => void,
+) => {
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation(mutationFn as any, {
+    onMutate: (message: any) => {
+      queryClient.setQueryData(key, (prevState: any) => {
+        const currentChatIndex = prevState.findIndex(
+          (chat: any) => chat.chatId === message.chatId,
+        );
+
+        const [currentChat] = prevState.splice(currentChatIndex, 1);
+
+        return [...prevState, { ...currentChat, lastMessage: message }];
+      });
     },
   });
 

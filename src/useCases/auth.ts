@@ -1,4 +1,5 @@
 import { AUTH } from 'constants/endpoints';
+import { ROUTES } from 'constants/routes';
 import { useToast } from 'contexts';
 // import { useCache } from 'hooks/useCache';
 import { useRequest } from 'hooks/useRequest';
@@ -9,7 +10,7 @@ import { setUnathorizedUser, setUserSession } from 'utils/session';
 type AuthParams = {
   email: string;
   password: string;
-}
+};
 
 export const useAuth = () => {
   const navigate = useNavigate();
@@ -21,11 +22,13 @@ export const useAuth = () => {
   const handleAuthenticate = async (params: AuthParams) => {
     setIsFetching(true);
     try {
-      const { data: { user, token } } = await api.post(AUTH.BASE, params);
+      const {
+        data: { user, token },
+      } = await api.post(AUTH.BASE, params);
 
       if (token) {
         setUserSession(token, user.id);
-        navigate('/home');
+        navigate(ROUTES.app.children.home);
         // mutate(user);
       }
     } catch (error) {
@@ -46,6 +49,6 @@ export const useSignOut = () => {
 
   return () => {
     setUnathorizedUser();
-    navigate('/login');
+    navigate(ROUTES.auth.setLink('base'));
   };
 };

@@ -9,6 +9,7 @@ import { useCreateUser } from 'useCases/SignUp';
 import { useSignUpContext } from 'contexts/SignUp';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { MusicList } from 'components/contexts';
+import { ROUTES } from 'constants/routes';
 import { defaultValues, schemaValidate } from './FourthStep.validation';
 
 import * as S from './FourthStep.styles';
@@ -98,7 +99,7 @@ export const FourthStep = () => {
       </S.Form>
 
       <S.HasAccount>
-        <Link to="/sign-up/third-step">
+        <Link to={ROUTES.signUp.setLink('thirdStep')}>
           <FiArrowLeft color="#DEDEEA" size={22} />
           Voltar
         </Link>

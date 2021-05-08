@@ -19,28 +19,28 @@ const PrivateRoute = ({ path, element, children }: PrivateRouteProps) => {
     return <Route path={path} element={element}>{children}</Route>;
   }
 
-  return <Navigate to={ROUTES.auth.initial} />;
+  return <Navigate to={ROUTES.auth.base} />;
 };
 
 export const AppRoutes = () => (
   <BrowserRouter>
     <Routes>
       <PrivateRoute path={ROUTES.app.base} element={<PrivateRoutes />}>
-        <PrivateRoute path={ROUTES.app.base} element={<Navigate to={ROUTES.app.home} />} />
-        <PrivateRoute path={ROUTES.app.home} element={<Home />} />
-        <Route path={ROUTES.search} element={<Search />} />
-        <Route path={ROUTES.profile} element={<Profile />} />
+        <PrivateRoute path={ROUTES.app.base} element={<Navigate to={ROUTES.app.children.home} />} />
+        <PrivateRoute path={ROUTES.app.children.home} element={<Home />} />
+        <Route path={ROUTES.search.base} element={<Search />} />
+        <Route path={ROUTES.profile.base} element={<Profile />} />
       </PrivateRoute>
 
-      <Route path={ROUTES.auth.initial} element={<PublicRoutes />}>
-        <Route path={ROUTES.auth.base} element={<SignIn />} />
+      <Route path={ROUTES.auth.base} element={<PublicRoutes />}>
+        <Route path={ROUTES.auth.children.base} element={<SignIn />} />
       </Route>
 
-      <Route path={ROUTES.signUp.firstStep} element={<PublicRoutes />}>
-        <Route path={ROUTES.signUp.base} element={<FirstStep />} />
-        <Route path={ROUTES.signUp.secondStep} element={<SecondStep />} />
-        <Route path={ROUTES.signUp.thirdStep} element={<ThirdStep />} />
-        <Route path={ROUTES.signUp.fourthStep} element={<FourthStep />} />
+      <Route path={ROUTES.signUp.base} element={<PublicRoutes />}>
+        <Route path={ROUTES.signUp.children.base} element={<FirstStep />} />
+        <Route path={ROUTES.signUp.children.secondStep} element={<SecondStep />} />
+        <Route path={ROUTES.signUp.children.thirdStep} element={<ThirdStep />} />
+        <Route path={ROUTES.signUp.children.fourthStep} element={<FourthStep />} />
       </Route>
     </Routes>
   </BrowserRouter>

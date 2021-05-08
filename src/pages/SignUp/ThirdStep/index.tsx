@@ -111,7 +111,7 @@ export const ThirdStep = () => {
 
   const setTimeOutAndNavigate = useCallback(() => setTimeout(() => {
     setIsReady(false);
-    navigate('/sign-up/fourth-step');
+    navigate(ROUTES.signUp.setLink('fourthStep'));
   }, 2000), [navigate]);
 
   const onSubmit = useCallback((userAlbum: Album) => {
@@ -293,7 +293,7 @@ export const ThirdStep = () => {
       </S.Form>
 
       <S.HasAccount>
-        <Link to={ROUTES.signUp.secondStep}>
+        <Link to={ROUTES.signUp.setLink('secondStep')}>
           <FiArrowLeft color="#DEDEEA" size={22} />
           Voltar
         </Link>

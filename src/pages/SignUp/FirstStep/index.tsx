@@ -25,7 +25,7 @@ export const FirstStep = () => {
       city,
     });
 
-    navigate(ROUTES.signUp.secondStep);
+    navigate(ROUTES.signUp.setLink('secondStep'));
   };
 
   return (
@@ -68,7 +68,7 @@ export const FirstStep = () => {
       </S.Form>
 
       <S.HasAccount>
-        <Link to="/login">
+        <Link to={ROUTES.auth.setLink('base')}>
           <FiArrowLeft color="#DEDEEA" size={22} />
           Já tenho conta
         </Link>

@@ -1,7 +1,7 @@
 import { TextField } from 'components/form';
 import { UserChip } from 'components/structure';
 import { useSocketChat } from 'contexts';
-import { useMutateByUrl } from 'hooks';
+import { useMutateByUrl, useMutateLatestMessage } from 'hooks';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { FiChevronLeft, FiSend } from 'react-icons/fi';
@@ -20,10 +20,18 @@ type ChatRoomProps = {
 
 export const ChatRoom = ({ handleChatVisibility }: ChatRoomProps) => {
   const { register, handleSubmit, setValue } = useForm();
-  const { room, handleSendMessage, latestMessagesUrl } = useSocketChat();
+  const { room, handleSendMessage, latestMessagesUrl, latestUserChatsURL } = useSocketChat();
   const { data } = useLatestMessages(room.id);
   const latestMessagesKey = 'latestMessages';
-  const mutate = useMutateByUrl(latestMessagesUrl, () => undefined, latestMessagesKey);
+  const latestMessagesMutate = useMutateByUrl(
+    latestMessagesUrl,
+    () => undefined,
+    latestMessagesKey,
+  );
+  const latestMessageMutate = useMutateLatestMessage(
+    latestUserChatsURL,
+    () => undefined,
+  );
 
   const messages = useMemo(() => {
     const messages = data?.latestMessages.map(message => ({
@@ -40,7 +48,11 @@ export const ChatRoom = ({ handleChatVisibility }: ChatRoomProps) => {
       userReceivingId: room.id,
       text: message,
     };
-    handleSendMessage(messagePayload, mutate);
+    handleSendMessage(
+      messagePayload,
+      latestMessagesMutate,
+      latestMessageMutate,
+    );
     setValue('message', '');
   };
 

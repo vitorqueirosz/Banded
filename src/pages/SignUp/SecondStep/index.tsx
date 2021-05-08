@@ -68,7 +68,7 @@ export const SecondStep = () => {
 
     setTimeout(() => {
       setIsReady(prevState => !prevState);
-      navigate('/sign-up/third-step');
+      navigate(ROUTES.signUp.setLink('thirdStep'));
     }, 2000);
   }, [setUser, navigate]);
 
@@ -107,7 +107,7 @@ export const SecondStep = () => {
       </S.Form>
 
       <S.HasAccount>
-        <Link to={ROUTES.signUp.firstStep}>
+        <Link to={ROUTES.signUp.setLink('base')}>
           <FiArrowLeft color="#DEDEEA" size={22} />
           Voltar
         </Link>

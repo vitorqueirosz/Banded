@@ -21,13 +21,16 @@ type SocketChatContextData = {
   socket: SocketIOClient.Socket;
   handleSendMessage: (
     value: MessageData,
-    mutate: UseMutateFunction<unknown, unknown, unknown, void>
+    mutate: UseMutateFunction<unknown, unknown, unknown, void>,
+    mutateOnChat: UseMutateFunction<unknown, unknown, unknown, void>,
   ) => void;
   handlePrivateJoinChannel: (userId: string) => void;
   room: UserChat;
   setRoom: (value: UserChat) => void;
   latestMessagesUrl: string;
   setLatestMessagesUrl: (value: string) => void;
+  latestUserChatsURL: string;
+  setLatestUserChatsURL: (value: string) => void;
 }
 
 const defaultContextValues: SocketChatContextData = {
@@ -38,6 +41,8 @@ const defaultContextValues: SocketChatContextData = {
   setRoom: () => undefined,
   latestMessagesUrl: '',
   setLatestMessagesUrl: () => undefined,
+  latestUserChatsURL: '',
+  setLatestUserChatsURL: () => undefined,
 };
 
 const SocketChatContext = createContext(defaultContextValues);
@@ -47,6 +52,9 @@ export const SocketChatProvider = ({ children }: { children: React.ReactNode}) =
   const [room, setRoom] = useState(defaultContextValues.room);
   const [latestMessagesUrl, setLatestMessagesUrl] = useState(
     defaultContextValues.latestMessagesUrl,
+  );
+  const [latestUserChatsURL, setLatestUserChatsURL] = useState(
+    defaultContextValues.latestUserChatsURL,
   );
 
   useEffect(() => {
@@ -62,6 +70,7 @@ export const SocketChatProvider = ({ children }: { children: React.ReactNode}) =
   const handleSendMessage = useCallback((
     message: MessageData,
     mutate: UseMutateFunction<unknown, unknown, unknown, void>,
+    mutateOnChat: UseMutateFunction<unknown, unknown, unknown, void>,
   ) => {
     const messagePayloadWithTime = {
       ...message,
@@ -71,6 +80,7 @@ export const SocketChatProvider = ({ children }: { children: React.ReactNode}) =
       isReceived: false,
     };
     mutate(messagePayloadWithTime);
+    mutateOnChat(messagePayloadWithTime);
     socket.emit(SENDED_MESSAGE, message);
   }, [socket]);
 
@@ -86,6 +96,8 @@ export const SocketChatProvider = ({ children }: { children: React.ReactNode}) =
     setRoom,
     latestMessagesUrl,
     setLatestMessagesUrl,
+    latestUserChatsURL,
+    setLatestUserChatsURL,
   }), [
     handleSendMessage,
     socket,
@@ -94,6 +106,8 @@ export const SocketChatProvider = ({ children }: { children: React.ReactNode}) =
     setRoom,
     latestMessagesUrl,
     setLatestMessagesUrl,
+    latestUserChatsURL,
+    setLatestUserChatsURL,
   ]);
 
   return (

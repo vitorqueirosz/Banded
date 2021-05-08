@@ -1,19 +1,37 @@
+class Route<T> {
+  public base: string;
+
+  public children: T;
+
+  constructor(base: string, children: T) {
+    this.base = base;
+    this.children = children;
+  }
+
+  setLink = (key: keyof T) => {
+    const baseURL = this.base.replace('/', '');
+
+    return `/${baseURL}/${this.children[key]}`;
+  };
+}
+
 export const ROUTES = {
-  app: {
-    base: '/',
+  app: new Route('/', {
     home: 'home',
-  },
-  auth: {
+  }),
+  auth: new Route('login', {
     base: '/',
-    initial: 'login',
-  },
-  signUp: {
+  }),
+  signUp: new Route('sign-up', {
     base: '/',
-    firstStep: 'sign-up',
     secondStep: 'second-step',
     thirdStep: 'third-step',
     fourthStep: 'fourth-step',
-  },
-  profile: 'profile',
-  search: 'search',
-};
+  }),
+  profile: new Route('profile', {
+    base: '/',
+  }),
+  search: new Route('search', {
+    base: '/',
+  }),
+} as const;

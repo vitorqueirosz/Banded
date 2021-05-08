@@ -1,4 +1,5 @@
 import { USERS } from 'constants/endpoints';
+import { ROUTES } from 'constants/routes';
 import { UserPayload } from 'contexts/SignUp';
 // import { useCache } from 'hooks/useCache';
 import { useRequest } from 'hooks/useRequest';
@@ -28,10 +29,12 @@ export const useCreateUser = () => {
         formData.append('album_image', album_image);
       });
 
-      const { data: { user, token } } = await api.post(USERS.BASE, formData);
+      const {
+        data: { user, token },
+      } = await api.post(USERS.BASE, formData);
       if (token) {
         setUserSession(token, user.id);
-        navigate('/home');
+        navigate(ROUTES.app.setLink('home'));
         // mutate(user);
       }
     };

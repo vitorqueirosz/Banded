@@ -2,7 +2,7 @@ import { keyframes } from 'styled-components';
 
 export const appearFromRight = keyframes`
   0% {
-    transform: translateX(50%);
+    transform: translateX(20%);
     opacity: 0;
     visibility: hidden;
   }
@@ -19,7 +19,7 @@ export const appearFromRight = keyframes`
 
 export const appearFromBottom = keyframes`
   0% {
-    transform: translateY(25%);
+    transform: translateY(20%);
     opacity: 0;
     visibility: hidden;
   }
