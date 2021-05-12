@@ -1,6 +1,6 @@
 import { USERS, MESSAGES, SOCKET } from 'constants/endpoints';
 import { useSocketChat } from 'contexts';
-import { useMutateByUrl, useSocketListener } from 'hooks';
+import { useMutateByUrl, useMutateUsersChat, useSocketListener } from 'hooks';
 import { useFetch } from 'hooks/useFetch';
 import {
   JoinnedChannelData,
@@ -13,6 +13,10 @@ import { setUrlWithParams } from 'utils';
 
 const { NEW_MESSAGE, JOINNED_PRIVATE_CHANNEL } = SOCKET;
 
+type ChatProps = {
+  chats: UserChatMessage[];
+};
+
 type Params = {
   name: string;
 };
@@ -22,16 +26,30 @@ export const useChats = (params: Params) => {
     socket,
     setRoom,
     latestMessagesUrl,
+    latestUserChatsURL,
     setLatestUserChatsURL,
+    chatId,
   } = useSocketChat();
+
   const url = setUrlWithParams(USERS.USER_CHATS, params);
-  const users = useFetch<UserChatMessage[]>(url);
+  const users = useFetch<ChatProps>(
+    url,
+    {},
+    {
+      refetchOnWindowFocus: true,
+    },
+  );
 
   const latestMessagesKey = 'latestMessages';
-  const mutate = useMutateByUrl(
-    latestMessagesUrl,
+  const latestMessagesMutate = useMutateByUrl(
+    latestMessagesUrl[chatId],
     () => undefined,
     latestMessagesKey,
+  );
+
+  const userChatsMutate = useMutateUsersChat(
+    latestUserChatsURL,
+    () => undefined,
   );
 
   useEffect(() => {
@@ -40,9 +58,10 @@ export const useChats = (params: Params) => {
 
   const onNewMessage = useCallback(
     (data: Message) => {
-      mutate(data);
+      latestMessagesMutate(data);
+      userChatsMutate(data);
     },
-    [mutate],
+    [latestMessagesMutate, userChatsMutate],
   );
 
   const onChannelJoined = useCallback(
@@ -66,8 +85,8 @@ export const useLatestMessages = (chatId: string) => {
   const latestMessages = useFetch<LatestMessagesList>(url);
 
   useEffect(() => {
-    setLatestMessagesUrl(url);
-  }, [setLatestMessagesUrl, url]);
+    setLatestMessagesUrl(prevState => ({ ...prevState, [chatId]: url }));
+  }, [setLatestMessagesUrl, chatId, url]);
 
   return {
     ...latestMessages,

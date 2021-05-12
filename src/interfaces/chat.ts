@@ -23,9 +23,10 @@ export type LatestMessagesList = {
 export type LatestMessages = {
   chatId: string;
   user: string;
-  id: string;
+  messageId: string;
   text: string;
   createdAt: Date;
+  isReceived?: boolean;
 };
 
 export type Message = Omit<LatestMessages, 'chatId'>;

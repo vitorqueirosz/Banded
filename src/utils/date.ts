@@ -1,6 +1,5 @@
 export const getLocalHourFromDate = (date: string) => {
-  const hourFromDate = (new Date(date).toLocaleTimeString());
-
+  const hourFromDate = new Date(date).toLocaleTimeString();
   return hourFromDate;
 };
 

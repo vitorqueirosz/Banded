@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, SetStateAction, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { SOCKET_URL } from 'constants/utils';
 import { SOCKET } from 'constants/endpoints';
 import io from 'socket.io-client';
@@ -17,6 +17,10 @@ type MessageData = {
   userReceivingId: string;
 }
 
+type LatestMessage = {
+  [key: string]: string;
+}
+
 type SocketChatContextData = {
   socket: SocketIOClient.Socket;
   handleSendMessage: (
@@ -27,10 +31,12 @@ type SocketChatContextData = {
   handlePrivateJoinChannel: (userId: string) => void;
   room: UserChat;
   setRoom: (value: UserChat) => void;
-  latestMessagesUrl: string;
-  setLatestMessagesUrl: (value: string) => void;
+  latestMessagesUrl: LatestMessage;
+  setLatestMessagesUrl: (value: SetStateAction<LatestMessage>) => void;
   latestUserChatsURL: string;
   setLatestUserChatsURL: (value: string) => void;
+  chatId: string;
+  setChatId: (value: string) => void;
 }
 
 const defaultContextValues: SocketChatContextData = {
@@ -39,10 +45,14 @@ const defaultContextValues: SocketChatContextData = {
   handlePrivateJoinChannel: () => undefined,
   room: {} as UserChat,
   setRoom: () => undefined,
-  latestMessagesUrl: '',
+  latestMessagesUrl: {
+    id: '',
+  },
   setLatestMessagesUrl: () => undefined,
   latestUserChatsURL: '',
   setLatestUserChatsURL: () => undefined,
+  chatId: '',
+  setChatId: () => undefined,
 };
 
 const SocketChatContext = createContext(defaultContextValues);
@@ -50,6 +60,7 @@ const SocketChatContext = createContext(defaultContextValues);
 export const SocketChatProvider = ({ children }: { children: React.ReactNode}) => {
   const [socket, setSocket] = useState(defaultContextValues.socket);
   const [room, setRoom] = useState(defaultContextValues.room);
+  const [chatId, setChatId] = useState(defaultContextValues.chatId);
   const [latestMessagesUrl, setLatestMessagesUrl] = useState(
     defaultContextValues.latestMessagesUrl,
   );
@@ -74,18 +85,19 @@ export const SocketChatProvider = ({ children }: { children: React.ReactNode}) =
   ) => {
     const messagePayloadWithTime = {
       ...message,
-      id: `${message}-${new Date().toISOString()}`,
-      user: getUserIdOnSession(),
+      id: room.id,
+      messageId: `${message.text}-${new Date().toISOString()}`,
       createdAt: new Date(),
       isReceived: false,
     };
     mutate(messagePayloadWithTime);
     mutateOnChat(messagePayloadWithTime);
     socket.emit(SENDED_MESSAGE, message);
-  }, [socket]);
+  }, [socket, room.id]);
 
   const handlePrivateJoinChannel = useCallback((userId: string) => {
     socket.emit(JOIN_PRIVATE_CHANNEL, userId);
+    setChatId(userId);
   }, [socket]);
 
   const contextValue = useMemo(() => ({
@@ -98,6 +110,8 @@ export const SocketChatProvider = ({ children }: { children: React.ReactNode}) =
     setLatestMessagesUrl,
     latestUserChatsURL,
     setLatestUserChatsURL,
+    chatId,
+    setChatId,
   }), [
     handleSendMessage,
     socket,
@@ -108,6 +122,8 @@ export const SocketChatProvider = ({ children }: { children: React.ReactNode}) =
     setLatestMessagesUrl,
     latestUserChatsURL,
     setLatestUserChatsURL,
+    chatId,
+    setChatId,
   ]);
 
   return (

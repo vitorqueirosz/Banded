@@ -8,9 +8,11 @@ import { useChats } from 'useCases';
 
 export const ChatList = () => {
   const [name, setName] = useState('');
-  const { data = [] } = useChats({ name });
+  const { data } = useChats({ name });
   const { handlePrivateJoinChannel } = useSocketChat();
   const { register } = useForm();
+
+  const chats = data?.chats;
 
   const handleSearchByName = useDebounce((value: string) => setName(value), 350);
 
@@ -28,7 +30,7 @@ export const ChatList = () => {
         autoComplete="off"
       />
 
-      {data.map(({ id, name, avatar, lastMessage }) => (
+      {chats?.map(({ id, name, avatar, lastMessage }) => (
         <UserChip
           key={id}
           name={name}

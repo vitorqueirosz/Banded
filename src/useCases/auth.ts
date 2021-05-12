@@ -28,7 +28,7 @@ export const useAuth = () => {
 
       if (token) {
         setUserSession(token, user.id);
-        navigate(ROUTES.app.children.home);
+        navigate(ROUTES.app.setLink('home'));
         // mutate(user);
       }
     } catch (error) {

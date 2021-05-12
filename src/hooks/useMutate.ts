@@ -40,7 +40,7 @@ export const useMutateByUrl = (
   return mutate;
 };
 
-export const useMutateLatestMessage = (
+export const useMutateUsersChat = (
   key: string,
   mutationFn: (value: number) => void,
 ) => {
@@ -48,14 +48,26 @@ export const useMutateLatestMessage = (
 
   const { mutate } = useMutation(mutationFn as any, {
     onMutate: (message: any) => {
-      queryClient.setQueryData(key, (prevState: any) => {
-        const currentChatIndex = prevState.findIndex(
-          (chat: any) => chat.chatId === message.chatId,
-        );
+      queryClient.setQueryData(key, ({ chats }: any) => {
+        const { createdAt, text, id } = message;
 
-        const [currentChat] = prevState.splice(currentChatIndex, 1);
+        const currentChat = chats.find((chat: any) => chat.id === id);
 
-        return [...prevState, { ...currentChat, lastMessage: message }];
+        const filteredChat = chats.filter((chat: any) => chat.id !== id);
+
+        return {
+          chats: [
+            ...filteredChat,
+            {
+              ...currentChat,
+              ...message,
+              lastMessage: {
+                text,
+                createdAt,
+              },
+            },
+          ],
+        };
       });
     },
   });

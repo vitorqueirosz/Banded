@@ -7,18 +7,20 @@ import {
   useState,
 } from 'react';
 
+export type UserMusician = {
+  bandsName?: string;
+  instrument?: string;
+  musics?: MusicProps[];
+  albums?: AlbumPayload[];
+}
+
 export type UserPayload = {
   name: string;
   avatar?: string;
   email: string;
   password: string;
   city: string;
-  userMusician?: {
-    bandsName?: string;
-    instrument?: string;
-    musics?: MusicProps[];
-    albums?: AlbumPayload[];
-  }
+  userMusician?: UserMusician;
 };
 
 type SignUpContextData = {

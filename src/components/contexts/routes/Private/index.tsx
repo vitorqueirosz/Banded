@@ -4,7 +4,7 @@ import { USERS } from 'constants/endpoints';
 import { User } from 'interfaces';
 import { useSettings } from 'contexts/Settings';
 import { useFetch } from 'hooks/useFetch';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
 // import { useCache } from 'hooks/useCache';
@@ -21,6 +21,9 @@ export const PrivateRoutes = () => {
   const { hasRelations, setHasRelations } = useSettings();
   const [showOverlay, setShowOverlay] = useState(false);
   const overlayRef = useChangeFocus(() => setShowOverlay(false));
+
+  const handleRelations = useCallback(() =>
+    setHasRelations(prevState => !prevState), [setHasRelations]);
 
   return (
     <PrivateContexts>
@@ -44,7 +47,7 @@ export const PrivateRoutes = () => {
 
         <Relations
           hasRelations={hasRelations}
-          handleRelations={() => setHasRelations(prevState => !prevState)}
+          handleRelations={handleRelations}
         />
       </S.Wrapper>
     </PrivateContexts>

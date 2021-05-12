@@ -3,8 +3,8 @@ import { User } from 'interfaces';
 import { useFetch } from 'hooks/useFetch';
 
 export type BandParams = {
-  city: string
-}
+  city: string;
+};
 
 export type BandResponse = {
   id: string;
@@ -18,8 +18,8 @@ export type BandResponse = {
   genres: {
     id: string;
     name: string;
-  }[]
-}
+  }[];
+};
 
 export type MusicianResponse = {
   id: string;
@@ -29,7 +29,7 @@ export type MusicianResponse = {
   musics: number;
   albums: number;
   instrument: string;
-}
+};
 
 export const useBands = (params: BandParams) =>
   useFetch<BandResponse[]>(BANDS.BANDLIST, {

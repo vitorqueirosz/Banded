@@ -1,5 +1,5 @@
 import { ChatList } from 'components/contexts';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { FiArrowRightCircle, FiMessageCircle, FiMusic } from 'react-icons/fi';
 
 import { RelationTabs } from 'constants/enums';
@@ -23,7 +23,7 @@ const relationTabs = [
   },
 ];
 
-export const Relations = ({ hasRelations, handleRelations }: RelationsProps) => {
+export const Relations = memo(({ hasRelations, handleRelations }: RelationsProps) => {
   const [selectedTab, setSelectedTab] = useState(RelationTabs.Chat);
 
   return (
@@ -51,11 +51,11 @@ export const Relations = ({ hasRelations, handleRelations }: RelationsProps) => 
         </S.DisplayContent>
 
         <S.DisplayContent show={selectedTab === RelationTabs.Bands}>
-          <ChatList />
+          {/* <ChatList /> */}
         </S.DisplayContent>
 
         <ChatRoomWrapper />
       </S.Divisor>
     </S.Wrapper>
   );
-};
+});

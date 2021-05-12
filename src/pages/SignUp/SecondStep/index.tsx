@@ -5,17 +5,12 @@ import { FiArrowLeft } from 'react-icons/fi';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { ROUTES } from 'constants/routes';
-import { UserPayload, useSignUpContext } from 'contexts/SignUp';
+import { UserMusician, useSignUpContext } from 'contexts/SignUp';
 import { useCallback, useEffect, useState } from 'react';
 import { useCreateUser } from 'useCases/SignUp';
 import { Spinner } from 'components/structure/Spinner';
 import { defaultValues, schemaValidate } from './SeconStep.validation';
 import * as S from './SecondStep.styles';
-
-type MusicianPayload = {
-  bandsName: string
-  instrument: string
-}
 
 const instruments = [
   {
@@ -55,14 +50,14 @@ export const SecondStep = () => {
   const { user, setUser } = useSignUpContext();
   const navigate = useNavigate();
 
-  const onSubmit = (payload: UserPayload) => {
+  const onSubmit = (userMusician: UserMusician) => {
     handleCreateUser!({
       ...user,
-      ...payload,
+      userMusician,
     });
   };
 
-  const handleAddUserMusic = useCallback((userMusician: MusicianPayload) => {
+  const handleAddUserMusic = useCallback((userMusician: UserMusician) => {
     setUser(prevState => ({ ...prevState, userMusician }));
     setIsReady(prevState => !prevState);
 

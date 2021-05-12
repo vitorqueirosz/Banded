@@ -1,7 +1,7 @@
 import { TextField } from 'components/form';
 import { UserChip } from 'components/structure';
 import { useSocketChat } from 'contexts';
-import { useMutateByUrl, useMutateLatestMessage } from 'hooks';
+import { useMutateByUrl, useMutateUsersChat } from 'hooks';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { FiChevronLeft, FiSend } from 'react-icons/fi';
@@ -20,27 +20,36 @@ type ChatRoomProps = {
 
 export const ChatRoom = ({ handleChatVisibility }: ChatRoomProps) => {
   const { register, handleSubmit, setValue } = useForm();
-  const { room, handleSendMessage, latestMessagesUrl, latestUserChatsURL } = useSocketChat();
+  const {
+    room,
+    handleSendMessage,
+    latestMessagesUrl,
+    latestUserChatsURL,
+    chatId,
+  } = useSocketChat();
   const { data } = useLatestMessages(room.id);
   const latestMessagesKey = 'latestMessages';
   const latestMessagesMutate = useMutateByUrl(
-    latestMessagesUrl,
+    latestMessagesUrl[chatId],
     () => undefined,
     latestMessagesKey,
   );
-  const latestMessageMutate = useMutateLatestMessage(
+  const userChatsMutate = useMutateUsersChat(
     latestUserChatsURL,
     () => undefined,
   );
 
+  const latestMessages = data?.latestMessages;
+
   const messages = useMemo(() => {
-    const messages = data?.latestMessages.map(message => ({
-      ...message,
-      isReceived: message.user !== getUserIdOnSession(),
+    const messages = latestMessages?.map(({ user, messageId, isReceived }, index) => ({
+      ...latestMessages[index],
+      messageId,
+      isReceived: isReceived ?? user !== getUserIdOnSession(),
     }));
 
     return messages;
-  }, [data?.latestMessages]);
+  }, [latestMessages]);
 
   const onSubmit = ({ message }: MessageData) => {
     const messagePayload = {
@@ -51,7 +60,7 @@ export const ChatRoom = ({ handleChatVisibility }: ChatRoomProps) => {
     handleSendMessage(
       messagePayload,
       latestMessagesMutate,
-      latestMessageMutate,
+      userChatsMutate,
     );
     setValue('message', '');
   };
@@ -73,9 +82,9 @@ export const ChatRoom = ({ handleChatVisibility }: ChatRoomProps) => {
         </S.Header>
 
         <S.Messages>
-          {messages?.map(({ id, isReceived, text, createdAt }) => (
+          {messages?.map(({ messageId, isReceived, text, createdAt }) => (
             <Message
-              key={id}
+              key={messageId}
               isReceived={isReceived}
               message={text}
               time={new Date(createdAt)}
