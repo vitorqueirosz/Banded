@@ -1,6 +1,5 @@
 import { Error } from 'components/structure';
-import { InputHTMLAttributes } from 'react';
-import { UseFormMethods } from 'react-hook-form';
+import { forwardRef, InputHTMLAttributes } from 'react';
 import { FiSearch } from 'react-icons/fi';
 
 import * as S from './TextField.styles';
@@ -12,17 +11,16 @@ export type TextFieldProps = {
   error?: string | undefined;
   color?: 'primary' | 'secondary';
   inputSize?:'xsmall' | 'normal' | 'small';
-} & InputHTMLAttributes<HTMLInputElement> &
-  Pick<UseFormMethods, 'register'>;
-export const TextField = ({
+} & InputHTMLAttributes<HTMLInputElement>;
+
+export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(({
   label,
   name,
-  register,
   error,
   isSearch,
   color = 'primary',
   inputSize = 'normal',
-  ...rest }: TextFieldProps) => (
+  ...rest }, ref) => (
     <S.Wrapper
       hasError={!!error}
       isSearch={isSearch}
@@ -31,7 +29,7 @@ export const TextField = ({
       <S.InputWrapper>
         {isSearch && <FiSearch size={20} color="#555" />}
         <S.Input
-          ref={register}
+          ref={ref}
           name={name}
           id={name}
           type="text"
@@ -43,4 +41,4 @@ export const TextField = ({
       </S.InputWrapper>
       {!!error && <Error>{error}</Error>}
     </S.Wrapper>
-);
+));

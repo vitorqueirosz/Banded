@@ -19,12 +19,34 @@ export const Wrapper = styled.div<{ inputSize?: boolean }>`
         border: 1px solid #555;
 
         &:hover {
-          background: ${theme.colors.dark.darker};
+          background: ${theme.colors.dark.light};
+          box-shadow: none;
+          border-color: none;
         }
 
         &--menu-is-open {
           border-color: ${theme.colors.primary};
+          box-shadow: 0 0 0 1px ${theme.colors.primary};
         }
+      }
+
+      &__multi-value {
+        background: ${theme.colors.dark.element};
+
+        &__label {
+          color: ${theme.colors.light.lighter};
+        }
+
+        &__remove {
+          &:hover {
+            color: ${theme.colors.light.lighter};
+            background: ${theme.colors.dark.info};
+          }
+        }
+      }
+
+      &__clear-indicator {
+        display: none;
       }
 
       &__loading-indicator {
@@ -42,7 +64,7 @@ export const Wrapper = styled.div<{ inputSize?: boolean }>`
       }
 
       &__menu {
-        background: ${theme.colors.dark.light};
+        background: ${theme.colors.dark.darker};
 
         &-list {
           max-height: 180px;
@@ -66,15 +88,14 @@ export const Wrapper = styled.div<{ inputSize?: boolean }>`
         font-size: ${theme.font.sizes.sm};
         line-height: 20px;
 
+        background: ${theme.colors.dark.darker};
+
         &:hover {
-          background: ${theme.colors.dark.darker};
+          background: ${theme.colors.dark.light};
         }
 
-        &--is-focused {
-          background-color: none;
-        }
         &--is-selected {
-          background-color: #none;
+          background-color: none;
         }
       }
     }

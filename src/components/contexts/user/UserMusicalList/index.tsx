@@ -1,14 +1,23 @@
 import { useState } from 'react';
 import { useUserAlbums, useUserBands, useUserMusics } from 'useCases/profile';
 import { UserMusicalKeys } from 'constants/enums';
+import { Add, Modal } from 'components/structure';
 import { UserMusicalData } from '../UserMusicalData';
 
 import * as S from './UserMusicalList.styles';
+import { ModalBand } from '../ModalBand';
 
 const userMusicalKeys = ['Albums', 'Bands', 'Musics'] as UserMusicalKeys[];
 
+const lowerMusicalKeys = {
+  Albums: 'álbum',
+  Bands: 'banda',
+  Musics: 'música',
+};
+
 export const UserMusicalList = () => {
   const [activeTab, setActiveTab] = useState(UserMusicalKeys.Albums);
+  const [showModal, setShowModal] = useState(false);
 
   const { useFetchUserBands } = useUserBands();
   const { data: { userBands } = {},
@@ -33,6 +42,8 @@ export const UserMusicalList = () => {
     isFetchingAlbums,
   } = useFetchUserAlbums();
 
+  const handleToggleModal = () => setShowModal(prevState => !prevState);
+
   return (
     <S.Container>
       <S.TabsWrapper>
@@ -46,6 +57,12 @@ export const UserMusicalList = () => {
           </S.Tab>
         ))}
       </S.TabsWrapper>
+
+      <Add
+        onEnd
+        title={`Adicionar ${lowerMusicalKeys[activeTab]}`}
+        handleAdd={handleToggleModal}
+      />
 
       <UserMusicalData
         show={activeTab === UserMusicalKeys.Bands}
@@ -70,6 +87,14 @@ export const UserMusicalList = () => {
         hasMore={hasMoreMusics}
         isFetching={isFetchingMusics}
       />
+
+      <Modal
+        handleCloseModal={handleToggleModal}
+        width="60%"
+        show={showModal}
+      >
+        <ModalBand handleCloseModal={handleToggleModal} />
+      </Modal>
 
     </S.Container>
 

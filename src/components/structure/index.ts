@@ -10,3 +10,4 @@ export * from './Modal';
 export * from './Dropdown';
 export * from './Spinner';
 export * from './UserChip';
+export * from './SelectDropDown';

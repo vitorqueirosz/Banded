@@ -31,7 +31,7 @@ export const UserMusicalData = ({
         {items.map((item: any, index) => (
           <MusicalItem
             ref={setLastItemRef(index, items.length)}
-            key={item.id}
+            key={item?.id ?? item}
             item={item}
           />
         ))}

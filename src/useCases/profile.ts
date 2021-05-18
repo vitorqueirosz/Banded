@@ -1,23 +1,29 @@
 import { useFetch } from 'hooks/useFetch';
 import { USERS } from 'constants/endpoints';
 import { setUrlWithParams } from 'utils';
-import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { useRequest, useMutateOnLoad } from 'hooks';
 import { UserData } from 'constants/enums';
 import { BandResponse } from './feed';
 
 type UserBands = {
   userBands: BandResponse[];
-}
+};
 
 type UserAlbums = {
   userAlbums: BandResponse[];
-}
+};
 
 export type UserMusics = {
   userMusics: BandResponse[];
   total: number;
-}
+};
 
 const MAX_INITIAL_ITEMS = 6;
 
@@ -31,27 +37,39 @@ const useLoadMoreItems = (
 
   const [urlWithoutParams] = lastSearchedUrl.split('?');
 
-  const loadMoreItems = useCallback(async (currentPage: number) => {
-    try {
-      setIsFetching(true);
-      const { data } = await api.get(setUrlWithParams(urlWithoutParams, {
-        page: currentPage,
-        pageSize: MAX_INITIAL_ITEMS,
-      }));
+  const loadMoreItems = useCallback(
+    async (currentPage: number) => {
+      try {
+        setIsFetching(true);
+        const { data } = await api.get(
+          setUrlWithParams(urlWithoutParams, {
+            page: currentPage,
+            pageSize: MAX_INITIAL_ITEMS,
+          }),
+        );
 
-      !data.total && setHasMore(false);
+        !data.total && setHasMore(false);
 
-      return data[dataKey];
-    } finally {
-      setIsFetching(false);
-    }
-  }, [api, dataKey, urlWithoutParams, setHasMore, setIsFetching]);
+        return data[dataKey];
+      } finally {
+        setIsFetching(false);
+      }
+    },
+    [api, dataKey, urlWithoutParams, setHasMore, setIsFetching],
+  );
 
-  const mutate = useMutateOnLoad<UserMusics>(lastSearchedUrl, loadMoreItems, dataKey);
+  const mutate = useMutateOnLoad<UserMusics>(
+    lastSearchedUrl,
+    loadMoreItems,
+    dataKey,
+  );
 
-  const handleLastSearchedUrl = useCallback((currentPage:number) => {
-    mutate(currentPage);
-  }, [mutate]);
+  const handleLastSearchedUrl = useCallback(
+    (currentPage: number) => {
+      mutate(currentPage);
+    },
+    [mutate],
+  );
 
   return {
     handleLastSearchedUrl,
@@ -178,9 +196,10 @@ export const useUserMusics = () => {
       setLastSearchedUrl(url);
     }, [url]);
 
-    const loadMoreMusics = useCallback(() => (
-      setCurrentPage(prevState => prevState + 1)
-    ), []);
+    const loadMoreMusics = useCallback(
+      () => setCurrentPage(prevState => prevState + 1),
+      [],
+    );
 
     return {
       ...fetchMusics,
@@ -199,4 +218,17 @@ export const useUserMusics = () => {
   return {
     useFetchUserMusics,
   };
+};
+
+export type UsersMusician = {
+  id: string;
+  instrument: string;
+  name: string;
+  avatar: string;
+};
+
+export const useUserMusicians = (params: { name: string }) => {
+  const url = setUrlWithParams(USERS.SEARCH, params);
+
+  return useFetch<UsersMusician[]>(url);
 };

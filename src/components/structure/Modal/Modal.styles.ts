@@ -30,9 +30,9 @@ export const Wrapper = styled.div<Pick<ModalProps, 'show'>>`
   `}
 `;
 
-export const Content = styled.main`
-  ${({ theme }) => css`
-    width: 640px;
+export const Content = styled.main<Pick<ModalProps, 'width'>>`
+  ${({ theme, width }) => css`
+    width: ${width};
     height: auto;
     background: ${theme.colors.dark.element};
     border-radius: ${theme.border.radius};
@@ -50,28 +50,5 @@ export const Content = styled.main`
     ${media.lessThan('medium')`
       width: 90vw;
     `}
-  `}
-`;
-
-export const FilterContainer = styled.div`
-  ${({ theme }) => css`
-    display: grid;
-    height: auto;
-    grid-template-columns: repeat(2, 1fr);
-    margin-top: ${theme.spacings.lg};
-    width: 100%;
-  `}
-`;
-
-export const Divisor = styled.div`
-  height: 100%;
-  display: grid;
-  grid-template-rows: 4rem 1fr;
-`;
-
-export const SubTitle = styled.span`
-  ${({ theme }) => css`
-    color: ${theme.colors.light.lighter};
-    font-size: ${theme.font.sizes.lg};
   `}
 `;

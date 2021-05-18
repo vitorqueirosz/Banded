@@ -14,8 +14,28 @@ export const FormContainer = styled.form`
   `}
 `;
 
+export const Form = styled.form`
+  width: 100%;
+  height: 100%;
+`;
+
+export const FormGroup = styled.div`
+  ${({ theme }) => css`
+    display: grid;
+    flex: 1;
+    width: 100%;
+    grid-template-columns: repeat(auto-fill, 319px);
+    grid-gap: ${theme.spacings.xsm};
+    margin-bottom: ${theme.spacings.xsm};
+
+    ${media.lessThan('large')`
+      grid-template-columns: 1fr;
+    `}
+  `}
+`;
+
 export const Scroll = css`
- ${({ theme }) => css`
+  ${({ theme }) => css`
     overscroll-behavior: contain;
 
     &::-webkit-scrollbar {
@@ -35,7 +55,7 @@ export const Scroll = css`
 
 type ContainerProps = {
   show?: boolean;
-}
+};
 
 const containerModifiers = {
   show: () => css`
@@ -44,7 +64,7 @@ const containerModifiers = {
 };
 
 export const WrapperList = styled.div<ContainerProps>`
-   ${({ theme, show }) => css`
+  ${({ theme, show }) => css`
     display: none;
     padding: ${theme.spacings.sm} 0;
     grid-gap: ${theme.spacings.md} ${theme.spacings.lg};

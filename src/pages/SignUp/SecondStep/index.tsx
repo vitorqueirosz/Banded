@@ -85,7 +85,7 @@ export const SecondStep = () => {
           inputSize
         />
         <TextField
-          register={register}
+          ref={register}
           name="bandsName"
           label="Banda"
           placeholder="Banda"

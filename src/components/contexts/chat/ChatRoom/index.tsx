@@ -95,7 +95,7 @@ export const ChatRoom = ({ handleChatVisibility }: ChatRoomProps) => {
         <S.Form onSubmit={handleSubmit(onSubmit)}>
           <TextField
             name="message"
-            register={register}
+            ref={register}
             placeholder="Digite uma mensagem"
             inputSize="xsmall"
             color="secondary"

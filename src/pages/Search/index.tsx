@@ -10,6 +10,7 @@ import { GENRES } from 'constants/endpoints';
 import { useSearchByFilters } from 'useCases/search';
 import { MusicalItem } from 'components/contexts';
 import { useDebounce } from 'hooks/useDebounce';
+import { ModalGenres } from 'components/contexts/search/ModalGenres';
 import * as S from './Search.styles';
 
 export type Genre = {
@@ -49,7 +50,7 @@ export const Search = () => {
     [],
   );
 
-  const handleCloseModal = useCallback(() => setShowFilterModal(false), []);
+  const handleToggleModal = useCallback(() => setShowFilterModal(false), []);
 
   const handleCleanParams = () => {
     setParams(initialValues);
@@ -70,7 +71,7 @@ export const Search = () => {
             inputSize="small"
             color="secondary"
             name="name"
-            register={register}
+            ref={register}
             isSearch
             placeholder="Músicos e bandas"
             label="Músicos e bandas"
@@ -109,12 +110,17 @@ export const Search = () => {
         </S.Divisor>
         )}
         <Modal
+          handleCloseModal={handleToggleModal}
+          width="640px"
           show={showFilterModal}
-          handleCloseModal={handleCloseModal}
-          handleFiltersSubmit={handleFitersSubmit}
-          genres={genres || []}
-          hasToClean={hasToClean}
-        />
+        >
+          <ModalGenres
+            handleCloseModal={handleToggleModal}
+            handleFiltersSubmit={handleFitersSubmit}
+            genres={genres || []}
+            hasToClean={hasToClean}
+          />
+        </Modal>
       </S.SearchContainer>
 
       <WrapperList>

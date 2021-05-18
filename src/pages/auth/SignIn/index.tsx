@@ -30,7 +30,7 @@ export const SignIn = () => {
       <S.Form onSubmit={handleSubmit(handleAuthenticate)}>
         <TextField
           name="email"
-          register={register}
+          ref={register}
           type="email"
           label="E-mail"
           placeholder="E-mail"
@@ -38,7 +38,7 @@ export const SignIn = () => {
         />
         <TextField
           name="password"
-          register={register}
+          ref={register}
           type="password"
           label="Senha"
           placeholder="Senha"

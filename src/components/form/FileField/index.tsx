@@ -2,17 +2,19 @@ import { InputHTMLAttributes, useRef } from 'react';
 import { useController, UseFormMethods } from 'react-hook-form';
 import * as S from './FileField.styles';
 
-type FileField = & Pick<UseFormMethods, 'control'> & {
+export type FileFieldProps = & Pick<UseFormMethods, 'control'> & {
   name: string;
   handlePreviewImage: (file: string) => void;
+  inputSize?: 'small' | 'normal';
 } & InputHTMLAttributes<HTMLInputElement>
 
-const FileField = ({
+export const FileField = ({
   name,
   control,
   handlePreviewImage,
+  inputSize = 'normal',
   ...rest
-}:FileField) => {
+}: FileFieldProps) => {
   const { field: { onChange: onInputChange } } = useController({
     control,
     name,
@@ -35,7 +37,7 @@ const FileField = ({
   };
 
   return (
-    <S.Container onClick={handleChooseImage}>
+    <S.Container size={inputSize} onClick={handleChooseImage}>
       <input
         name={name}
         ref={fileInput}
@@ -48,5 +50,3 @@ const FileField = ({
     </S.Container>
   );
 };
-
-export default FileField;

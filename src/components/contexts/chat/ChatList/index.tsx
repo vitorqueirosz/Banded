@@ -20,7 +20,7 @@ export const ChatList = () => {
     <>
       <TextField
         name="uuid"
-        register={register}
+        ref={register}
         color="secondary"
         label="Pesquise um usuario"
         placeholder="Pesquise um usuario"

@@ -1,15 +1,21 @@
 import styled, { css } from 'styled-components';
 
-export const Container = styled.div`
-  ${({ theme }) => css`
+const containerModifiers = {
+  small: () => css`
+    width: 13rem;
+  `,
+};
+
+export const Container = styled.div<{ size: 'small' | 'normal' }>`
+  ${({ theme, size }) => css`
     width: 100%;
     border: none;
-    background: ${theme.colors.dark.light};
+    background: ${theme.colors.dark.darker};
     padding: ${theme.spacings.xsm};
     height: 5.6rem;
     outline: none;
     border-radius: ${theme.border.radius};
-    border: 1px solid transparent;
+    border: 1px solid #555;
     transition: all 0.2s ease-in-out;
     font-size: ${theme.font.sizes.md};
 
@@ -20,7 +26,7 @@ export const Container = styled.div`
     > span {
       color: #999;
     }
+
+    ${size === 'small' && containerModifiers.small()};
   `}
-
-
 `;

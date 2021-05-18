@@ -34,14 +34,14 @@ export const FirstStep = () => {
         <S.Label>Dados basicos</S.Label>
 
         <TextField
-          register={register}
+          ref={register}
           name="name"
           label="Nome"
           placeholder="Nome"
           error={errors.name?.message}
         />
         <TextField
-          register={register}
+          ref={register}
           name="email"
           label="E-mail"
           placeholder="Email"
@@ -49,7 +49,7 @@ export const FirstStep = () => {
           error={errors.email?.message}
         />
         <TextField
-          register={register}
+          ref={register}
           name="password"
           label="Senha"
           placeholder="Senha"
@@ -57,7 +57,7 @@ export const FirstStep = () => {
           error={errors.password?.message}
         />
         <TextField
-          register={register}
+          ref={register}
           name="city"
           label="Cidade"
           placeholder="Cidade"

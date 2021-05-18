@@ -82,14 +82,14 @@ export const FourthStep = () => {
         )}
 
         <TextField
-          register={register}
+          ref={register}
           name="music_name"
           label="Nome da música"
           placeholder="Nome da música"
           error={errors.music_name?.message}
         />
         <TextField
-          register={register}
+          ref={register}
           name="duration_ms"
           label="Duração"
           placeholder="Duração"

@@ -5,6 +5,7 @@ import * as S from './UserChip.styles';
 
 export type UserChipProps = {
   name: string;
+  description?: string;
   avatar?: string;
   lastMessage?: LatestMessages;
   onClick?: () => void;
@@ -16,6 +17,7 @@ export const UserChip = ({
   name,
   avatar,
   lastMessage,
+  description,
   onClick,
   size,
   hasBorder = false,
@@ -24,7 +26,7 @@ export const UserChip = ({
     <Avatar size={size} src={avatar} hasBackground />
     <S.Divisor>
       <span>{name}</span>
-      <p>{lastMessage?.text}</p>
+      <p>{description ?? lastMessage?.text}</p>
     </S.Divisor>
     <S.Divisor isShort>
       <span>

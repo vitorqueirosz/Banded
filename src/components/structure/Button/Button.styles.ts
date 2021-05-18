@@ -24,12 +24,14 @@ export const Button = styled.button<Pick<ButtonProps, 'color'>>`
     transition: background 0.2s ease-in-out;
     outline: none;
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     &:hover {
       background: #18956f;
     }
 
     ${!!color && buttonModifiers[color](theme)}
-
-
   `}
 `;

@@ -9,8 +9,7 @@ import { ROUTES } from 'constants/routes';
 import { useCreateUser } from 'useCases/SignUp';
 import { useSignUpContext } from 'contexts/SignUp';
 import { yupResolver } from '@hookform/resolvers/yup';
-import FileField from 'components/form/FileField';
-import { MusicList } from 'components/contexts';
+import { FileHandler, MusicList } from 'components/contexts';
 import { defaultValues, schemaValidate } from './ThirdStep.validation';
 import * as S from './ThirdStep.styles';
 
@@ -230,27 +229,24 @@ export const ThirdStep = () => {
         />
         )}
         <TextField
-          register={register}
+          ref={register}
           name="album_name"
           label="Nome do album"
           placeholder="Nome do álbum "
           error={errors.album_name?.message}
         />
         <TextField
-          register={register}
+          ref={register}
           name="year_release"
           label="Ano de lançamento"
           placeholder="Ano de lançamento"
           error={errors.year_release?.message}
         />
-        <S.Divisor hasImage={!!currentAlbumImage}>
-          <S.AlbumImage src={currentAlbumImage} alt="AlbumImage" />
-          <FileField
-            control={control}
-            name="images"
-            handlePreviewImage={handlePreviewImage}
-          />
-        </S.Divisor>
+        <FileHandler
+          control={control}
+          image={currentAlbumImage}
+          handlePreviewImage={handlePreviewImage}
+        />
         <S.Header>
           <S.Label>Músicas do álbum</S.Label>
           {!!musicName && (
@@ -268,14 +264,14 @@ export const ThirdStep = () => {
         />
         )}
         <TextField
-          register={register}
+          ref={register}
           name="music.music_name"
           label="Nome da música"
           placeholder="Nome da música"
           error={errors.music?.music_name?.message}
         />
         <TextField
-          register={register}
+          ref={register}
           name="music.duration_ms"
           label="Duração da música"
           placeholder="Duração da música"

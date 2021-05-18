@@ -12,6 +12,7 @@ export const USERS = {
   ALBUMS: 'userAlbums',
   CHATS: chatPrefix,
   USER_CHATS: `${chatPrefix}`,
+  SEARCH: `${usersPrefix}/search`,
 };
 
 export const MESSAGES = {

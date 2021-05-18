@@ -24,11 +24,11 @@ const wrapperModifiers = {
     }
   `,
   xsmall: () => css`
-   height: 3.6rem;
-   & + ${Label} {
-     top: -12%;
-   }
- `,
+    height: 3.6rem;
+    & + ${Label} {
+      top: -12%;
+    }
+  `,
   isSearch: (theme: DefaultTheme) => css`
     ${Input} {
       padding-left: ${theme.spacings.lg};
@@ -71,7 +71,7 @@ export const InputWrapper = styled.div`
 
 type InputProps = Pick<TextFieldProps, 'inputSize'> & {
   hasLabel?: boolean;
-}
+};
 
 export const Input = styled.input<InputProps>`
   ${({ theme, inputSize, hasLabel }) => css`
@@ -95,7 +95,8 @@ export const Input = styled.input<InputProps>`
       }
     }
 
-    ${hasLabel && css`
+    ${hasLabel &&
+    css`
       &:not(:placeholder-shown) {
         padding-top: ${theme.spacings['2xs']};
       }
