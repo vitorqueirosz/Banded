@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useUserAlbums, useUserBands, useUserMusics } from 'useCases/profile';
 import { UserMusicalKeys } from 'constants/enums';
 import { Add, Modal } from 'components/structure';
+import { MembersProvider } from 'contexts';
 import { UserMusicalData } from '../UserMusicalData';
 
 import * as S from './UserMusicalList.styles';
@@ -59,7 +60,7 @@ export const UserMusicalList = () => {
       </S.TabsWrapper>
 
       <Add
-        onEnd
+        align="end"
         title={`Adicionar ${lowerMusicalKeys[activeTab]}`}
         handleAdd={handleToggleModal}
       />
@@ -87,15 +88,18 @@ export const UserMusicalList = () => {
         hasMore={hasMoreMusics}
         isFetching={isFetchingMusics}
       />
-
-      <Modal
-        handleCloseModal={handleToggleModal}
-        width="60%"
-        show={showModal}
-      >
-        <ModalBand handleCloseModal={handleToggleModal} />
-      </Modal>
-
+      {showModal && (
+        <Modal
+          handleCloseModal={handleToggleModal}
+          width="60%"
+          height="600px"
+          show={showModal}
+        >
+          <MembersProvider>
+            <ModalBand handleCloseModal={handleToggleModal} />
+          </MembersProvider>
+        </Modal>
+      )}
     </S.Container>
 
   );

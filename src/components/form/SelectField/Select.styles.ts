@@ -1,10 +1,6 @@
 import { Scroll } from 'components/structure';
 import styled, { css } from 'styled-components';
 
-// const wrapperModifiers = {
-
-// }
-
 export const Wrapper = styled.div<{ inputSize?: boolean }>`
   ${({ theme }) => css`
     position: relative;
@@ -20,10 +16,13 @@ export const Wrapper = styled.div<{ inputSize?: boolean }>`
 
         &:hover {
           background: ${theme.colors.dark.darker};
+          box-shadow: none;
+          border-color: none;
         }
 
         &--menu-is-open {
           border-color: ${theme.colors.primary};
+          box-shadow: 0 0 0 1px ${theme.colors.primary};
         }
       }
 
@@ -42,7 +41,7 @@ export const Wrapper = styled.div<{ inputSize?: boolean }>`
       }
 
       &__menu {
-        background: ${theme.colors.dark.light};
+        background: ${theme.colors.dark.darker};
 
         &-list {
           max-height: 180px;
@@ -65,9 +64,10 @@ export const Wrapper = styled.div<{ inputSize?: boolean }>`
         align-items: center;
         font-size: ${theme.font.sizes.sm};
         line-height: 20px;
+        background: ${theme.colors.dark.darker};
 
         &:hover {
-          background: ${theme.colors.dark.darker};
+          background: ${theme.colors.dark.light};
         }
 
         &--is-focused {

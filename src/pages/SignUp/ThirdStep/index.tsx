@@ -4,12 +4,13 @@ import { Add, Button, Spinner } from 'components/structure';
 import { FiArrowLeft } from 'react-icons/fi';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import { MusicProps, AlbumPayload } from 'interfaces';
+import { MusicProps, AlbumPayload, Image } from 'interfaces';
 import { ROUTES } from 'constants/routes';
 import { useCreateUser } from 'useCases/SignUp';
 import { useSignUpContext } from 'contexts/SignUp';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FileHandler, MusicList } from 'components/contexts';
+import { useTheme } from 'styled-components';
 import { defaultValues, schemaValidate } from './ThirdStep.validation';
 import * as S from './ThirdStep.styles';
 
@@ -19,14 +20,12 @@ export type AlbumProps = {
 } & AlbumPayload;
 
 type Album = {
-  images?: {
-    previewImage?: string;
-    image: File;
-  };
+  images?: Image;
   music?: MusicProps;
 } & Omit<AlbumProps, 'musics'>;
 
 export const ThirdStep = () => {
+  const { colors } = useTheme();
   const { register, handleSubmit, watch, reset, errors, control, getValues } = useForm({
     resolver: yupResolver(schemaValidate),
     defaultValues,
@@ -121,12 +120,14 @@ export const ThirdStep = () => {
       year_release,
       musics, images: { image } = {} } = albumWithMusics;
 
-    const updatedUserAlbum = { id,
+    const updatedUserAlbum = {
+      id,
       album_image: image!,
       checkImage: image?.name,
       album_name,
       year_release,
-      musics };
+      musics,
+    };
 
     setIsLoading(true);
     handleCreateUser!({ ...user,
@@ -243,6 +244,7 @@ export const ThirdStep = () => {
           error={errors.year_release?.message}
         />
         <FileHandler
+          name="images"
           control={control}
           image={currentAlbumImage}
           handlePreviewImage={handlePreviewImage}
@@ -290,7 +292,7 @@ export const ThirdStep = () => {
 
       <S.HasAccount>
         <Link to={ROUTES.signUp.setLink('secondStep')}>
-          <FiArrowLeft color="#DEDEEA" size={22} />
+          <FiArrowLeft color={colors.light.lighter} size={22} />
           Voltar
         </Link>
       </S.HasAccount>

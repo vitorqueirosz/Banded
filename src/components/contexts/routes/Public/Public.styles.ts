@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import media from 'styled-media-query';
-import backgroundImage from 'assets/images/background.png';
+import backgroundImage from 'assets/images/background.jpg';
 
 export const Wrapper = styled.div`
   display: grid;

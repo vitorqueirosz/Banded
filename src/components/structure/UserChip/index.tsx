@@ -11,6 +11,7 @@ export type UserChipProps = {
   onClick?: () => void;
   size?: 'small' | 'normal' | 'medium' | 'large';
   hasBorder?: boolean;
+  instrument?: string;
 }
 
 export const UserChip = ({
@@ -18,12 +19,18 @@ export const UserChip = ({
   avatar,
   lastMessage,
   description,
+  instrument,
   onClick,
   size,
   hasBorder = false,
 }: UserChipProps) => (
   <S.Container size={size} onClick={onClick} hasBorder={hasBorder}>
-    <Avatar size={size} src={avatar} hasBackground />
+    <Avatar
+      instrument={instrument}
+      size={size}
+      src={avatar}
+      hasBackground
+    />
     <S.Divisor>
       <span>{name}</span>
       <p>{description ?? lastMessage?.text}</p>

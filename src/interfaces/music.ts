@@ -3,26 +3,27 @@ import { User } from 'interfaces';
 export type MusicProps = {
   music_name: string;
   duration_ms: string;
-}
+  previewImage?: string;
+};
 
 export type Music = {
   id: string;
   name: string;
   duration: string;
   genre: string;
-}
+};
 
 export type AlbumPayload = {
   album_image: File;
 } & Omit<Album, 'album_image'>;
 
 export type Album = {
-  id: string,
-  album_image?: string,
-  album_name: string,
-  year_release:string;
+  id: string;
+  album_image?: string;
+  album_name: string;
+  year_release: string;
   musics: MusicProps[];
-}
+};
 
 export type BandResponse = {
   id: string;
@@ -36,13 +37,13 @@ export type BandResponse = {
   genres: {
     id: string;
     name: string;
-  }[]
-}
+  }[];
+};
 
 export type MusicianResponse = {
   user: User;
   bands: {
     name: string;
-  },
+  };
   musics: MusicProps[];
-}
+};

@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import * as AddStyles from 'components/structure/Add/Add.styles';
+import * as TextField from 'components/form/TextField/TextField.styles';
 import media from 'styled-media-query';
 
 export const Container = styled.div`
@@ -20,21 +21,26 @@ export const Container = styled.div`
         padding: ${theme.spacings['2xs']};
       `}
     }
+
+    ${TextField.Input} {
+      border: none;
+      border-radius: 0;
+      border-bottom: 1px solid ${theme.colors.dark.light};
+      border-top: 1px solid ${theme.colors.dark.light};
+      position: relative;
+
+      &:active,
+      &:focus {
+        border-bottom-color: ${theme.colors.secondary};
+        transition: all 0.3s ease-in-out;
+      }
+    }
   `}
 `;
 
-export const Input = styled.input`
-  ${({ theme }) => css`
-    background: none;
-    border: none;
-    outline: none;
-    color: ${theme.colors.light.lighter};
-    border-top: 1px solid ${theme.colors.dark.light};
-    padding: ${theme.spacings.xsm};
-    &::placeholder {
-      color: ${theme.colors.light.darkGray};
-    }
-  `}
+export const Form = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 export const AddButton = styled.button`

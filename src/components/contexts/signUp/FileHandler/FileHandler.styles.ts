@@ -39,4 +39,5 @@ export const AlbumImage = styled.img`
   border-radius: 50%;
   transform: translateX(-100%);
   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  object-fit: cover;
 `;

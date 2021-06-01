@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { ModalProps } from 'components/structure';
+import { ModalProps, Scroll } from 'components/structure';
 import media from 'styled-media-query';
 
 const wrapperModifiers = {
@@ -26,18 +26,29 @@ export const Wrapper = styled.div<Pick<ModalProps, 'show'>>`
     justify-content: center;
     align-items: center;
 
+    ${media.lessThan('medium')`
+      padding: ${theme.spacings.xsm};
+    `}
+
     ${show && wrapperModifiers.show()}
   `}
 `;
 
-export const Content = styled.main<Pick<ModalProps, 'width'>>`
-  ${({ theme, width }) => css`
+export const Content = styled.main<Pick<ModalProps, 'width' | 'height'>>`
+  ${({ theme, width, height }) => css`
     width: ${width};
-    height: auto;
     background: ${theme.colors.dark.element};
     border-radius: ${theme.border.radius};
     position: relative;
     padding: ${theme.spacings.xsm};
+    overflow-y: auto;
+    height: 100%;
+    max-height: 80vh;
+
+    ${!!height &&
+    css`
+      min-height: ${height};
+    `}
 
     > svg {
       position: absolute;
@@ -47,8 +58,17 @@ export const Content = styled.main<Pick<ModalProps, 'width'>>`
       transform: translateY(50%);
     }
 
-    ${media.lessThan('medium')`
+    ${media.lessThan('large')`
       width: 90vw;
+      overflow-y: auto;
+      max-height: 100%;
+      padding: ${theme.spacings['2xlg']} ${theme.spacings.xsm};
     `}
+
+    ${Scroll} {
+      &::-webkit-scrollbar {
+        width: 4px;
+      }
+    }
   `}
 `;

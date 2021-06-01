@@ -3,9 +3,9 @@ import media from 'styled-media-query';
 
 export const Container = styled.div`
   ${({ theme }) => css`
-  padding: ${theme.spacings.md};
+    padding: ${theme.spacings.md};
 
-  ${media.lessThan('medium')`
+    ${media.lessThan('medium')`
       padding: ${theme.spacings.xsm};
     `}
   `}
@@ -13,7 +13,7 @@ export const Container = styled.div`
 
 const tabModifiers = {
   active: (theme: DefaultTheme) => css`
-    &:after{
+    &:after {
       background: ${theme.colors.primary};
       transform: translateX(50%);
     }
@@ -25,6 +25,7 @@ export const TabsWrapper = styled.div`
     display: flex;
     align-items: center;
     padding: 0 ${theme.spacings.xsm};
+    margin-bottom: ${theme.spacings.sm};
 
     ${media.lessThan('medium')`
       justify-content: space-between;
@@ -32,7 +33,7 @@ export const TabsWrapper = styled.div`
   `}
 `;
 
-export const Tab = styled.span<{ active: boolean}>`
+export const Tab = styled.span<{ active: boolean }>`
   ${({ theme, active }) => css`
     color: ${theme.colors.light.gray};
     border-bottom: 2px solid transparent;

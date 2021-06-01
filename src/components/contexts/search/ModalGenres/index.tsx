@@ -1,10 +1,11 @@
 import { Checkbox, Option, SelectField } from 'components/form';
 import { Title, Button } from 'components/structure';
 import { useFetch } from 'hooks';
-import { Genre, Params } from 'pages/Search';
+import { Params } from 'pages/Search';
 import { CITIES } from 'constants/endpoints';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { Genre } from 'interfaces';
 import * as S from './ModalGenres.styles';
 
 import { brazilianState } from './states';
@@ -40,7 +41,7 @@ export const ModalGenres = ({
   hasToClean }: ModalGenres) => {
   const [selectedUf, setSelectedUf] = useState('');
 
-  const { register, control, handleSubmit, reset } = useForm<ModalInputForm>({
+  const { register, control, handleSubmit, reset, setValue } = useForm<ModalInputForm>({
     defaultValues: {
       city: '',
       uf: '',
@@ -65,9 +66,10 @@ export const ModalGenres = ({
   useEffect(() => {
     if (hasToClean) {
       reset();
+      setValue('city', { value: 2220, label: 'test' });
       setSelectedUf('');
     }
-  }, [hasToClean, reset]);
+  }, [hasToClean, reset, setValue]);
   return (
     <>
       <Title>Filtros</Title>
@@ -106,6 +108,7 @@ export const ModalGenres = ({
                 label="Selecione uma cidade"
                 placeholder="Selecione uma cidade"
                 isLoading={isLoading}
+                getByLabel
               />
             </div>
           </S.Divisor>

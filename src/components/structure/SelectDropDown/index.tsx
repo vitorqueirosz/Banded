@@ -1,58 +1,76 @@
-import { memo, useCallback, useEffect, useState } from 'react';
+import { useMembersContext } from 'contexts';
+import { memo, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { UsersMusician } from 'useCases';
+import { v4 as uuid } from 'uuid';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { TextField } from 'components/form';
 import { Add } from '../Add';
 import { OptionsDropDown } from '../OptionsDropDown';
+import { schemaValidate, defaultValues } from './SelectDropDown.validation';
+
 import * as S from './SelectDropDown.styles';
 
 type SelectDropDownProps = {
   title: string;
-  options: UsersMusician[];
-  isLoading?: boolean;
 }
 
-export const SelectDropDown = memo(({ title, options, isLoading }: SelectDropDownProps) => {
-  const { register } = useForm();
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [loadedOptions, setLoadedOptions] = useState<UsersMusician[]>([]);
+type FormModel = UsersMusician;
+
+export const SelectDropDown = memo(({ title }: SelectDropDownProps) => {
+  const { setSelectedMembers, setShowDropdown, showDropdown } = useMembersContext();
+  const { register, handleSubmit } = useForm<FormModel>({
+    resolver: yupResolver(schemaValidate),
+    defaultValues,
+  });
 
   const handleDropDown = useCallback(() =>
-    setShowDropdown(prevState => !prevState), []);
+    setShowDropdown(prevState => !prevState), [setShowDropdown]);
 
-  useEffect(() => {
-    if (!isLoading) {
-      setLoadedOptions(options);
-    }
-  }, [options, isLoading]);
+  const onSubmit = (data: FormModel) => {
+    const dataWithId = {
+      ...data,
+      id: uuid(),
+    };
+    setSelectedMembers(prevState => [...prevState, dataWithId]);
+  };
 
   return (
     <S.Container>
       {!showDropdown && (
         <OptionsDropDown
           handleDropDown={handleDropDown}
-          options={loadedOptions}
         />
       )}
 
       {showDropdown && (
-        <>
-          <Add
-            title={title}
-            handleClose={handleDropDown}
-            hasClose
-          />
-          <S.Input
-            name="name"
-            placeholder="Nome do membro"
-            ref={register}
-          />
-          <S.Input
-            name="instrument"
-            placeholder="Instrumento"
-            ref={register}
-          />
-          <S.AddButton>Adicionar</S.AddButton>
-        </>
+      <S.Form>
+        <Add
+          title={title}
+          handleClose={handleDropDown}
+          hasClose
+        />
+        <TextField
+          id="name"
+          ref={register}
+          name="name"
+          placeholder="Nome do membro"
+          autoComplete="off"
+        />
+        <TextField
+          id="instrument"
+          ref={register}
+          name="instrument"
+          placeholder="Instrumento"
+          autoComplete="off"
+        />
+        <S.AddButton
+          type="button"
+          onClick={handleSubmit(onSubmit)}
+        >
+          Adicionar
+        </S.AddButton>
+      </S.Form>
       )}
     </S.Container>
   );

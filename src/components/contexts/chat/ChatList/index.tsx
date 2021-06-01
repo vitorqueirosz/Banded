@@ -1,5 +1,5 @@
 import { TextField } from 'components/form';
-import { UserChip } from 'components/structure';
+import { UserChip, FallbackSearch } from 'components/structure';
 import { useSocketChat } from 'contexts';
 import { useDebounce } from 'hooks';
 import { useState } from 'react';
@@ -10,7 +10,9 @@ export const ChatList = () => {
   const [name, setName] = useState('');
   const { data } = useChats({ name });
   const { handlePrivateJoinChannel } = useSocketChat();
-  const { register } = useForm();
+  const { register, watch } = useForm();
+
+  const uuid = watch('uuid');
 
   const chats = data?.chats;
 
@@ -41,6 +43,10 @@ export const ChatList = () => {
           lastMessage={lastMessage}
         />
       ))}
+
+      {!chats?.length && (
+        <FallbackSearch type={uuid ? 'search' : 'chat'} />
+      )}
     </>
   );
 };

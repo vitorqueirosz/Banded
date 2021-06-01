@@ -6,10 +6,12 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { ROUTES } from 'constants/routes';
 import { UserPayload, useSignUpContext } from 'contexts/SignUp';
+import { useTheme } from 'styled-components';
 import { defaultValues, schemaValidation } from './FirstStep.validation';
 import * as S from './FirstStep.styles';
 
 export const FirstStep = () => {
+  const { colors } = useTheme();
   const { register, handleSubmit, errors } = useForm<UserPayload>({
     resolver: yupResolver(schemaValidation),
     defaultValues,
@@ -69,7 +71,7 @@ export const FirstStep = () => {
 
       <S.HasAccount>
         <Link to={ROUTES.auth.setLink('base')}>
-          <FiArrowLeft color="#DEDEEA" size={22} />
+          <FiArrowLeft color={colors.light.lighter} size={22} />
           Já tenho conta
         </Link>
       </S.HasAccount>

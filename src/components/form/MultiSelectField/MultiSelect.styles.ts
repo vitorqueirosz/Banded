@@ -1,10 +1,6 @@
 import { Scroll } from 'components/structure';
 import styled, { css } from 'styled-components';
 
-// const wrapperModifiers = {
-
-// }
-
 export const Wrapper = styled.div<{ inputSize?: boolean }>`
   ${({ theme }) => css`
     position: relative;

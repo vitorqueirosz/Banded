@@ -6,3 +6,4 @@ export * from './useInfiniteScroll';
 export * from './useMutate';
 export * from './useRequest';
 export * from './useSocketListener';
+export * from './useTheme';

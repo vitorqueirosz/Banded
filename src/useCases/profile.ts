@@ -1,6 +1,3 @@
-import { useFetch } from 'hooks/useFetch';
-import { USERS } from 'constants/endpoints';
-import { setUrlWithParams } from 'utils';
 import {
   Dispatch,
   SetStateAction,
@@ -8,6 +5,9 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { useFetch } from 'hooks/useFetch';
+import { USERS } from 'constants/endpoints';
+import { setUrlWithParams } from 'utils';
 import { useRequest, useMutateOnLoad } from 'hooks';
 import { UserData } from 'constants/enums';
 import { BandResponse } from './feed';
@@ -23,6 +23,13 @@ type UserAlbums = {
 export type UserMusics = {
   userMusics: BandResponse[];
   total: number;
+};
+
+export type UsersMusician = {
+  id: string;
+  instrument: string;
+  name: string;
+  avatar?: string;
 };
 
 const MAX_INITIAL_ITEMS = 6;
@@ -218,13 +225,6 @@ export const useUserMusics = () => {
   return {
     useFetchUserMusics,
   };
-};
-
-export type UsersMusician = {
-  id: string;
-  instrument: string;
-  name: string;
-  avatar: string;
 };
 
 export const useUserMusicians = (params: { name: string }) => {

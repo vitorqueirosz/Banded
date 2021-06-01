@@ -32,7 +32,7 @@ export default {
     },
   },
   colors: {
-    primary: '#1DB98A',
+    primary: '#00BC9A',
     secondary: '#FF5005',
     dark: {
       light: '#292929',

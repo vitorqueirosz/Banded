@@ -17,7 +17,6 @@ export const Wrapper = styled.article<WrapperProps>`
     max-height: 100%;
     cursor: pointer;
 
-
     ${Avatar.Wrapper} {
       width: 100%;
       height: 100%;
@@ -31,8 +30,7 @@ export const Wrapper = styled.article<WrapperProps>`
 
     ${Avatar.Image} {
       border-radius: ${theme.border.radius} 0 0 ${theme.border.radius};
-      width: 100%;
-      height: 100%;
+      max-height: 12rem;
       object-fit: cover;
     }
 

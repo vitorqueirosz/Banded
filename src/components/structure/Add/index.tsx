@@ -5,15 +5,17 @@ export type AddProps = {
   title: string;
   handleAdd?: () => void;
   handleClose?: () => void;
-  onEnd?: boolean;
   hasClose?: boolean;
+  hasMargin?: boolean;
+  align?: 'end' | 'start';
 }
 
-export const Add = ({ title, handleAdd, handleClose, onEnd, hasClose }: AddProps) => (
+export const Add = ({ title, handleAdd, hasMargin, handleClose, align = 'start', hasClose }: AddProps) => (
   <S.Container
-    onEnd={onEnd}
+    align={align}
     onClick={handleAdd}
     hasClose={hasClose}
+    hasMargin={hasMargin}
   >
     <FiPlus size={16} color="#fff" />
     <span>{title}</span>

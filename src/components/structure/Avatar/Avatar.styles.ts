@@ -2,6 +2,10 @@ import styled, { css, DefaultTheme } from 'styled-components';
 import { AvatarProps } from 'components/structure';
 
 const wrapperModifiers = {
+  xsmall: () => css`
+    min-width: 3rem;
+    height: 3rem;
+  `,
   small: () => css`
     min-width: 4rem;
     height: 4rem;

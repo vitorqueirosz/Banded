@@ -4,19 +4,13 @@ import { useFetch } from 'hooks/useFetch';
 import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FiList } from 'react-icons/fi';
-
 import { GENRES } from 'constants/endpoints';
-
 import { useSearchByFilters } from 'useCases/search';
 import { MusicalItem } from 'components/contexts';
 import { useDebounce } from 'hooks/useDebounce';
 import { ModalGenres } from 'components/contexts/search/ModalGenres';
+import { Genre } from 'interfaces';
 import * as S from './Search.styles';
-
-export type Genre = {
-  label: string;
-  value: string;
-}
 
 export type Params = {
   name?: string;

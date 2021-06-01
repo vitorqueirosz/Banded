@@ -80,6 +80,7 @@ export const Input = styled.input<InputProps>`
     border: none;
     padding: 0 ${theme.spacings.xsm};
     max-height: 100%;
+    position: relative;
     outline: none;
     border-radius: ${theme.border.radius};
     border: 1px solid #555;
@@ -113,7 +114,7 @@ export const Input = styled.input<InputProps>`
 
 export const Label = styled.label`
   ${({ theme }) => css`
-    color: ${theme.colors.light.gray};
+    color: ${theme.colors.primary};
     line-height: ${theme.font.lineHeight.md};
     font-size: ${theme.font.sizes.xsm};
     position: absolute;

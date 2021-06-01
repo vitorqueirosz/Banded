@@ -10,7 +10,7 @@ export type Option = {
   label: string;
 }
 
-type SelectProps = Pick<UseFormMethods, 'control'> & {
+type SelectProps = Partial<Pick<UseFormMethods, 'control'>> & {
   label?: string;
   options: Option[];
   error?: string | undefined;
@@ -19,7 +19,8 @@ type SelectProps = Pick<UseFormMethods, 'control'> & {
   onChange?: (value: Option) => void;
   isLoading?: boolean;
   inputSize?: boolean;
-};
+  getByLabel?:boolean;
+}
 
 export const SelectField = ({
   options,
@@ -33,27 +34,25 @@ export const SelectField = ({
   error,
   ...rest
 }: SelectProps) => {
-  const { field: { ref, value, onChange: onFieldChange } } = useController({
+  const { field: { value, onChange: onFieldChange } } = useController({
     control,
     name,
   });
 
   const handleChange = (value: Option) => {
     onChange && onChange(value);
-    onFieldChange(value.value);
+    onFieldChange(value);
   };
 
   return (
     <S.Wrapper inputSize={inputSize}>
       <Select
         classNamePrefix="selectField"
-        inputRef={ref}
         options={options}
-        name={name}
-        placeholder={placeholder}
-        // value={value}
+        value={value}
         onChange={(value) => value && handleChange(value)}
         isLoading={isLoading}
+        placeholder={placeholder}
         isDisabled={isLoading}
         {...rest}
       />

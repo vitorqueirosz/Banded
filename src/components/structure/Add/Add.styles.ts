@@ -1,10 +1,16 @@
-import styled, { css } from 'styled-components';
+import styled, { css, DefaultTheme } from 'styled-components';
 import { AddProps } from 'components/structure';
 
-type ContainerProps = Pick<AddProps, 'onEnd' | 'hasClose'>;
+type ContainerProps = Pick<AddProps, 'align' | 'hasClose' | 'hasMargin'>;
+
+const containerModifiers = {
+  hasMargin: (theme: DefaultTheme) => css`
+    margin-bottom: ${theme.spacings.xsm};
+  `,
+};
 
 export const Container = styled.div<ContainerProps>`
-  ${({ theme, onEnd, hasClose }) => css`
+  ${({ theme, align = 'start', hasClose, hasMargin = false }) => css`
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -15,7 +21,7 @@ export const Container = styled.div<ContainerProps>`
       margin-left: ${theme.spacings['2xs']};
     }
 
-    ${onEnd &&
+    ${align === 'end' &&
     css`
       width: 100%;
       justify-content: flex-end;
@@ -30,5 +36,7 @@ export const Container = styled.div<ContainerProps>`
         }
       }
     `}
+
+    ${hasMargin && containerModifiers.hasMargin(theme)}
   `}
 `;

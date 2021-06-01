@@ -9,10 +9,11 @@ import { UserMusician, useSignUpContext } from 'contexts/SignUp';
 import { useCallback, useEffect, useState } from 'react';
 import { useCreateUser } from 'useCases/SignUp';
 import { Spinner } from 'components/structure/Spinner';
+import { useTheme } from 'styled-components';
 import { defaultValues, schemaValidate } from './SeconStep.validation';
 import * as S from './SecondStep.styles';
 
-const instruments = [
+export const instruments = [
   {
     value: 'Microfone',
     label: 'Microfone',
@@ -40,6 +41,7 @@ const instruments = [
 ];
 
 export const SecondStep = () => {
+  const { colors } = useTheme();
   const { register, handleSubmit, errors, control } = useForm({
     resolver: yupResolver(schemaValidate),
     defaultValues,
@@ -103,7 +105,7 @@ export const SecondStep = () => {
 
       <S.HasAccount>
         <Link to={ROUTES.signUp.setLink('base')}>
-          <FiArrowLeft color="#DEDEEA" size={22} />
+          <FiArrowLeft color={colors.light.lighter} size={22} />
           Voltar
         </Link>
       </S.HasAccount>

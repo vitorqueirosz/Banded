@@ -10,11 +10,13 @@ import { useSignUpContext } from 'contexts/SignUp';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { MusicList } from 'components/contexts';
 import { ROUTES } from 'constants/routes';
+import { useTheme } from 'styled-components';
 import { defaultValues, schemaValidate } from './FourthStep.validation';
 
 import * as S from './FourthStep.styles';
 
 export const FourthStep = () => {
+  const { colors } = useTheme();
   const { register, handleSubmit, watch, reset, errors } = useForm({
     resolver: yupResolver(schemaValidate),
     defaultValues,
@@ -100,7 +102,7 @@ export const FourthStep = () => {
 
       <S.HasAccount>
         <Link to={ROUTES.signUp.setLink('thirdStep')}>
-          <FiArrowLeft color="#DEDEEA" size={22} />
+          <FiArrowLeft color={colors.light.lighter} size={22} />
           Voltar
         </Link>
       </S.HasAccount>
