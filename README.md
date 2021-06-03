@@ -49,6 +49,13 @@ You need to install [Node.js](https://nodejs.org/en/) and [Yarn](https://yarnpkg
 </br>
 
 ## 📱 Run App
+    
+    Backend:
+    git clone https://github.com/vitorqueirosz/banded-backend
+    yarn install
+    yarn dev
+    
+    App:
     yarn start
     
     
