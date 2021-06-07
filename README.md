@@ -41,7 +41,7 @@ Some features present in the project:
 ## 👷 Installation
 You need to install [Node.js](https://nodejs.org/en/) and [Yarn](https://yarnpkg.com) first, then in order to clone the project via HTTPS, run this command:
 
-    git clone https://github.com/vitorqueirosz/banded-web.git
+    git clone https://github.com/vitorqueirosz/Banded.git
 </br>
 
 ## ⚙️ Install dependencies
