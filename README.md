@@ -36,6 +36,7 @@ Some features present in the project:
 - [Band/Music register]
 - [Chat]
 - [Musician list]
+- [Image Crop]
 </br>
 
 ## 👷 Installation
