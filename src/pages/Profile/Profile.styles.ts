@@ -9,14 +9,16 @@ export const Container = styled(WrapperToOutlet)`
 `;
 
 export const UserContainer = styled.div`
-    ${({ theme }) => css`
+  ${({ theme }) => css`
     padding: ${theme.spacings.md};
     width: 100%;
     height: auto;
     display: flex;
-    background:
-    linear-gradient(
-      180deg, rgba(0, 255, 178, 0.161) 0%, rgba(255, 255, 255, 0) 100%),
+    background: linear-gradient(
+        180deg,
+        rgba(0, 255, 178, 0.161) 0%,
+        rgba(255, 255, 255, 0) 100%
+      ),
       #000000;
 
     ${media.lessThan('medium')`
@@ -31,6 +33,7 @@ export const UserChip = styled.div`
     flex-direction: column;
     align-items: center;
     text-align: center;
+    position: relative;
 
     > h3 {
       margin-top: ${theme.spacings['2xs']};
@@ -42,6 +45,18 @@ export const UserChip = styled.div`
       color: ${theme.colors.light.gray};
       font-size: ${theme.font.sizes.sm};
       margin-top: calc(${theme.spacings['2xs']} / 2);
+    }
+
+    > button {
+      position: absolute;
+      padding: calc(${theme.spacings['2xs']} / 2);
+      display: flex;
+      right: -${theme.spacings['2xs']};
+      background: ${theme.colors.primary};
+      border-radius: 50%;
+      border: none;
+      top: 50%;
+      transform: translateY(-50%);
     }
   `}
 `;
@@ -80,7 +95,7 @@ export const MusicKey = styled.span`
 `;
 
 export const MusicValue = styled.small`
-   ${({ theme }) => css`
+  ${({ theme }) => css`
     color: ${theme.colors.neutral.light};
   `}
 `;

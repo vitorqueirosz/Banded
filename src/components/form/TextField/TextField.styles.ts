@@ -9,6 +9,7 @@ const wrapperModifiers = {
   color: (theme: DefaultTheme) => css`
     ${Input} {
       background: ${theme.colors.light.lighter};
+      position: relative;
     }
     ${Input}, ${Label} {
       color: ${theme.colors.dark.info};
@@ -61,6 +62,7 @@ export const InputWrapper = styled.div`
     display: flex;
     align-items: center;
     transition: all 0.2s ease-ease-in-out;
+    position: relative;
 
     > svg {
       position: absolute;

@@ -1,7 +1,8 @@
-import { BANDS } from 'constants/endpoints';
-import { useRequest } from 'hooks';
+import { BANDS, USERS } from 'constants/endpoints';
+import { useMutateUser, useRequest } from 'hooks';
 import { ModalBandFormModel } from 'interfaces';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
+import { MutationFunction } from 'react-query';
 
 type Key = {
   [key: string]: () => void;
@@ -38,4 +39,31 @@ export const useCreateBand = () => {
   );
 
   return { handleCreateBand };
+};
+
+export const useUpdateAvatar = () => {
+  const api = useRequest();
+  const [isPending, setIsPending] = useState(false);
+
+  const handleUpdateAvatar = async (image: File) => {
+    setIsPending(true);
+    try {
+      const formData = new FormData();
+      formData.append('avatar', image);
+      const {
+        data: { avatar },
+      } = await api.patch<{ avatar: string }>(USERS.AVATAR, formData);
+
+      return avatar;
+    } finally {
+      setIsPending(false);
+    }
+  };
+
+  const handleAvatarMutate = useMutateUser(
+    USERS.BASE,
+    handleUpdateAvatar as MutationFunction<string>,
+  );
+
+  return { handleAvatarMutate, isPending };
 };

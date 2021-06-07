@@ -1,14 +1,15 @@
-import { UserFetchProps } from 'components/contexts';
+import { useMemo, useState } from 'react';
+import { CropPhoto, UserFetchProps } from 'components/contexts';
 import { UserMusicalList } from 'components/contexts/user';
-import { Avatar } from 'components/structure';
+import { Avatar, Modal } from 'components/structure';
 import { USERS } from 'constants/endpoints';
 import { useFetch } from 'hooks/useFetch';
-import { useMemo } from 'react';
-
+import { FiCamera } from 'react-icons/fi';
 import * as S from './Profile.styles';
 
 export const Profile = () => {
   const { data: { user } = {} } = useFetch<UserFetchProps>(USERS.BASE);
+  const [showModal, setShowModal] = useState(false);
 
   const musicInfos = useMemo(() => {
     const userMusician = {
@@ -21,6 +22,8 @@ export const Profile = () => {
 
   const getUserFirstName = (name: string) => name.trim().split(' ')[0];
 
+  const handleToggleModal = () => setShowModal(prevState => !prevState);
+
   return (
     <S.Container>
       <S.UserContainer>
@@ -30,6 +33,9 @@ export const Profile = () => {
             instrument={user?.instrument}
             hasBackground={!user?.avatar}
           />
+          <button type="button" onClick={handleToggleModal}>
+            <FiCamera color="#fff" size={20} />
+          </button>
           <h3>{getUserFirstName(user?.name ?? '')}</h3>
           <span>{user?.instrument}</span>
         </S.UserChip>
@@ -44,6 +50,20 @@ export const Profile = () => {
       </S.UserContainer>
 
       <UserMusicalList />
+
+      <Modal
+        handleCloseModal={handleToggleModal}
+        width="60%"
+        height="600px"
+        show={showModal}
+      >
+        <CropPhoto
+          avatar={user?.avatar}
+          instrument={user?.instrument}
+          handleCloseModal={handleToggleModal}
+        />
+      </Modal>
+      )
     </S.Container>
   );
 };

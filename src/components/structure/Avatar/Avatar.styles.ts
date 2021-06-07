@@ -7,7 +7,7 @@ const wrapperModifiers = {
     height: 3rem;
   `,
   small: () => css`
-    min-width: 4rem;
+    width: 4rem;
     height: 4rem;
   `,
   normal: () => css`
@@ -16,6 +16,7 @@ const wrapperModifiers = {
   `,
   medium: () => css`
     min-width: 6rem;
+    max-width: 6rem;
     height: 6rem;
   `,
   large: () => css`
@@ -49,4 +50,5 @@ export const Image = styled.img`
   border-radius: 50%;
   width: 100%;
   height: 100%;
+  object-fit: cover;
 `;

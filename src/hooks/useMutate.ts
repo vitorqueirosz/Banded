@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useMutation, useQueryClient } from 'react-query';
+import { User } from 'interfaces';
+import { MutationFunction, useMutation, useQueryClient } from 'react-query';
 
 export const useMutateOnLoad = <T>(
   key: string,
@@ -69,6 +70,23 @@ export const useMutateUsersChat = (
           ],
         };
       });
+    },
+  });
+
+  return mutate;
+};
+
+export const useMutateUser = (
+  key: string,
+  mutationFn: MutationFunction<string>,
+) => {
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation(mutationFn, {
+    onSuccess: (value: string) => {
+      queryClient.setQueryData<{ user?: User }>(key, prevState => ({
+        user: { ...(prevState?.user ?? ({} as User)), avatar: value },
+      }));
     },
   });
 

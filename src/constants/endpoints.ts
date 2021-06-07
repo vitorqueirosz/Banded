@@ -13,6 +13,7 @@ export const USERS = {
   CHATS: chatPrefix,
   USER_CHATS: `${chatPrefix}`,
   SEARCH: `${usersPrefix}/search`,
+  AVATAR: `${usersPrefix}/avatar`,
 };
 
 export const MESSAGES = {
